@@ -1,0 +1,111 @@
+@layer modules {
+  /* ---------- Projecció ---------- */
+  .pj-ft {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0.8em;
+    height: 100%;
+  }
+
+  .pj-ft__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+    min-height: 0;
+    padding: 0.6em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: var(--c-surface);
+    text-align: center;
+  }
+
+  .pj-ft__card--first,
+  .pj-ft[data-done='true'] .pj-ft__card--then {
+    border-width: 0.16em;
+    border-color: var(--c-now);
+    background: var(--c-now-soft);
+  }
+
+  .pj-ft[data-done='true'] .pj-ft__card--first {
+    border-width: var(--border-strong);
+    border-color: var(--c-border);
+    background: var(--c-done-bg);
+    color: var(--c-done-text);
+  }
+
+  .pj-ft[data-done='true'] .pj-ft__card--first .pj-ft__picto {
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  .pj-ft__card[data-empty='true'] {
+    border-style: dashed;
+    border-color: var(--c-border);
+    background: transparent;
+  }
+
+  .pj-ft__title {
+    font-size: 1.25em;
+  }
+
+  .pj-ft__picto {
+    width: min(100%, 42cqh);
+    aspect-ratio: 1;
+  }
+
+  .pj-ft__label {
+    font-size: 1.2em;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .pj-ft__check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-weight: 700;
+    color: var(--c-success);
+  }
+
+  .pj-ft__arrow {
+    display: grid;
+    place-items: center;
+  }
+
+  .pj-ft__arrow .icon {
+    width: 2.4em;
+    height: 2.4em;
+    color: var(--c-text-muted);
+  }
+
+  /* ---------- Panell de control ---------- */
+  .ft-editors {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-3);
+  }
+
+  .ft-editors__arrow {
+    align-self: center;
+    color: var(--c-text-muted);
+  }
+
+  .ft-editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border: var(--border) solid var(--c-border);
+    border-radius: var(--radius-m);
+    background: var(--c-surface-2);
+  }
+
+  .ft-editor__title {
+    font-size: var(--fs-m);
+  }
+}

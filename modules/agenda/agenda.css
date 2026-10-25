@@ -1,0 +1,131 @@
+@layer modules {
+  .pj-agenda__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.2em), 1fr));
+    align-items: stretch;
+    gap: 0.6em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pj-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35em;
+    min-width: 0;
+    padding: 0.45em 0.45em 0.6em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: var(--c-surface);
+    text-align: center;
+  }
+
+  /* «Ara»: vora gruixuda amb el color d'accent. No depèn només del color:
+     també porta l'etiqueta «Ara» i és més gran a la vista centrada. */
+  .pj-card[data-status='now'] {
+    border-width: 0.16em;
+    border-color: var(--c-now);
+    background: var(--c-now-soft);
+  }
+
+  .pj-card[data-status='done'] {
+    background: var(--c-done-bg);
+    color: var(--c-done-text);
+  }
+
+  .pj-card[data-status='done'] .pj-card__picto {
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  /* Targeta de canvi: vora discontínua + etiqueta «Canvi» amb icona. */
+  .pj-card[data-kind='change'] {
+    border-style: dashed;
+    border-color: var(--c-change-border);
+    background: var(--c-change-soft);
+  }
+
+  .pj-card[data-kind='change'][data-status='now'] {
+    border-color: var(--c-now);
+  }
+
+  .pj-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25em;
+    min-height: 1.45em;
+    font-size: 0.62em;
+  }
+
+  .pj-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
+    padding: 0.1em 0.55em;
+    border-radius: var(--radius-full);
+    background: var(--c-muted-bg);
+    color: var(--c-text);
+    font-weight: 700;
+  }
+
+  .pj-card[data-status='now'] .pj-badge--status {
+    background: var(--c-now);
+    color: var(--c-on-accent);
+  }
+
+  .pj-badge--change {
+    background: var(--c-change);
+    color: var(--c-on-change);
+  }
+
+  .pj-badge .icon {
+    width: 1em;
+    height: 1em;
+  }
+
+  .pj-card__picto {
+    width: 100%;
+    height: 4.6em;
+  }
+
+  .pj-card__label {
+    font-size: 0.92em;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  /* Vista «ara i després»: tres targetes, l'actual més gran. */
+  .pj-agenda[data-view='focus'] .pj-agenda__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .pj-agenda[data-view='focus'] .pj-card {
+    flex: 0 1 8em;
+  }
+
+  .pj-agenda[data-view='focus'] .pj-card[data-status='now'] {
+    flex-basis: 12em;
+    font-size: 1.25em;
+  }
+
+  .pj-agenda[data-view='focus'] .pj-card__picto {
+    height: 6em;
+  }
+
+  :root[data-profile='minimal'] .pj-agenda .pj-agenda__list {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+  }
+
+  :root[data-profile='minimal'] .pj-agenda .pj-card {
+    flex: 0 1 11em;
+  }
+}

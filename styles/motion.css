@@ -1,0 +1,36 @@
+/*
+ * Moviment. Per defecte («segons el sistema») hi ha transicions molt curtes
+ * que es desactiven si el sistema operatiu demana reduir el moviment.
+ * «Cap» les treu sempre; «suaus» les manté encara que el sistema demani reduir-les.
+ */
+
+@keyframes pj-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pj-slot:not([hidden]),
+.pj-calm:not([hidden]),
+.pj-transition:not([hidden]) {
+  animation: pj-fade-in calc(var(--dur) * 2) ease-out;
+}
+
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-motion='system'] *,
+  :root[data-motion='system'] *::before,
+  :root[data-motion='system'] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

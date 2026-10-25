@@ -1,0 +1,196 @@
+/*
+ * Projecció. Totes les mides són relatives a la mida de la pantalla de
+ * projecció (unitats cq*), de manera que es veu igual a la pissarra, a la
+ * vista prèvia del panell i en qualsevol resolució. --text-scale ho amplia tot.
+ */
+
+.projection-page,
+.projection-page #app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Contenidor de la projecció (finestra, vista prèvia o mode classe). Les unitats
+   cq* de dins es refereixen a la mida d'aquest element. */
+.projection-root,
+.preview__screen,
+.class-mode__screen {
+  width: 100%;
+  height: 100%;
+  container-type: size;
+}
+
+.projection {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-sans);
+  font-size: calc(2.6cqmin * var(--text-scale));
+  line-height: 1.2;
+  user-select: none;
+}
+
+/* ---------- Franja superior: Ara → Després ---------- */
+.pj-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  min-height: 2.6em;
+  padding: 0.35em 1em;
+  border-bottom: var(--border-strong) solid var(--c-border);
+  background: var(--c-surface);
+  font-size: 0.85em;
+}
+
+.pj-header__item {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  min-width: 0;
+}
+
+.pj-header__item tea-picto {
+  width: 1.9em;
+  height: 1.9em;
+  flex-shrink: 0;
+}
+
+.pj-header__title {
+  color: var(--c-text-muted);
+  font-weight: 700;
+}
+
+.pj-header__item--now .pj-header__title {
+  color: var(--c-now);
+}
+
+.pj-header__label {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pj-header__arrow .icon {
+  width: 1.2em;
+  height: 1.2em;
+  color: var(--c-text-muted);
+}
+
+[dir='rtl'] .pj-header__arrow .icon,
+[dir='rtl'] .pj-ft__arrow .icon {
+  transform: scaleX(-1);
+}
+
+/* ---------- Escenari ---------- */
+.pj-stage {
+  position: relative;
+  min-height: 0;
+  padding: 0.8em 1.2em;
+}
+
+.pj-slot {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+}
+
+.pj-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+  font-size: 1.3em;
+  font-weight: 700;
+  text-align: center;
+  color: var(--c-text-muted);
+}
+
+.pj-message tea-picto {
+  width: 5em;
+  height: 5em;
+}
+
+/* ---------- Franja inferior: avisos + atribució ---------- */
+.pj-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  min-height: 3.2em;
+  padding: 0.35em 1em;
+  border-top: var(--border-strong) solid var(--c-border);
+  background: var(--c-surface);
+}
+
+.pj-footer__modules {
+  flex: 1;
+  min-width: 0;
+}
+
+.pj-attribution {
+  max-width: 28%;
+  font-size: 0.42em;
+  line-height: 1.3;
+  text-align: end;
+  color: var(--c-text-muted);
+}
+
+/* ---------- Pantalla de calma ---------- */
+.pj-calm {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  background: var(--c-calm-bg);
+  color: var(--c-calm-text);
+}
+
+.pj-calm__shape {
+  width: 30cqmin;
+  height: 30cqmin;
+  border-radius: 50%;
+  background: var(--c-calm-shape);
+}
+
+.pj-calm__text {
+  font-size: 1.1em;
+}
+
+/* ---------- Finestra de projecció esperant el panell ---------- */
+.pj-waiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  height: 100vh;
+  padding: var(--space-6);
+  text-align: center;
+}
+
+.pj-waiting__title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+}
+
+.pj-waiting__help {
+  max-width: 34rem;
+  color: var(--c-text-muted);
+}
+
+/* La vista prèvia del panell no ha de capturar el ratolí. */
+.projection[data-mode='preview'] {
+  pointer-events: none;
+}

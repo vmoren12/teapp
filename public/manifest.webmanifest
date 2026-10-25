@@ -1,0 +1,24 @@
+{
+  "name": "TEApp · Estructura visual de l'aula",
+  "short_name": "TEApp",
+  "description": "Estructura visual i previsible de la sessió per a la pissarra digital. Pensada per a alumnat TEA, útil per a tot el grup (DUA).",
+  "lang": "ca",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f3ee",
+  "theme_color": "#2b6684",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

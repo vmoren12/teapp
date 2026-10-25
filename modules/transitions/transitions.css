@@ -1,0 +1,75 @@
+@layer modules {
+  .pj-transition {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    gap: 0.6em;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.25em 0.8em;
+    border: var(--border-strong) solid var(--c-change-border);
+    border-radius: var(--radius-m);
+    background: var(--c-warn-bg);
+    color: var(--c-warn-text);
+    font-size: 0.9em;
+    font-weight: 700;
+  }
+
+  .pj-transition[data-kind='due'] {
+    border-color: var(--c-now);
+    background: var(--c-now-soft);
+    color: var(--c-text);
+  }
+
+  .pj-transition__icon .icon {
+    width: 1.3em;
+    height: 1.3em;
+  }
+
+  .pj-transition__steps {
+    display: flex;
+    gap: 0.25em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  /* Graons de l'avís: es van omplint (5 → 2 → 1). */
+  .pj-transition__steps li {
+    width: 0.6em;
+    height: 0.6em;
+    border: 0.1em solid currentColor;
+    border-radius: 50%;
+  }
+
+  .pj-transition__steps li[data-reached='true'] {
+    background: currentColor;
+  }
+
+  .pj-transition__next {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    min-width: 0;
+    padding-inline-start: 0.6em;
+    border-inline-start: 0.08em solid currentColor;
+  }
+
+  .pj-transition__next tea-picto {
+    width: 1.8em;
+    height: 1.8em;
+    flex-shrink: 0;
+  }
+
+  .pj-transition__then {
+    font-weight: 400;
+  }
+
+  .pj-transition__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

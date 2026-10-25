@@ -1,0 +1,45 @@
+{
+  "name": "teapp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Estructura visual i previsible de la sessió per a la pissarra digital. Pensada per a alumnat TEA, útil per a tot el grup (DUA).",
+  "license": "EUPL-1.2",
+  "author": "vmoren12",
+  "homepage": "https://vmoren12.github.io/teapp/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmoren12/teapp.git"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run test",
+    "pictos": "node scripts/fetch-starter-pictos.mjs",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "happy-dom": "^21.0.4",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

@@ -1,0 +1,84 @@
+/*
+ * Perfils visuals. Només canvien variables (i, al perfil mínim, què es veu a
+ * la projecció). L'estructura i les posicions són sempre les mateixes.
+ */
+
+/* Alt contrast: fons negre, text blanc, accent groc. */
+:root[data-profile='high-contrast'] {
+  color-scheme: dark;
+  --c-bg: #000000;
+  --c-surface: #0a0a0a;
+  --c-surface-2: #000000;
+  --c-muted-bg: #1f1f1f;
+  --c-border: #a6a6a6;
+  --c-border-strong: #ffffff;
+  --c-text: #ffffff;
+  --c-text-muted: #e6e6e6;
+  --c-accent: #ffd60a;
+  --c-accent-hover: #ffe45c;
+  --c-accent-soft: #262000;
+  --c-on-accent: #000000;
+  --c-now: #ffd60a;
+  --c-now-soft: #1a1600;
+  --c-done-bg: #000000;
+  --c-done-text: #d4d4d4;
+  --c-change: #7fd4ff;
+  --c-change-soft: #00161f;
+  --c-change-border: #7fd4ff;
+  --c-on-change: #000000;
+  --c-warn-bg: #1a1600;
+  --c-warn-text: #ffd60a;
+  --c-danger: #ff8f80;
+  --c-danger-soft: #2a0d09;
+  --c-on-danger: #000000;
+  --c-success: #7ee0a1;
+  --c-focus: #7fd4ff;
+  --c-calm-bg: #000000;
+  --c-calm-shape: #1e1e1e;
+  --c-calm-text: #ffffff;
+  --c-timer: #ffd60a;
+  --c-timer-track: #333333;
+  --shadow: none;
+  --border: 2px;
+  --border-strong: 3px;
+}
+
+/* Mínim: blanc i negre, sense decoració. A la projecció només l'essencial. */
+:root[data-profile='minimal'] {
+  --c-bg: #ffffff;
+  --c-surface: #ffffff;
+  --c-surface-2: #ffffff;
+  --c-muted-bg: #f3f3f3;
+  --c-border: #cfcfcf;
+  --c-border-strong: #666666;
+  --c-text: #111111;
+  --c-text-muted: #4a4a4a;
+  --c-accent: #222222;
+  --c-accent-hover: #000000;
+  --c-accent-soft: #f2f2f2;
+  --c-on-accent: #ffffff;
+  --c-now: #111111;
+  --c-now-soft: #ffffff;
+  --c-done-bg: #ffffff;
+  --c-done-text: #555555;
+  --c-change: #111111;
+  --c-change-soft: #ffffff;
+  --c-change-border: #111111;
+  --c-on-change: #ffffff;
+  --c-warn-bg: #f3f3f3;
+  --c-warn-text: #111111;
+  --c-calm-bg: #f5f5f5;
+  --c-calm-shape: #ebebeb;
+  --c-calm-text: #333333;
+  --c-timer: #444444;
+  --c-timer-track: #e6e6e6;
+  --shadow: none;
+}
+
+/* Perfil mínim a la projecció: amaguem el que no és imprescindible. */
+:root[data-profile='minimal'] .pj-card[data-status='done'],
+:root[data-profile='minimal'] .pj-card[data-status='later'],
+:root[data-profile='minimal'] .pj-transition__steps,
+:root[data-profile='minimal'] .pj-badge--status {
+  display: none;
+}

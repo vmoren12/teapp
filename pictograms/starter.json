@@ -1,0 +1,213 @@
+{
+  "attribution": "Sergio Palao. ARASAAC (https://arasaac.org). CC BY-NC-SA 4.0. Govern d’Aragó.",
+  "items": [
+    {
+      "key": "entrar",
+      "id": 2742
+    },
+    {
+      "key": "assemblea",
+      "id": 27574
+    },
+    {
+      "key": "matematiques",
+      "id": 10260
+    },
+    {
+      "key": "catala",
+      "id": 8069
+    },
+    {
+      "key": "castella",
+      "id": 8108
+    },
+    {
+      "key": "angles",
+      "id": 32705
+    },
+    {
+      "key": "ciencies",
+      "id": 35437
+    },
+    {
+      "key": "socials",
+      "id": 9823
+    },
+    {
+      "key": "musica",
+      "id": 11311
+    },
+    {
+      "key": "educacioFisica",
+      "id": 10258
+    },
+    {
+      "key": "plastica",
+      "id": 8088
+    },
+    {
+      "key": "tecnologia",
+      "id": 11459
+    },
+    {
+      "key": "ordinador",
+      "id": 2487
+    },
+    {
+      "key": "biblioteca",
+      "id": 3065
+    },
+    {
+      "key": "tutoria",
+      "id": 36735
+    },
+    {
+      "key": "examen",
+      "id": 38462
+    },
+    {
+      "key": "llegir",
+      "id": 7141
+    },
+    {
+      "key": "escriure",
+      "id": 2380
+    },
+    {
+      "key": "treballGrup",
+      "id": 31278
+    },
+    {
+      "key": "treballar",
+      "id": 2599
+    },
+    {
+      "key": "escoltar",
+      "id": 2381
+    },
+    {
+      "key": "parlar",
+      "id": 3345
+    },
+    {
+      "key": "silenci",
+      "id": 5936
+    },
+    {
+      "key": "pensar",
+      "id": 8661
+    },
+    {
+      "key": "preguntar",
+      "id": 9840
+    },
+    {
+      "key": "esperar",
+      "id": 8109
+    },
+    {
+      "key": "pati",
+      "id": 6204
+    },
+    {
+      "key": "esmorzar",
+      "id": 4625
+    },
+    {
+      "key": "dinar",
+      "id": 4609
+    },
+    {
+      "key": "lavabo",
+      "id": 2441
+    },
+    {
+      "key": "beure",
+      "id": 2276
+    },
+    {
+      "key": "descansar",
+      "id": 3299
+    },
+    {
+      "key": "recollir",
+      "id": 5514
+    },
+    {
+      "key": "acabar",
+      "id": 5358
+    },
+    {
+      "key": "comencar",
+      "id": 5431
+    },
+    {
+      "key": "excursio",
+      "id": 4670
+    },
+    {
+      "key": "casa",
+      "id": 2317
+    },
+    {
+      "key": "canvi",
+      "id": 31955
+    },
+    {
+      "key": "relaxar",
+      "id": 32826
+    },
+    {
+      "key": "respirar",
+      "id": 34377
+    },
+    {
+      "key": "jugar",
+      "id": 2439
+    },
+    {
+      "key": "deures",
+      "id": 11228
+    },
+    {
+      "key": "exposicio",
+      "id": 9870
+    },
+    {
+      "key": "video",
+      "id": 34319
+    },
+    {
+      "key": "taller",
+      "id": 6225
+    },
+    {
+      "key": "practiques",
+      "id": 8581
+    },
+    {
+      "key": "autobus",
+      "id": 2262
+    },
+    {
+      "key": "rellotge",
+      "id": 2549
+    },
+    {
+      "key": "agenda",
+      "id": 5898
+    },
+    {
+      "key": "professor",
+      "id": 2457
+    },
+    {
+      "key": "companys",
+      "id": 7062
+    },
+    {
+      "key": "llibre",
+      "id": 2450
+    }
+  ]
+}

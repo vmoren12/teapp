@@ -1,0 +1,96 @@
+/*
+ * Tokens de disseny (perfil estàndard). Tots els colors, mides i espais de
+ * l'app surten d'aquí. Els perfils (styles/profiles.css) només redefineixen
+ * aquestes variables.
+ *
+ * Paleta suau i càlida, sense colors saturats. Tots els textos superen el
+ * contrast AA (4,5:1) i els elements gràfics, 3:1.
+ */
+:root {
+  color-scheme: light;
+
+  /* Superfícies */
+  --c-bg: #f5f3ee;
+  --c-surface: #ffffff;
+  --c-surface-2: #fbfaf7;
+  --c-muted-bg: #ece9e2;
+  --c-border: #d9d4ca;
+  --c-border-strong: #7a7469;
+
+  /* Text */
+  --c-text: #1d2125;
+  --c-text-muted: #51585f;
+
+  /* Accent (estat «ara», accions principals) */
+  --c-accent: #2b6684;
+  --c-accent-hover: #21516a;
+  --c-accent-soft: #e2edf2;
+  --c-on-accent: #ffffff;
+  --c-now: var(--c-accent);
+  --c-now-soft: #e2edf2;
+
+  /* Estats */
+  --c-done-bg: #eeebe5;
+  --c-done-text: #4f555b;
+  --c-change: #8a4f00;
+  --c-change-soft: #fcf1de;
+  --c-change-border: #b36a06;
+  --c-on-change: #ffffff;
+  --c-warn-bg: #fbf0dc;
+  --c-warn-text: #6b4100;
+  --c-danger: #a3352a;
+  --c-danger-soft: #f9e6e3;
+  --c-on-danger: #ffffff;
+  --c-success: #2c6843;
+  --c-focus: #1658c4;
+
+  /* Pantalla de calma */
+  --c-calm-bg: #e2eae7;
+  --c-calm-shape: #cbdad4;
+  --c-calm-text: #34463f;
+
+  /* Temporitzador */
+  --c-timer: #3a7896;
+  --c-timer-track: #e3ded5;
+
+  --shadow: 0 1px 2px rgb(20 20 20 / 6%), 0 4px 14px rgb(20 20 20 / 5%);
+  --shadow-dialog: 0 20px 60px rgb(20 20 20 / 25%);
+  --c-backdrop: rgb(20 24 28 / 45%);
+
+  /* Tipografia */
+  --font-sans: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+  --fs-xs: 0.8125rem;
+  --fs-s: 0.875rem;
+  --fs-m: 1rem;
+  --fs-l: 1.25rem;
+  --fs-xl: 1.5rem;
+  --lh: 1.5;
+
+  /* Espais */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* Formes */
+  --radius-s: 6px;
+  --radius-m: 10px;
+  --radius-l: 16px;
+  --radius-full: 999px;
+  --border: 1px;
+  --border-strong: 2px;
+  --focus-width: 3px;
+
+  /* Mida mínima de les zones clicables (WCAG 2.5.8 demana 24 px; en fem 44). */
+  --target: 2.75rem;
+
+  /* Durada de les transicions (curtes i opcionals). */
+  --dur: 160ms;
+
+  /* Escales que controla el docent (vegeu core/appearance.js). */
+  --ui-scale: 1;
+  --text-scale: 1.25;
+}

@@ -1,0 +1,150 @@
+// @ts-check
+// Carcassa de la projecció. És el mateix codi per a la finestra de projecció,
+// la vista prèvia del panell i el mode classe (una sola pantalla).
+//
+// Zones fixes (consistència absoluta: cada cosa sempre al mateix lloc):
+//   ┌──────────────────────────────────────┐
+//   │ Ara: … → Després: …   (franja sup.)  │
+//   ├──────────────────────────────────────┤
+//   │                                      │
+//   │   Escenari: UN sol mòdul             │
+//   │                                      │
+//   ├──────────────────────────────────────┤
+//   │ Avisos de transició · atribució      │
+//   └──────────────────────────────────────┘
+
+import { h } from '../core/dom.js';
+import { icon } from './icons.js';
+import { pictoElement } from './tea-picto.js';
+import { containsArasaac } from '../pictograms/library.js';
+import {
+  currentActivity,
+  getAgenda,
+  isFinished,
+  nextActivity,
+} from '../modules/agenda/selectors.js';
+
+/** @typedef {import('../core/types.js').SharedState} SharedState */
+/** @typedef {import('../core/types.js').ModuleContext} ModuleContext */
+/** @typedef {import('../core/types.js').Activity} Activity */
+/** @typedef {import('../core/types.js').View} View */
+
+/** @param {import('../core/types.js').Translate} t */
+function createHeader(t) {
+  const el = h('div', { class: 'pj-header' });
+  /** @type {unknown} */
+  let last = null;
+
+  /** @param {string} title @param {Activity | null} a @param {string} slot */
+  const block = (title, a, slot) =>
+    h(
+      'div',
+      { class: `pj-header__item pj-header__item--${slot}` },
+      h('span', { class: 'pj-header__title' }, title),
+      a?.picto ? pictoElement(a.picto, { decorative: true }) : null,
+      h('span', { class: 'pj-header__label' }, a ? a.label : '—'),
+    );
+
+  return {
+    el,
+    /** @param {SharedState} state */
+    update(state) {
+      const agenda = getAgenda(state.live);
+      if (agenda === last) return;
+      last = agenda;
+      if (!agenda || agenda.activities.length === 0) {
+        el.replaceChildren();
+        return;
+      }
+      if (isFinished(agenda)) {
+        el.replaceChildren(
+          h(
+            'div',
+            { class: 'pj-header__item' },
+            h('span', { class: 'pj-header__label' }, t('agenda.finished')),
+          ),
+        );
+        return;
+      }
+      const now = currentActivity(agenda);
+      const next = nextActivity(agenda);
+      el.replaceChildren(
+        block(t('status.now'), now, 'now'),
+        h('span', { class: 'pj-header__arrow', 'aria-hidden': 'true' }, icon('arrow')),
+        block(t('status.next'), next, 'next'),
+      );
+    },
+  };
+}
+
+/**
+ * @param {HTMLElement} host
+ * @param {{
+ *   registry: import('../core/registry.js').Registry,
+ *   t: import('../core/types.js').Translate,
+ *   ctxFor: (moduleId: string) => ModuleContext,
+ *   mode: 'window' | 'preview' | 'class',
+ * }} options
+ */
+export function mountProjection(host, { registry, t, ctxFor, mode }) {
+  // `host` fa de contenidor (container-type: size); la projecció va a dins perquè
+  // les unitats cq* es resolguin respecte de la seva mida.
+  const root = h('div', { class: 'projection', dataset: { mode } });
+  host.replaceChildren(root);
+
+  const header = createHeader(t);
+  const stage = h('div', { class: 'pj-stage', role: mode === 'window' ? 'main' : null });
+  const footerSlots = h('div', { class: 'pj-footer__modules' });
+  const attribution = h('p', { class: 'pj-attribution' }, t('attribution.arasaacShort'));
+  const footer = h('div', { class: 'pj-footer' }, footerSlots, attribution);
+  const calm = h(
+    'div',
+    { class: 'pj-calm', hidden: true },
+    h('div', { class: 'pj-calm__shape', 'aria-hidden': 'true' }),
+    h('p', { class: 'pj-calm__text' }, t('calm.message')),
+  );
+
+  /** @type {{ id: string, slot: HTMLElement, view: View, region: string }[]} */
+  const views = [];
+  for (const mod of registry.all()) {
+    const slot = h('div', { class: `pj-slot pj-slot--${mod.id}`, dataset: { module: mod.id } });
+    (mod.region === 'stage' ? stage : footerSlots).append(slot);
+    views.push({
+      id: mod.id,
+      slot,
+      region: mod.region,
+      view: mod.renderProjection(slot, ctxFor(mod.id)),
+    });
+  }
+
+  root.replaceChildren(header.el, stage, footer, calm);
+
+  /** @type {unknown} */
+  let lastLive = null;
+
+  return {
+    /** @param {SharedState} state */
+    update(state) {
+      const { live } = state;
+      root.dataset.calm = String(live.calm);
+      calm.hidden = !live.calm;
+      header.update(state);
+      for (const { id, slot, region, view } of views) {
+        if (region === 'stage') slot.hidden = id !== live.stage;
+        view.update(state);
+      }
+      if (live !== lastLive) {
+        lastLive = live;
+        attribution.hidden = !containsArasaac(live.modules);
+      }
+    },
+    /** @param {number} now */
+    tick(now) {
+      for (const { view } of views) view.tick?.(now);
+    },
+    destroy() {
+      for (const { view } of views) view.destroy();
+      host.replaceChildren();
+    },
+  };
+}

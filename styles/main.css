@@ -1,0 +1,17 @@
+/*
+ * Punt d'entrada dels estils. L'ordre de les capes (@layer) determina la
+ * prioritat: una capa posterior guanya sempre, sigui quina sigui l'especificitat.
+ * Els fitxers CSS de cada mòdul (modules/<nom>/<nom>.css) fan servir la capa «modules».
+ * Aquest fitxer s'ha d'importar abans que cap mòdul perquè l'ordre quedi fixat.
+ */
+@layer reset, tokens, base, components, layout, modules, profiles, motion;
+
+@import './fonts.css' layer(base);
+@import './reset.css' layer(reset);
+@import './tokens.css' layer(tokens);
+@import './base.css' layer(base);
+@import './components.css' layer(components);
+@import './control.css' layer(layout);
+@import './projection.css' layer(layout);
+@import './profiles.css' layer(profiles);
+@import './motion.css' layer(motion);
