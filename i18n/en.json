@@ -65,7 +65,7 @@
     "recovered": "Saved data could not be read. A backup was kept and TEApp started fresh.",
     "newer": "Saved data comes from a newer version of TEApp. A backup was kept; update the app to recover it.",
     "memory": "This browser does not allow saving data. Changes will be lost when the page closes.",
-    "update": "A new version of TEApp is available.",
+    "update": "A new version of TEApp is available. Reload the page whenever you like to use it.",
     "updateAction": "Update"
   },
   "agenda": {
@@ -806,5 +806,8 @@
       "book": "Book",
       "write": "Write"
     }
+  },
+  "footer": {
+    "version": "{app} {version} · build {build} from {date}"
   }
 }

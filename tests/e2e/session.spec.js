@@ -66,3 +66,7 @@ test('el temporitzador es pot iniciar i pausar', async ({ page }) => {
   await page.getByRole('button', { name: /^Pausa/ }).click();
   await expect(page.locator('.timer-readout__state')).toHaveText('En pausa');
 });
+
+test('el peu mostra la versió i la compilació', async ({ page }) => {
+  await expect(page.getByRole('contentinfo')).toContainText(/TEApp \d+\.\d+\.\d+ · compilació \w+/);
+});

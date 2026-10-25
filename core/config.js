@@ -3,6 +3,9 @@
 
 export const APP_NAME = 'TEApp';
 export const APP_VERSION = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : '0.0.0';
+/** Commit i data de la compilació: permeten veure si l'app oberta és la darrera publicada. */
+export const APP_BUILD = typeof __APP_BUILD__ === 'string' ? __APP_BUILD__ : 'dev';
+export const APP_BUILD_DATE = typeof __APP_BUILD_DATE__ === 'string' ? __APP_BUILD_DATE__ : '';
 export const REPO_URL = 'https://github.com/vmoren12/teapp';
 export const SITE_URL = 'https://vmoren12.github.io/teapp/';
 

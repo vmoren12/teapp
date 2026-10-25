@@ -3,7 +3,7 @@
 // vista prèvia i controls dels altres mòduls (columna dreta), i mode classe.
 
 import { h } from '../core/dom.js';
-import { APP_NAME } from '../core/config.js';
+import { APP_BUILD, APP_BUILD_DATE, APP_NAME, APP_VERSION } from '../core/config.js';
 import { button } from './button.js';
 import { icon } from './icons.js';
 import { createTabs } from './tabs.js';
@@ -219,7 +219,22 @@ export function mountControlShell(root, deps) {
 
   const main = h('main', { id: 'main', class: 'workspace' }, agendaPane, stagePane);
   const skip = h('a', { href: '#main', class: 'skip-link' }, t('common.skipToContent'));
-  const app = h('div', { class: 'app' }, skip, topbar, banners, main);
+  // Peu amb la versió i la compilació: així es veu si l'app oberta és la darrera.
+  const footer = h(
+    'footer',
+    { class: 'app-footer' },
+    h(
+      'p',
+      null,
+      t('footer.version', {
+        app: APP_NAME,
+        version: APP_VERSION,
+        build: APP_BUILD,
+        date: APP_BUILD_DATE,
+      }),
+    ),
+  );
+  const app = h('div', { class: 'app' }, skip, topbar, banners, main, footer);
   root.replaceChildren(app);
 
   // --- Mode classe (una sola pantalla) --------------------------------------------

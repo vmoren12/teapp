@@ -2,6 +2,17 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.2.1] - 2026-10-25
+
+### Afegit
+
+- **Peu del panell** amb la versió i el codi de la compilació, per veure si l'app oberta és la darrera publicada.
+
+### Corregit
+
+- **Actualitzacions:** en obrir o recarregar l'app es carrega sempre la darrera versió publicada (quan hi ha connexió). El service worker ja no queda retingut per la memòria cau HTTP de GitHub Pages i es comprova si hi ha versió nova en tornar a la pestanya i cada 30 minuts.
+- **Service worker:** sovint no s'arribava a registrar (s'esperava l'esdeveniment «load», que ja havia passat quan acabava l'arrencada). Ara es registra sempre, s'activa tan bon punt té desada la versió nova (el panell avisa per recarregar) i troba els fitxers sense connexió encara que el servidor enviï capçaleres «Vary».
+
 ## [0.2.0] - 2026-10-25
 
 ### Afegit (Fase 2)

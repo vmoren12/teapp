@@ -4,7 +4,7 @@
 import { h } from '../core/dom.js';
 import { openDialog } from './dialog.js';
 import { icon } from './icons.js';
-import { APP_NAME, APP_VERSION, REPO_URL, SITE_URL } from '../core/config.js';
+import { APP_BUILD, APP_NAME, APP_VERSION, REPO_URL, SITE_URL } from '../core/config.js';
 
 /** @typedef {import('../core/types.js').Translate} Translate */
 
@@ -116,7 +116,7 @@ export function openHelpDialog({ t, shortcuts }) {
           h(
             'p',
             { class: 'muted' },
-            t('help.version', { version: APP_VERSION }),
+            t('help.version', { version: `${APP_VERSION} (${APP_BUILD})` }),
             ' · ',
             t('help.license'),
           ),

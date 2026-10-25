@@ -65,7 +65,7 @@
     "recovered": "No se han podido leer los datos guardados. Hemos guardado una copia y hemos empezado de nuevo.",
     "newer": "Los datos guardados son de una versión más nueva de TEApp. Hemos guardado una copia; actualiza la app para recuperarlos.",
     "memory": "Este navegador no permite guardar datos. Los cambios se perderán al cerrar la página.",
-    "update": "Hay una versión nueva de TEApp disponible.",
+    "update": "Hay una versión nueva de TEApp. Recarga la página cuando quieras para usarla.",
     "updateAction": "Actualizar"
   },
   "agenda": {
@@ -806,5 +806,8 @@
       "book": "Libro",
       "write": "Escribir"
     }
+  },
+  "footer": {
+    "version": "{app} {version} · compilación {build} del {date}"
   }
 }

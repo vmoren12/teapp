@@ -9,7 +9,12 @@ export default [
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
-      globals: { ...globals.browser, __APP_VERSION__: 'readonly' },
+      globals: {
+        ...globals.browser,
+        __APP_VERSION__: 'readonly',
+        __APP_BUILD__: 'readonly',
+        __APP_BUILD_DATE__: 'readonly',
+      },
     },
     rules: {
       'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],

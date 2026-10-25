@@ -3,7 +3,11 @@
 // (scripts/vite-plugin-precache.js).
 //
 // Estratègies:
-//   - Fitxers de l'app: primer la memòria cau (són versionats).
+//   - Pàgines (index.html, projection.html): primer la xarxa, perquè en obrir o
+//     recarregar l'app es carregui sempre la darrera versió publicada. Sense
+//     connexió, la còpia desada d'aquesta versió (mai una pàgina d'una altra
+//     versió, que demanaria fitxers que no són a la memòria cau).
+//   - Fitxers de l'app: primer la memòria cau (porten el hash al nom).
 //   - Imatges d'ARASAAC: primer la memòria cau; si no hi són, xarxa i es desen.
 //   - Cerques a l'API d'ARASAAC: primer la xarxa; sense connexió, la darrera resposta.
 
@@ -13,8 +17,16 @@ const PICTOS = 'teapp-pictos';
 const API = 'teapp-api';
 const PRECACHE = self.__PRECACHE_MANIFEST__;
 
+// Una versió nova s'activa tan bon punt té tots els seus fitxers desats: així la
+// memòria cau sempre correspon a la darrera versió publicada. La pàgina oberta
+// continua funcionant (ja té el codi carregat) i el panell avisa per recarregar.
 self.addEventListener('install', (event) => {
-  event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll(PRECACHE)));
+  event.waitUntil(
+    caches
+      .open(SHELL)
+      .then((cache) => cache.addAll(PRECACHE))
+      .then(() => self.skipWaiting()),
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -30,11 +42,6 @@ self.addEventListener('activate', (event) => {
       )
       .then(() => self.clients.claim()),
   );
-});
-
-// El panell demana activar la versió nova quan el docent hi està d'acord.
-self.addEventListener('message', (event) => {
-  if (event.data === 'skip-waiting') self.skipWaiting();
 });
 
 /** @param {Request} request @param {string} cacheName */
@@ -76,20 +83,35 @@ self.addEventListener('fetch', (event) => {
   }
   if (url.origin !== self.location.origin) return;
 
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(SHELL);
+        const key = url.origin + url.pathname;
+        try {
+          // no-cache: es revalida amb el servidor encara que el navegador en tingui còpia.
+          return await fetch(key, { cache: 'no-cache', credentials: 'same-origin' });
+        } catch (error) {
+          const hit =
+            (await cache.match(key)) ?? (await cache.match(request, { ignoreSearch: true }));
+          if (hit) return hit;
+          const fallback = await cache.match('./index.html');
+          if (fallback) return fallback;
+          throw error;
+        }
+      })(),
+    );
+    return;
+  }
+
   event.respondWith(
     (async () => {
       const cache = await caches.open(SHELL);
-      const hit = await cache.match(request, { ignoreSearch: request.mode === 'navigate' });
+      // ignoreVary: els fitxers porten el hash al nom; la capçalera Vary (p. ex. Origin en
+      // els scripts de mòdul) no ha d'impedir trobar-los sense connexió.
+      const hit = await cache.match(request, { ignoreVary: true });
       if (hit) return hit;
-      try {
-        return await fetch(request);
-      } catch (error) {
-        if (request.mode === 'navigate') {
-          const fallback = await cache.match('./index.html');
-          if (fallback) return fallback;
-        }
-        throw error;
-      }
+      return fetch(request);
     })(),
   );
 });

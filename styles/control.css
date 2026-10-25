@@ -425,6 +425,16 @@
   gap: var(--space-4);
 }
 
+/* ---------- Peu ---------- */
+.app-footer {
+  margin-top: auto;
+  padding: var(--space-3) var(--space-5);
+  border-top: var(--border) solid var(--c-border);
+  color: var(--c-text-muted);
+  font-size: var(--fs-s);
+  text-align: center;
+}
+
 /* ---------- Mode classe (una sola pantalla) ---------- */
 .class-mode {
   position: fixed;

@@ -65,7 +65,7 @@
     "recovered": "No s'han pogut llegir les dades desades. N'hem guardat una còpia i hem començat de nou.",
     "newer": "Les dades desades són d'una versió més nova de TEApp. N'hem guardat una còpia; actualitza l'app per recuperar-les.",
     "memory": "Aquest navegador no permet desar dades. Els canvis es perdran en tancar la pàgina.",
-    "update": "Hi ha una versió nova de TEApp disponible.",
+    "update": "Hi ha una versió nova de TEApp. Recarrega la pàgina quan vulguis per fer-la servir.",
     "updateAction": "Actualitza"
   },
   "agenda": {
@@ -806,5 +806,8 @@
       "book": "Llibre",
       "write": "Escriure"
     }
+  },
+  "footer": {
+    "version": "{app} {version} · compilació {build} del {date}"
   }
 }
