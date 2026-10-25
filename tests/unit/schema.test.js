@@ -138,7 +138,11 @@ describe('sanitizeTemplate i sanitizeAppData', () => {
     expect(content.activities).toHaveLength(1);
     expect(content.activities[0].durationMin).toBe(240);
     // Les opcions noves (p. ex. timeBar) agafen el valor per defecte.
-    expect(tpl?.config.agenda).toEqual({ view: 'focus', timeBar: 'none' });
+    expect(tpl?.config.agenda).toEqual({
+      view: 'focus',
+      timeBar: 'none',
+      timeBarScope: 'all',
+    });
   });
 
   it('recupera dades parcialment corruptes sense perdre les vàlides', () => {

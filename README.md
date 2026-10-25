@@ -47,7 +47,7 @@ També inclou:
 
 - **Pantalla de calma.** Congela la projecció en una vista neutra amb un sol botó o la tecla `B`. Des d'aquí es pot llançar la respiració guiada.
 - **Agenda desplaçable.** A la pissarra, la fila d'activitats es desplaça de manera fluida amb el dit, el ratolí (arrossegant o amb la roda) o el teclat i torna sola a l'activitat actual al cap de 15 s. Al panell, les activitats es reordenen arrossegant-les (o amb «Mou amunt/avall»).
-- **Temps sota els pictogrames.** Opcional: una barra que s'esgota sota cada activitat de l'agenda (i els minuts, si es vol), amb el temporitzador a sota de l'actual si en porta un de propi.
+- **Temps sota els pictogrames.** Opcional: una barra que s'esgota sota cada activitat de l'agenda o només sota l'actual (i els minuts, si es vol), amb el temporitzador a sota de l'actual si en porta un de propi.
 - **Temporitzador lligat a l'agenda.** «Lliga'l a l'activitat actual» fa que segueixi el temps de la franja (durada, «+5 min», reiniciar) i l'activitat següent. Qualsevol acció manual el deslliga.
 - **Opcions a mà, sense soroll.** Les opcions d'una eina s'obren soles quan es mostra a la pantalla. Per preparar-ne una sense mostrar-la, hi ha el selector «Opcions de».
 - **Mida de les franges.** L'alçada de la franja superior i de la inferior es canvia amb controls lliscants o amb tiradors a la vista prèvia. Es desa a la sessió i a les plantilles.

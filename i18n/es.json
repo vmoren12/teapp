@@ -126,7 +126,11 @@
       "timeBarHint": "Una barra que se vacía con el tiempo de cada actividad. En la actual, también el temporizador si lleva uno propio.",
       "timeBarNone": "No se muestra",
       "timeBarBar": "Solo la barra",
-      "timeBarMinutes": "Barra y minutos"
+      "timeBarMinutes": "Barra y minutos",
+      "timeBarScope": "Barra de tiempo en",
+      "timeBarScopeHint": "Solo si se muestra el tiempo bajo los pictogramas.",
+      "timeBarScopeAll": "Todas las actividades",
+      "timeBarScopeCurrent": "Solo la actividad en curso"
     },
     "dragHint": "Arrastra para cambiar el orden (o usa «Subir» y «Bajar»)",
     "scrollLabel": "Actividades del día. Usa las flechas para desplazarte.",

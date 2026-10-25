@@ -85,6 +85,10 @@ describe('barres de temps sota els pictogrames', () => {
     expect(current.progress).toBeCloseTo(0.6);
     expect(current.text).toBe('timer.minutesLeft:{"count":6}');
     expect(later).toMatchObject({ progress: 1, text: 'agenda.time.duration:{"count":15}' });
+    // Només l'activitat en curs: les altres targetes no en tenen.
+    expect(timeRows({ ...base, scope: 'current', agenda: s, index: 2, now })).toEqual([]);
+    expect(timeRows({ ...base, scope: 'current', agenda: s, index: 0, now })).toEqual([]);
+    expect(timeRows({ ...base, scope: 'current', agenda: s, index: 1, now })).toHaveLength(1);
     // Sense minuts: només la barra.
     expect(timeRows({ ...base, minutes: false, agenda: s, index: 1, now })[0].text).toBe('');
   });

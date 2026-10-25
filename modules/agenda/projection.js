@@ -124,6 +124,8 @@ export function renderAgendaProjection(el, ctx) {
   /** @type {AgendaState | null} */
   let agenda = null;
   let timeBar = 'none';
+  /** @type {'current' | 'all'} */
+  let timeScope = 'all';
   /** Temporitzador amb temps propi (no lligat a l'agenda). @type {TimerView | null} */
   let ownTimer = null;
   let timerLabel = '';
@@ -142,6 +144,7 @@ export function renderAgendaProjection(el, ctx) {
         timer: ownTimer,
         timerLabel,
         minutes: timeBar === 'minutes',
+        scope: timeScope,
         t,
         now,
       });
@@ -359,7 +362,9 @@ export function renderAgendaProjection(el, ctx) {
       const timer = state.live.modules.timer;
       ownTimer = timer && !isLinked(timer) ? timerView(timer, state.live) : null;
       timerLabel = timer?.label ?? '';
-      const timerKey = JSON.stringify([timeBar, ownTimer, timerLabel]);
+      timeScope = config.timeBarScope === 'current' ? 'current' : 'all';
+      el.dataset.timeScope = timeScope;
+      const timerKey = JSON.stringify([timeBar, timeScope, ownTimer, timerLabel]);
       const timesChanged = timerKey !== lastTimerKey;
       lastTimerKey = timerKey;
       if (s === lastAgenda && view === lastView) {

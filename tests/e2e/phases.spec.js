@@ -308,5 +308,10 @@ test('agenda: barra de temps sota els pictogrames, amb el temporitzador propi', 
   await expect(now.locator('.pj-time[data-kind="timer"] .pj-time__text')).toHaveText(
     'Queden 3 min',
   );
+
+  // Es pot limitar a l'activitat en curs.
+  await control.getByRole('radio', { name: "Només l'activitat en curs" }).check({ force: true });
+  await expect(projection.locator('.pj-card[data-status="next"] .pj-time')).toHaveCount(0);
+  await expect(now.locator('.pj-time')).toHaveCount(2);
   await expectNoViolations(projection);
 });

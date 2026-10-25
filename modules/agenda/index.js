@@ -31,6 +31,16 @@ const configSchema = [
       { value: 'minutes', labelKey: 'agenda.config.timeBarMinutes' },
     ],
   },
+  {
+    key: 'timeBarScope',
+    type: 'select',
+    labelKey: 'agenda.config.timeBarScope',
+    hintKey: 'agenda.config.timeBarScopeHint',
+    options: [
+      { value: 'all', labelKey: 'agenda.config.timeBarScopeAll' },
+      { value: 'current', labelKey: 'agenda.config.timeBarScopeCurrent' },
+    ],
+  },
 ];
 
 /** @type {import('../../core/types.js').TeappModule} */
@@ -41,7 +51,7 @@ const agenda = {
   icon: 'list',
   region: 'stage',
   configSchema,
-  defaults: () => ({ view: 'all', timeBar: 'none' }),
+  defaults: () => ({ view: 'all', timeBar: 'none', timeBarScope: 'all' }),
   initialState: (_config, content) => initialAgenda(content),
   sanitizeState,
   sanitizeContent,

@@ -126,7 +126,11 @@
       "timeBarHint": "A bar that empties with each activity’s time. On the current one, also the timer if it has its own time.",
       "timeBarNone": "Not shown",
       "timeBarBar": "Bar only",
-      "timeBarMinutes": "Bar and minutes"
+      "timeBarMinutes": "Bar and minutes",
+      "timeBarScope": "Time bar on",
+      "timeBarScopeHint": "Only if time is shown under the pictograms.",
+      "timeBarScopeAll": "All activities",
+      "timeBarScopeCurrent": "Only the current activity"
     },
     "dragHint": "Drag to reorder (or use “Move up” and “Move down”)",
     "scrollLabel": "Today's activities. Use the arrow keys to scroll.",

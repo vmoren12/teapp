@@ -2,6 +2,12 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.4.1] - 2026-10-25
+
+### Afegit
+
+- **Agenda:** opció «Barra de temps a» per triar si la barra de temps surt sota totes les activitats o només sota l'activitat en curs.
+
 ## [0.4.0] - 2026-10-25
 
 ### Afegit

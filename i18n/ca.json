@@ -126,7 +126,11 @@
       "timeBarHint": "Una barra que s'esgota amb el temps de cada activitat. A l'actual, també el temporitzador si en porta un de propi.",
       "timeBarNone": "No es mostra",
       "timeBarBar": "Només la barra",
-      "timeBarMinutes": "Barra i minuts"
+      "timeBarMinutes": "Barra i minuts",
+      "timeBarScope": "Barra de temps a",
+      "timeBarScopeHint": "Només si es mostra el temps sota els pictogrames.",
+      "timeBarScopeAll": "Totes les activitats",
+      "timeBarScopeCurrent": "Només l'activitat en curs"
     },
     "dragHint": "Arrossega per canviar l'ordre (o fes servir «Mou amunt» i «Mou avall»)",
     "scrollLabel": "Activitats del dia. Fes servir les fletxes per desplaçar-te.",
