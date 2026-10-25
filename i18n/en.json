@@ -18,7 +18,7 @@
     "changePicto": "Change the pictogram of “{name}”"
   },
   "error": {
-    "boot": "TEApp could not start. Please reload the page."
+    "boot": "pictapp could not start. Please reload the page."
   },
   "topbar": {
     "actions": "Main actions",
@@ -56,19 +56,19 @@
     "next": "Next"
   },
   "projection": {
-    "title": "TEApp · Projection",
+    "title": "pictapp · Projection",
     "waiting": "Waiting for the control panel…",
-    "waitingHelp": "Open TEApp in another window of the same browser. Once connected, this screen will update by itself. Double-click or press F for full screen.",
+    "waitingHelp": "Open pictapp in another window of the same browser. Once connected, this screen will update by itself. Double-click or press F for full screen.",
     "connected": "Projection connected",
     "notConnected": "No projection window open",
     "blocked": "The browser blocked the window. Allow pop-ups for this page."
   },
   "banner": {
-    "duplicate": "TEApp is already open in another tab. Close one so the projection does not get confused.",
-    "recovered": "Saved data could not be read. A backup was kept and TEApp started fresh.",
-    "newer": "Saved data comes from a newer version of TEApp. A backup was kept; update the app to recover it.",
+    "duplicate": "pictapp is already open in another tab. Close one so the projection does not get confused.",
+    "recovered": "Saved data could not be read. A backup was kept and pictapp started fresh.",
+    "newer": "Saved data comes from a newer version of pictapp. A backup was kept; update the app to recover it.",
     "memory": "This browser does not allow saving data. Changes will be lost when the page closes.",
-    "update": "A new version of TEApp is available. It will load by itself when you leave class mode or finish typing (your session is kept).",
+    "update": "A new version of pictapp is available. It will load by itself when you leave class mode or finish typing (your session is kept).",
     "updateAction": "Update now"
   },
   "agenda": {
@@ -309,7 +309,7 @@
     "shareHelp": "Export your templates to a JSON file to back them up or share them with another teacher. By default they contain no student data.",
     "import": "Import…",
     "exportAll": "Export all",
-    "fileName": "teapp-templates-{date}.json",
+    "fileName": "pictapp-templates-{date}.json",
     "imported": {
       "one": "{count} template imported.",
       "other": "{count} templates imported."
@@ -317,8 +317,8 @@
     "importedSome": "{count} templates imported; {skipped} could not be read.",
     "importError": {
       "json": "The file is not valid JSON.",
-      "format": "This file is not a TEApp template export.",
-      "newer": "The file comes from a newer version of TEApp. Update the app.",
+      "format": "This file is not a pictapp template export.",
+      "newer": "The file comes from a newer version of pictapp. Update the app.",
       "empty": "The file contains no valid template."
     },
     "includePrivate": "Include the names in Turns (student data)",
@@ -378,9 +378,9 @@
     "action": "Action",
     "controlOnly": "panel only",
     "about": "About {app}",
-    "aboutText": "TEApp helps structure the session in a visual, predictable way on the interactive whiteboard. It is designed especially for autistic students, but applies to the whole group (Universal Design for Learning): it never singles anyone out.",
+    "aboutText": "pictapp helps structure the session in a visual, predictable way on the interactive whiteboard. It is designed especially for autistic students, but applies to the whole group (Universal Design for Learning): it never singles anyone out.",
     "privacy": "No accounts and no server. Data is stored only in this browser and the app works offline.",
-    "website": "TEApp website",
+    "website": "pictapp website",
     "repository": "Source code on GitHub",
     "version": "Version {version}",
     "license": "EUPL-1.2 licence",
@@ -900,7 +900,9 @@
     }
   },
   "footer": {
-    "version": "{app} {version} · build {build} from {date}"
+    "role": "Psychologist and school counsellor",
+    "code": "Code: {license}",
+    "version": "v{version} (build {build})"
   },
   "tools": {
     "pick": "Options for",

@@ -70,5 +70,9 @@ test('el temporitzador es pot iniciar i pausar', async ({ page }) => {
 });
 
 test('el peu mostra la versió i la compilació', async ({ page }) => {
-  await expect(page.getByRole('contentinfo')).toContainText(/TEApp \d+\.\d+\.\d+ · compilació \w+/);
+  const footer = page.getByRole('contentinfo');
+  await expect(footer).toContainText(/v\d+\.\d+\.\d+ \(compilació \w+\)/);
+  await expect(footer).toContainText('© 2026 Víctor Moreno de la Torre');
+  await expect(footer).toContainText('Psicòleg i orientador educatiu');
+  await expect(footer).toContainText('Codi: EUPL-1.2');
 });

@@ -3,6 +3,7 @@
 // només lectura: rep l'estat del panell de control i el mostra. Les tecles
 // (comandament de presentació) es reenvien al panell.
 
+import { logo } from '../components/logo.js';
 import '../styles/main.css';
 import { getLocale, setLocale, t } from '../i18n/index.js';
 import { createStorage } from '../storage/adapter.js';
@@ -46,13 +47,7 @@ async function boot() {
       h(
         'div',
         { class: 'pj-waiting', role: 'main' },
-        h(
-          'span',
-          { class: 'logo logo--large', 'aria-hidden': 'true' },
-          h('span'),
-          h('span'),
-          h('span'),
-        ),
+        logo({ large: true }),
         h('p', { class: 'pj-waiting__title' }, t('projection.waiting')),
         h('p', { class: 'pj-waiting__help' }, t('projection.waitingHelp')),
       ),

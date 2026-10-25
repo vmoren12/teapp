@@ -176,7 +176,7 @@ export function openTemplatesDialog({
               variant: 'ghost',
               attrs: { 'aria-label': t('templates.exportNamed', { name: tpl.name }) },
               onClick: async () => {
-                downloadJson(await exportOf([tpl]), `teapp-${slug(tpl.name)}.json`);
+                downloadJson(await exportOf([tpl]), `pictapp-${slug(tpl.name)}.json`);
               },
             }),
             button({

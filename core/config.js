@@ -1,7 +1,10 @@
 // @ts-check
 // Constants de l'aplicació.
 
-export const APP_NAME = 'TEApp';
+export const APP_NAME = 'pictapp';
+/** Autoria i llicència del codi (peu del panell). */
+export const AUTHOR = 'Víctor Moreno de la Torre';
+export const CODE_LICENSE = 'EUPL-1.2';
 export const APP_VERSION = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : '0.0.0';
 /** Commit i data de la compilació: permeten veure si l'app oberta és la darrera publicada. */
 export const APP_BUILD = typeof __APP_BUILD__ === 'string' ? __APP_BUILD__ : 'dev';

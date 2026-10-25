@@ -82,35 +82,26 @@ kbd {
   min-height: 100vh;
 }
 
-/* Logotip: tres targetes, la del mig destacada (és l'«ara»). */
+/* Logotip: una «p» de línia que és una targeta de pictograma amb una cara. */
 .logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
 }
 
-.logo span {
-  width: 7px;
-  height: 16px;
-  border-radius: 3px;
-  background: var(--c-border-strong);
+.logo__mark {
+  stroke: var(--c-accent);
 }
 
-.logo span:nth-child(2) {
-  height: 22px;
-  background: var(--c-accent);
+.logo__face {
+  stroke: var(--c-text);
 }
 
 .logo--large {
-  gap: 0.4rem;
-}
-
-.logo--large span {
-  width: 1.4rem;
-  height: 3rem;
-  border-radius: 0.4rem;
-}
-
-.logo--large span:nth-child(2) {
-  height: 4.2rem;
+  width: 5.5rem;
+  height: 5.5rem;
 }

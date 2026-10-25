@@ -1,6 +1,6 @@
 # Com contribuir
 
-Gràcies per voler millorar TEApp. Aquestes són les normes bàsiques del projecte.
+Gràcies per voler millorar pictapp. Aquestes són les normes bàsiques del projecte.
 
 ## Principis
 

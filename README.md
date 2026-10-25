@@ -1,4 +1,4 @@
-# TEApp · Estructura visual de l'aula
+# pictapp · Estructura visual de l'aula
 
 **Aplicació web per al docent, projectada a la pissarra digital, que estructura la sessió de manera visual i previsible.** Està pensada especialment per a l'alumnat amb TEA, però s'aplica a tot el grup seguint el Disseny Universal per a l'Aprenentatge (DUA): mai no singularitza cap alumne davant la classe.
 
@@ -59,7 +59,7 @@ També inclou:
 
 **Amb dues pantalles** (portàtil + pissarra):
 
-1. Obre TEApp al portàtil. És el **panell de control**.
+1. Obre pictapp al portàtil. És el **panell de control**.
 2. Prem **Obre la projecció** (`P`), arrossega la finestra a la pissarra i fes-hi doble clic (o prem `F`) per posar-la a pantalla completa.
 3. Carrega una plantilla o escriu l'agenda. Prem **Comença** i avança amb `→` o amb el comandament de presentació.
 4. Pots editar-ho tot en directe: la projecció s'actualitza al moment. El panell mostra una vista prèvia exacta del que es veu a la pissarra.

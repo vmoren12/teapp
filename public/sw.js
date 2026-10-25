@@ -1,4 +1,4 @@
-// Service worker de TEApp: fa que l'app funcioni sense connexió.
+// Service worker de pictapp: fa que l'app funcioni sense connexió.
 // La llista de fitxers i la versió les escriu el plugin de Vite en fer la build
 // (scripts/vite-plugin-precache.js).
 //

@@ -1,5 +1,5 @@
 // @ts-check
-// Tipus compartits de TEApp. Aquest fitxer només conté definicions JSDoc.
+// Tipus compartits de pictapp. Aquest fitxer només conté definicions JSDoc.
 
 /** @typedef {'standard' | 'high-contrast' | 'minimal'} Profile */
 /** @typedef {'system' | 'reduced' | 'gentle'} MotionPref */

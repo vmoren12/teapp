@@ -18,7 +18,7 @@
     "changePicto": "Cambiar el pictograma de «{name}»"
   },
   "error": {
-    "boot": "No se ha podido iniciar TEApp. Vuelve a cargar la página."
+    "boot": "No se ha podido iniciar pictapp. Vuelve a cargar la página."
   },
   "topbar": {
     "actions": "Acciones principales",
@@ -56,19 +56,19 @@
     "next": "Siguiente"
   },
   "projection": {
-    "title": "TEApp · Proyección",
+    "title": "pictapp · Proyección",
     "waiting": "Esperando el panel de control…",
-    "waitingHelp": "Abre TEApp en otra ventana del mismo navegador. Cuando se conecte, esta pantalla se mostrará sola. Haz doble clic o pulsa F para pantalla completa.",
+    "waitingHelp": "Abre pictapp en otra ventana del mismo navegador. Cuando se conecte, esta pantalla se mostrará sola. Haz doble clic o pulsa F para pantalla completa.",
     "connected": "Proyección conectada",
     "notConnected": "Ninguna ventana de proyección abierta",
     "blocked": "El navegador ha bloqueado la ventana. Permite las ventanas emergentes para esta página."
   },
   "banner": {
-    "duplicate": "TEApp ya está abierto en otra pestaña. Cierra una para que la proyección no se confunda.",
+    "duplicate": "pictapp ya está abierto en otra pestaña. Cierra una para que la proyección no se confunda.",
     "recovered": "No se han podido leer los datos guardados. Hemos guardado una copia y hemos empezado de nuevo.",
-    "newer": "Los datos guardados son de una versión más nueva de TEApp. Hemos guardado una copia; actualiza la app para recuperarlos.",
+    "newer": "Los datos guardados son de una versión más nueva de pictapp. Hemos guardado una copia; actualiza la app para recuperarlos.",
     "memory": "Este navegador no permite guardar datos. Los cambios se perderán al cerrar la página.",
-    "update": "Hay una versión nueva de TEApp. Se cargará sola cuando salgas del modo clase o termines de escribir (la sesión se conserva).",
+    "update": "Hay una versión nueva de pictapp. Se cargará sola cuando salgas del modo clase o termines de escribir (la sesión se conserva).",
     "updateAction": "Actualizar ahora"
   },
   "agenda": {
@@ -309,7 +309,7 @@
     "shareHelp": "Exporta las plantillas en un archivo JSON para guardarlas o pasarlas a otro docente. Por defecto no contienen ningún dato del alumnado.",
     "import": "Importar…",
     "exportAll": "Exportarlas todas",
-    "fileName": "teapp-plantillas-{date}.json",
+    "fileName": "pictapp-plantillas-{date}.json",
     "imported": {
       "one": "Se ha importado {count} plantilla.",
       "other": "Se han importado {count} plantillas."
@@ -317,8 +317,8 @@
     "importedSome": "Se han importado {count} plantillas; {skipped} no se han podido leer.",
     "importError": {
       "json": "El archivo no es un JSON válido.",
-      "format": "Este archivo no es una exportación de plantillas de TEApp.",
-      "newer": "El archivo es de una versión más nueva de TEApp. Actualiza la app.",
+      "format": "Este archivo no es una exportación de plantillas de pictapp.",
+      "newer": "El archivo es de una versión más nueva de pictapp. Actualiza la app.",
       "empty": "El archivo no contiene ninguna plantilla válida."
     },
     "includePrivate": "Incluir los nombres de los turnos (datos del alumnado)",
@@ -378,9 +378,9 @@
     "action": "Acción",
     "controlOnly": "solo en el panel",
     "about": "Acerca de {app}",
-    "aboutText": "TEApp ayuda a estructurar la sesión de manera visual y previsible en la pizarra digital. Está pensada especialmente para alumnado con TEA, pero se aplica a todo el grupo (Diseño Universal para el Aprendizaje): nunca singulariza a ningún alumno.",
+    "aboutText": "pictapp ayuda a estructurar la sesión de manera visual y previsible en la pizarra digital. Está pensada especialmente para alumnado con TEA, pero se aplica a todo el grupo (Diseño Universal para el Aprendizaje): nunca singulariza a ningún alumno.",
     "privacy": "Funciona sin cuentas ni servidor. Los datos se guardan solo en este navegador y la app funciona sin conexión.",
-    "website": "Web de TEApp",
+    "website": "Web de pictapp",
     "repository": "Código fuente en GitHub",
     "version": "Versión {version}",
     "license": "Licencia EUPL-1.2",
@@ -900,7 +900,9 @@
     }
   },
   "footer": {
-    "version": "{app} {version} · compilación {build} del {date}"
+    "role": "Psicólogo y orientador educativo",
+    "code": "Código: {license}",
+    "version": "v{version} (compilación {build})"
   },
   "tools": {
     "pick": "Opciones de",

@@ -3,7 +3,15 @@
 // vista prèvia i controls dels altres mòduls (columna dreta), i mode classe.
 
 import { h } from '../core/dom.js';
-import { APP_BUILD, APP_BUILD_DATE, APP_NAME, APP_VERSION } from '../core/config.js';
+import {
+  APP_BUILD,
+  APP_BUILD_DATE,
+  APP_NAME,
+  APP_VERSION,
+  AUTHOR,
+  CODE_LICENSE,
+} from '../core/config.js';
+import { logo } from './logo.js';
 import { button } from './button.js';
 import { icon } from './icons.js';
 import { mountProjection } from './projection-shell.js';
@@ -56,12 +64,7 @@ export function mountControlShell(root, deps) {
   const topbar = h(
     'header',
     { class: 'topbar' },
-    h(
-      'div',
-      { class: 'topbar__brand' },
-      h('span', { class: 'logo', 'aria-hidden': 'true' }, h('span'), h('span'), h('span')),
-      h('h1', { class: 'topbar__title' }, APP_NAME),
-    ),
+    h('div', { class: 'topbar__brand' }, logo(), h('h1', { class: 'topbar__title' }, APP_NAME)),
     h(
       'div',
       { class: 'topbar__session' },
@@ -261,19 +264,25 @@ export function mountControlShell(root, deps) {
 
   const main = h('main', { id: 'main', class: 'workspace' }, agendaPane, stagePane);
   const skip = h('a', { href: '#main', class: 'skip-link' }, t('common.skipToContent'));
-  // Peu amb la versió i la compilació: així es veu si l'app oberta és la darrera.
+  // Peu: autoria, llicència i versió amb la compilació (així es veu si l'app
+  // oberta és la darrera publicada). L'atribució d'ARASAAC és obligatòria.
+  const year = APP_BUILD_DATE.slice(0, 4) || String(new Date().getFullYear());
   const footer = h(
     'footer',
     { class: 'app-footer' },
     h(
       'p',
-      null,
-      t('footer.version', {
-        app: APP_NAME,
-        version: APP_VERSION,
-        build: APP_BUILD,
-        date: APP_BUILD_DATE,
-      }),
+      { class: 'app-footer__credits' },
+      [
+        `© ${year} ${AUTHOR}`,
+        t('footer.role'),
+        t('footer.code', { license: CODE_LICENSE }),
+        h(
+          'span',
+          { title: APP_BUILD_DATE },
+          t('footer.version', { version: APP_VERSION, build: APP_BUILD }),
+        ),
+      ].flatMap((part, i) => (i ? [h('span', { 'aria-hidden': 'true' }, '·'), part] : [part])),
     ),
     h('p', { class: 'attribution' }, t('attribution.arasaac')),
   );

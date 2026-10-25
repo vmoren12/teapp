@@ -25,7 +25,8 @@
 
 .topbar__title {
   font-size: var(--fs-l);
-  letter-spacing: 0.01em;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 .topbar__session {
@@ -467,6 +468,13 @@
   color: var(--c-text-muted);
   font-size: var(--fs-s);
   text-align: center;
+}
+
+.app-footer__credits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--space-2);
 }
 
 /* ---------- Mode classe (una sola pantalla) ---------- */

@@ -77,7 +77,7 @@ describe('exportació i importació', () => {
     expect(templates[0]).toMatchObject({ id: 'nou', name: 'Prova' });
   });
 
-  it('rebutja fitxers que no són de TEApp', async () => {
+  it('rebutja fitxers que no són de pictapp', async () => {
     const library = createPictoLibrary(createMemoryStorage());
     const opts = { registry, library, newId: seqId };
     await expect(readTemplatesImport('no és json', opts)).rejects.toMatchObject({ code: 'json' });

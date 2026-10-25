@@ -18,7 +18,7 @@
     "changePicto": "Canvia el pictograma de «{name}»"
   },
   "error": {
-    "boot": "No s'ha pogut iniciar TEApp. Torna a carregar la pàgina."
+    "boot": "No s'ha pogut iniciar pictapp. Torna a carregar la pàgina."
   },
   "topbar": {
     "actions": "Accions principals",
@@ -56,19 +56,19 @@
     "next": "Següent"
   },
   "projection": {
-    "title": "TEApp · Projecció",
+    "title": "pictapp · Projecció",
     "waiting": "Esperant el panell de control…",
-    "waitingHelp": "Obre TEApp en una altra finestra del mateix navegador. Quan es connecti, aquesta pantalla es mostrarà sola. Fes doble clic o prem F per a pantalla completa.",
+    "waitingHelp": "Obre pictapp en una altra finestra del mateix navegador. Quan es connecti, aquesta pantalla es mostrarà sola. Fes doble clic o prem F per a pantalla completa.",
     "connected": "Projecció connectada",
     "notConnected": "Cap finestra de projecció oberta",
     "blocked": "El navegador ha bloquejat la finestra. Permet les finestres emergents per a aquesta pàgina."
   },
   "banner": {
-    "duplicate": "TEApp ja és obert en una altra pestanya. Tanca'n una perquè la projecció no es confongui.",
+    "duplicate": "pictapp ja és obert en una altra pestanya. Tanca'n una perquè la projecció no es confongui.",
     "recovered": "No s'han pogut llegir les dades desades. N'hem guardat una còpia i hem començat de nou.",
-    "newer": "Les dades desades són d'una versió més nova de TEApp. N'hem guardat una còpia; actualitza l'app per recuperar-les.",
+    "newer": "Les dades desades són d'una versió més nova de pictapp. N'hem guardat una còpia; actualitza l'app per recuperar-les.",
     "memory": "Aquest navegador no permet desar dades. Els canvis es perdran en tancar la pàgina.",
-    "update": "Hi ha una versió nova de TEApp. Es carregarà sola quan surtis del mode classe o acabis d'escriure (la sessió es conserva).",
+    "update": "Hi ha una versió nova de pictapp. Es carregarà sola quan surtis del mode classe o acabis d'escriure (la sessió es conserva).",
     "updateAction": "Actualitza ara"
   },
   "agenda": {
@@ -309,7 +309,7 @@
     "shareHelp": "Exporta les plantilles en un fitxer JSON per guardar-les o passar-les a un altre docent. Per defecte no contenen cap dada de l'alumnat.",
     "import": "Importa…",
     "exportAll": "Exporta-les totes",
-    "fileName": "teapp-plantilles-{date}.json",
+    "fileName": "pictapp-plantilles-{date}.json",
     "imported": {
       "one": "S'ha importat {count} plantilla.",
       "other": "S'han importat {count} plantilles."
@@ -317,8 +317,8 @@
     "importedSome": "S'han importat {count} plantilles; {skipped} no s'han pogut llegir.",
     "importError": {
       "json": "El fitxer no és un JSON vàlid.",
-      "format": "Aquest fitxer no és una exportació de plantilles de TEApp.",
-      "newer": "El fitxer és d'una versió més nova de TEApp. Actualitza l'app.",
+      "format": "Aquest fitxer no és una exportació de plantilles de pictapp.",
+      "newer": "El fitxer és d'una versió més nova de pictapp. Actualitza l'app.",
       "empty": "El fitxer no conté cap plantilla vàlida."
     },
     "includePrivate": "Inclou els noms dels torns (dades de l'alumnat)",
@@ -378,9 +378,9 @@
     "action": "Acció",
     "controlOnly": "només al panell",
     "about": "Quant a {app}",
-    "aboutText": "TEApp ajuda a estructurar la sessió de manera visual i previsible a la pissarra digital. Està pensada especialment per a alumnat amb TEA, però s'aplica a tot el grup (Disseny Universal per a l'Aprenentatge): mai singularitza cap alumne.",
+    "aboutText": "pictapp ajuda a estructurar la sessió de manera visual i previsible a la pissarra digital. Està pensada especialment per a alumnat amb TEA, però s'aplica a tot el grup (Disseny Universal per a l'Aprenentatge): mai singularitza cap alumne.",
     "privacy": "Funciona sense comptes ni servidor. Les dades es desen només en aquest navegador i l'app funciona sense connexió.",
-    "website": "Web de TEApp",
+    "website": "Web de pictapp",
     "repository": "Codi font a GitHub",
     "version": "Versió {version}",
     "license": "Llicència EUPL-1.2",
@@ -900,7 +900,9 @@
     }
   },
   "footer": {
-    "version": "{app} {version} · compilació {build} del {date}"
+    "role": "Psicòleg i orientador educatiu",
+    "code": "Codi: {license}",
+    "version": "v{version} (compilació {build})"
   },
   "tools": {
     "pick": "Opcions de",

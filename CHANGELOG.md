@@ -2,6 +2,14 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.5.0] - 2026-10-26
+
+### Canviat
+
+- **Nom:** l'aplicació passa a dir-se **pictapp**. Les dades desades, les plantilles i les exportacions anteriors continuen funcionant.
+- **Logotip:** nou logotip de línia minimalista: una «p» que és alhora una targeta de pictograma amb una cara senzilla. També a les icones de l'app.
+- **Peu del panell:** autoria (© Víctor Moreno de la Torre, psicòleg i orientador educatiu), llicència del codi i versió amb la compilació.
+
 ## [0.4.1] - 2026-10-25
 
 ### Afegit

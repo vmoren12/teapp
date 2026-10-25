@@ -1,6 +1,6 @@
 {
-  "name": "TEApp · Estructura visual de l'aula",
-  "short_name": "TEApp",
+  "name": "pictapp · Estructura visual de l'aula",
+  "short_name": "pictapp",
   "description": "Estructura visual i previsible de la sessió per a la pissarra digital. Pensada per a alumnat TEA, útil per a tot el grup (DUA).",
   "lang": "ca",
   "dir": "ltr",
