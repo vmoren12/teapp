@@ -1,0 +1,163 @@
+@layer modules {
+  /* ---------- Projecció ---------- */
+  .pj-turns {
+    gap: 0.6em;
+  }
+
+  .pj-turns__pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0.8em;
+    min-height: 0;
+  }
+
+  .pj-turns[data-empty='true'] .pj-turns__pair {
+    display: none;
+  }
+
+  .pj-turns__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    min-height: 0;
+    padding: 0.5em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: var(--c-surface);
+    text-align: center;
+  }
+
+  .pj-turns__card--now {
+    border-width: 0.16em;
+    border-color: var(--c-now);
+    background: var(--c-now-soft);
+  }
+
+  .pj-turns__title {
+    font-size: 1em;
+    color: var(--c-text-muted);
+  }
+
+  .pj-turns__card--now .pj-turns__title {
+    color: var(--c-now);
+  }
+
+  .pj-turns__who {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 2em;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .pj-turns__card--next .pj-turns__who {
+    font-size: 1.5em;
+  }
+
+  .pj-turns__arrow {
+    display: grid;
+    place-items: center;
+  }
+
+  .pj-turns__arrow .icon {
+    width: 2em;
+    height: 2em;
+    color: var(--c-text-muted);
+  }
+
+  .pj-turns__announce {
+    text-align: center;
+    font-weight: 700;
+    color: var(--c-text-muted);
+  }
+
+  /* Ordre complet: es veu sencer, sempre en el mateix ordre. */
+  .pj-turns__order {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 0.8em;
+  }
+
+  .pj-turns__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    padding: 0.15em 0.6em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-full);
+    background: var(--c-surface);
+    font-weight: 700;
+  }
+
+  .pj-turns__chip[data-status='now'] {
+    border-color: var(--c-now);
+    background: var(--c-now);
+    color: var(--c-on-accent);
+  }
+
+  .pj-turns__chip[data-status='next'] {
+    border-color: var(--c-now);
+  }
+
+  .pj-turns__swatch {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+    border: 0.08em solid var(--c-border-strong);
+    border-radius: 50%;
+  }
+
+  /* Colors suaus; el nom del color sempre s'escriu al costat (no només color). */
+  .pj-turns__swatch[data-color='blue'] {
+    background: #7fa8c9;
+  }
+  .pj-turns__swatch[data-color='green'] {
+    background: #8fbf9a;
+  }
+  .pj-turns__swatch[data-color='yellow'] {
+    background: #e9d27a;
+  }
+  .pj-turns__swatch[data-color='orange'] {
+    background: #e3a671;
+  }
+  .pj-turns__swatch[data-color='purple'] {
+    background: #b19cc9;
+  }
+  .pj-turns__swatch[data-color='pink'] {
+    background: #e2a6b8;
+  }
+  .pj-turns__swatch[data-color='grey'] {
+    background: #b4b4b4;
+  }
+  .pj-turns__swatch[data-color='brown'] {
+    background: #b08a6a;
+  }
+
+  /* ---------- Panell de control ---------- */
+  .turns-names {
+    resize: vertical;
+    min-height: 7rem;
+  }
+
+  .turns-order {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    padding: 0;
+    list-style: none;
+  }
+
+  .turns-order li[data-current='true'] .btn {
+    border-color: var(--c-accent);
+    background: var(--c-accent-soft);
+  }
+}

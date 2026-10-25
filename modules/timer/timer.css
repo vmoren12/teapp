@@ -17,9 +17,11 @@
     width: 100%;
   }
 
-  /* Disc que s'esgota en sentit horari, com els rellotges visuals d'aula. */
+  /* Disc que s'esgota en sentit horari, com els rellotges visuals d'aula.
+     Ocupa l'alçada que queda a l'escenari (cqh) menys el text de sota, i mai
+     no baixa de 4em perquè es continuï llegint bé. */
   .pj-timer__disc {
-    width: min(52cqh, 70cqw);
+    width: clamp(4em, calc(100cqh - 6.5em), 70cqw);
     aspect-ratio: 1;
     border: 0.12em solid var(--c-border-strong);
     border-radius: 50%;
@@ -90,5 +92,26 @@
 
   .btn-row--wrap {
     flex-wrap: wrap;
+  }
+
+  /* Temporitzador lligat a l'agenda: es diu clarament a quina activitat. */
+  .timer-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-2) var(--space-3);
+    border: var(--border) solid var(--c-accent);
+    border-radius: var(--radius-m);
+    background: var(--c-accent-soft);
+  }
+
+  .timer-link__icon {
+    color: var(--c-accent);
+  }
+
+  .timer-link__text {
+    flex: 1 1 12rem;
+    font-weight: 700;
   }
 }

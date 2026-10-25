@@ -14,6 +14,14 @@
  * @property {MotionPref} motion      Transicions: segons el sistema, cap o suaus.
  * @property {{ enabled: boolean, volume: number }} sound
  * @property {boolean} keepSession    Conservar la sessió en directe quan es tanca el navegador.
+ * @property {Layout} layout          Alçada de les franges per a les sessions noves.
+ */
+
+/**
+ * Alçada de les franges superior i inferior de la projecció.
+ * @typedef {Object} Layout
+ * @property {'hidden' | 'small' | 'medium' | 'large'} header
+ * @property {'small' | 'medium' | 'large'} footer
  */
 
 /**
@@ -52,7 +60,8 @@
  * @property {string} name
  * @property {string} stage               Id del mòdul que ocupa l'escenari de la projecció.
  * @property {boolean} calm               Pantalla de calma activa.
- * @property {Record<string, Record<string, unknown>>} config
+ * @property {Record<string, Record<string, unknown>>} config  Configuració de cada mòdul i, a
+ *   `config.layout`, l'alçada de les franges (vegeu core/layout.js).
  * @property {Record<string, any>} modules  Estat en directe de cada mòdul (el defineix cada mòdul).
  */
 
@@ -105,11 +114,15 @@
 
 /**
  * Drecera de teclat. `action` és un tipus d'acció del mateix mòdul.
+ * Amb `when: 'stage'`, la drecera només val mentre el mòdul ocupa l'escenari i
+ * llavors té prioritat sobre les generals (p. ex. les fletxes passen els passos
+ * de les instruccions en lloc de les activitats de l'agenda).
  * @typedef {Object} KeyBinding
  * @property {string[]} keys      Valors de KeyboardEvent.key.
  * @property {string} action
  * @property {any} [payload]
  * @property {string} descKey
+ * @property {'stage'} [when]
  */
 
 /**
@@ -119,7 +132,10 @@
  *   Retorna la referència triada, null si es vol treure el pictograma o undefined si es cancel·la.
  * @property {(message: string) => void} announce
  * @property {() => string} newId
- * @property {(kind: 'warning' | 'end') => void} playSound
+ * @property {(kind: 'warning' | 'end' | 'soft') => void} playSound
+ * @property {(moduleId: string, value: unknown) => void} publish
+ *   Envia un valor efímer a les vistes de projecció (no es desa ni passa pel store).
+ *   El fa servir el sonòmetre per enviar el nivell de so unes quantes vegades per segon.
  */
 
 /**
@@ -139,6 +155,7 @@
  * @typedef {Object} View
  * @property {(state: SharedState) => void} update
  * @property {(now: number) => void} [tick]
+ * @property {(value: unknown) => void} [transient]   Rep els valors de ControlUi.publish.
  * @property {() => void} destroy
  */
 
@@ -162,6 +179,12 @@
  * @property {(state: unknown, config: Record<string, unknown>) => any} [sanitizeState]
  * @property {(ctx: ModuleContext, state: SharedState, now: number, memo: Record<string, any>) => void} [onTick]
  *   Només s'executa al panell de control (p. ex. per fer sonar avisos una sola vegada).
+ * @property {(content: unknown) => unknown} [exportContent]
+ *   Treu les dades personals del contingut abans d'exportar una plantilla
+ *   (p. ex. els noms dels torns). Només es manté tot si el docent ho marca.
+ * @property {{ labelKey: string, icon: string, action: string }} [calmLaunch]
+ *   Botó que apareix al panell mentre hi ha la pantalla de calma: executa
+ *   l'acció i mostra el mòdul a l'escenari (p. ex. la respiració guiada).
  */
 
 export {};

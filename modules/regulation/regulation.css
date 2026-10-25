@@ -1,0 +1,197 @@
+@layer modules {
+  /* Colors suaus dels nivells del termòmetre (el número i el nom sempre hi són:
+     el color no és l'única informació). */
+  .pj-thermo__level,
+  .regulation-level {
+    --level-bg: #dde9f2;
+    --level-edge: #5f8fb0;
+  }
+
+  .pj-thermo__level[data-color='green'],
+  .regulation-level[data-color='green'] {
+    --level-bg: #ddeedf;
+    --level-edge: #5d9a6b;
+  }
+
+  .pj-thermo__level[data-color='yellow'],
+  .regulation-level[data-color='yellow'] {
+    --level-bg: #f6eccb;
+    --level-edge: #b59324;
+  }
+
+  .pj-thermo__level[data-color='orange'],
+  .regulation-level[data-color='orange'] {
+    --level-bg: #f7e0cc;
+    --level-edge: #c07a3c;
+  }
+
+  .pj-thermo__level[data-color='rose'],
+  .regulation-level[data-color='rose'] {
+    --level-bg: #f4dcdc;
+    --level-edge: #b8666a;
+  }
+
+  :root[data-profile='high-contrast'] .pj-thermo__level,
+  :root[data-profile='high-contrast'] .regulation-level {
+    --level-bg: #000000;
+  }
+
+  :root[data-profile='minimal'] .pj-thermo__level {
+    --level-bg: #ffffff;
+  }
+
+  /* ---------- Projecció ---------- */
+  .pj-regulation__thermometer,
+  .pj-regulation__breathing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4em;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .pj-regulation__title {
+    font-size: 1em;
+    color: var(--c-text-muted);
+  }
+
+  /* De baix (calma) a dalt (més intensitat), com un termòmetre. */
+  .pj-thermo {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.3em;
+    flex: 1;
+    width: min(100%, 38em);
+    min-height: 0;
+    max-height: 30em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pj-thermo__level {
+    flex: 1 1 0;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1.6em minmax(5em, 0.8fr) minmax(0, 2fr);
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.25em 0.6em;
+    border: var(--border-strong) solid var(--level-edge);
+    border-inline-start-width: 0.5em;
+    border-radius: var(--radius-m);
+    background: var(--level-bg);
+  }
+
+  .pj-thermo__num {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .pj-thermo__label {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .pj-thermo__strategies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3em 0.8em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 0.8em;
+  }
+
+  .pj-thermo__strategy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+
+  .pj-thermo__strategy tea-picto {
+    width: 2.4em;
+    height: 2.4em;
+    flex-shrink: 0;
+  }
+
+  /* Respiració: un cercle que creix (inspirar) i s'encongeix (expirar). */
+  .pj-breath {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pj-breath__stage {
+    display: grid;
+    place-items: center;
+    width: clamp(4em, calc(100cqh - 6em), 70cqw);
+    aspect-ratio: 1;
+  }
+
+  .pj-breath__shape {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--c-calm-shape);
+    border: 0.12em solid var(--c-border-strong);
+    transform: scale(0.55);
+  }
+
+  /* Moviment reduït: la forma no es mou; la guia és el text i el comptador. */
+  .pj-breath[data-reduced='true'] .pj-breath__shape {
+    transform: scale(0.8);
+  }
+
+  .pj-breath__phase {
+    font-size: 1.5em;
+    font-weight: 700;
+  }
+
+  .pj-breath__count {
+    font-size: 1.2em;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--c-text-muted);
+  }
+
+  /* ---------- Panell de control ---------- */
+  .regulation-levels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 0;
+    list-style: none;
+  }
+
+  .regulation-level {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border: var(--border) solid var(--c-border);
+    border-inline-start: 6px solid var(--level-edge);
+    border-radius: var(--radius-m);
+    background: var(--c-surface-2);
+  }
+
+  .regulation-level__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: var(--space-2);
+  }
+
+  .regulation-level__swatch {
+    width: 1.5rem;
+    height: 1.5rem;
+    align-self: center;
+    border: var(--border) solid var(--level-edge);
+    border-radius: 50%;
+    background: var(--level-bg);
+  }
+
+  .regulation-level__name {
+    flex: 1 1 10rem;
+  }
+}

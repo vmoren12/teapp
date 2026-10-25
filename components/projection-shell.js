@@ -2,7 +2,8 @@
 // Carcassa de la projecció. És el mateix codi per a la finestra de projecció,
 // la vista prèvia del panell i el mode classe (una sola pantalla).
 //
-// Zones fixes (consistència absoluta: cada cosa sempre al mateix lloc):
+// Zones fixes (consistència absoluta: cada cosa sempre al mateix lloc). El
+// docent pot canviar l'alçada de les franges (core/layout.js), però mai l'ordre:
 //   ┌──────────────────────────────────────┐
 //   │ Ara: … → Després: …   (franja sup.)  │
 //   ├──────────────────────────────────────┤
@@ -17,6 +18,7 @@ import { h } from '../core/dom.js';
 import { icon } from './icons.js';
 import { pictoElement } from './tea-picto.js';
 import { containsArasaac } from '../pictograms/library.js';
+import { FOOTER_EM, HEADER_EM, liveLayout } from '../core/layout.js';
 import {
   currentActivity,
   getAgenda,
@@ -31,7 +33,9 @@ import {
 
 /** @param {import('../core/types.js').Translate} t */
 function createHeader(t) {
-  const el = h('div', { class: 'pj-header' });
+  // La franja és un contenidor: el contingut (a `inner`) s'escala amb la seva alçada.
+  const inner = h('div', { class: 'pj-header__inner' });
+  const el = h('div', { class: 'pj-header' }, inner);
   /** @type {unknown} */
   let last = null;
 
@@ -53,11 +57,11 @@ function createHeader(t) {
       if (agenda === last) return;
       last = agenda;
       if (!agenda || agenda.activities.length === 0) {
-        el.replaceChildren();
+        inner.replaceChildren();
         return;
       }
       if (isFinished(agenda)) {
-        el.replaceChildren(
+        inner.replaceChildren(
           h(
             'div',
             { class: 'pj-header__item' },
@@ -68,7 +72,7 @@ function createHeader(t) {
       }
       const now = currentActivity(agenda);
       const next = nextActivity(agenda);
-      el.replaceChildren(
+      inner.replaceChildren(
         block(t('status.now'), now, 'now'),
         h('span', { class: 'pj-header__arrow', 'aria-hidden': 'true' }, icon('arrow')),
         block(t('status.next'), next, 'next'),
@@ -96,7 +100,11 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
   const stage = h('div', { class: 'pj-stage', role: mode === 'window' ? 'main' : null });
   const footerSlots = h('div', { class: 'pj-footer__modules' });
   const attribution = h('p', { class: 'pj-attribution' }, t('attribution.arasaacShort'));
-  const footer = h('div', { class: 'pj-footer' }, footerSlots, attribution);
+  const footer = h(
+    'div',
+    { class: 'pj-footer' },
+    h('div', { class: 'pj-footer__inner' }, footerSlots, attribution),
+  );
   const calm = h(
     'div',
     { class: 'pj-calm', hidden: true },
@@ -121,11 +129,22 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
 
   /** @type {unknown} */
   let lastLive = null;
+  let lastLayout = '';
 
   return {
+    root,
     /** @param {SharedState} state */
     update(state) {
       const { live } = state;
+      const layout = liveLayout(live);
+      const layoutKey = `${layout.header}:${layout.footer}`;
+      if (layoutKey !== lastLayout) {
+        lastLayout = layoutKey;
+        root.dataset.header = layout.header;
+        root.dataset.footer = layout.footer;
+        root.style.setProperty('--pj-header-h', `${HEADER_EM[layout.header]}em`);
+        root.style.setProperty('--pj-footer-h', `${FOOTER_EM[layout.footer]}em`);
+      }
       root.dataset.calm = String(live.calm);
       calm.hidden = !live.calm;
       header.update(state);
@@ -141,6 +160,10 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
     /** @param {number} now */
     tick(now) {
       for (const { view } of views) view.tick?.(now);
+    },
+    /** Valor efímer d'un mòdul (vegeu ControlUi.publish). @param {string} moduleId @param {unknown} value */
+    transient(moduleId, value) {
+      views.find((v) => v.id === moduleId)?.view.transient?.(value);
     },
     destroy() {
       for (const { view } of views) view.destroy();

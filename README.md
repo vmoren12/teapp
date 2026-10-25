@@ -13,7 +13,7 @@
 
 ## Índex
 
-1. [Què fa (Fase 1)](#què-fa-fase-1)
+1. [Què fa](#què-fa)
 2. [Com es fa servir a l'aula](#com-es-fa-servir-a-laula)
 3. [Dreceres de teclat](#dreceres-de-teclat)
 4. [Privadesa](#privadesa)
@@ -27,7 +27,7 @@
 
 ---
 
-## Què fa (Fase 1)
+## Què fa
 
 | Mòdul                    | Què fa                                                                                                                                                                       |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -35,10 +35,20 @@
 | **Temporitzador visual** | Disc o barra que s'esgota amb colors suaus. Mostra els minuts (opcionalment els segons, o res) i fa un so suau opcional en acabar.                                           |
 | **Primer → Després**     | Tauler de dues caselles editable en directe. Es pot marcar «fet», fer-lo avançar o omplir-lo amb l'agenda.                                                                   |
 | **Avisos de transició**  | Avís a la franja inferior a 5, 2 i 1 minut (configurable) abans d'acabar l'activitat de l'agenda, amb l'activitat que ve després.                                            |
+| **Instruccions**         | Passos curts amb pictograma: un pas gran («Pas 2 de 5») o la llista amb l'actual destacat. Cada activitat de l'agenda pot tenir les seves, i es carreguen soles.             |
+| **Expectatives**         | Tauler fix de quatre preguntes: on treballo, com parlo (escala de veu 0–4), què necessito i quan acabo (amb el temps del temporitzador, si es vol). Valors predefinits.      |
+| **Sonòmetre de grup**    | Nivell de soroll de tota l'aula amb l'escala de veu. Només es calcula el volum al navegador: no es grava ni es desa res. Canvi de color gradual, sense alarmes.              |
+| **Torns**                | Qui té el torn ara i després, en un ordre fix i visible. Noms, números o colors. L'ordre aleatori s'anuncia sencer abans de començar.                                        |
+| **Històries socials**    | Vinyetes (pictograma o imatge pròpia + frase) per anticipar canvis. Recorda la proporció de Carol Gray. Inclou històries d'exemple.                                          |
+| **Regulació**            | Termòmetre emocional de 3 a 5 nivells amb estratègies (referència de grup) i respiració guiada amb ritme configurable, també des de la pantalla de calma.                    |
+| **Tauler d'elecció**     | De 2 a 6 opcions amb pictograma. Es pot marcar l'opció del grup o deixar-lo com a referència.                                                                                |
 
 També inclou:
 
-- **Pantalla de calma.** Congela la projecció en una vista neutra amb un sol botó o la tecla `B`.
+- **Pantalla de calma.** Congela la projecció en una vista neutra amb un sol botó o la tecla `B`. Des d'aquí es pot llançar la respiració guiada.
+- **Agenda desplaçable.** A la pissarra, la fila d'activitats es desplaça amb el dit, el ratolí o el teclat i torna sola a l'activitat actual al cap de 15 s. Al panell, les activitats es reordenen arrossegant-les (o amb «Mou amunt/avall»).
+- **Temporitzador lligat a l'agenda.** «Lliga'l a l'activitat actual» fa que segueixi el temps de la franja (durada, «+5 min», reiniciar) i l'activitat següent. Qualsevol acció manual el deslliga.
+- **Mida de les franges.** L'alçada de la franja superior i de la inferior es canvia amb controls lliscants o amb tiradors a la vista prèvia. Es desa a la sessió i a les plantilles.
 - **Plantilles** reutilitzables: «Dilluns 1r ESO», «Sessió PFI» i «Tutoria» venen d'exemple. Es poden exportar i importar en JSON.
 - **Pictogrames d'ARASAAC:** 52 de bàsics inclosos (funcionen offline) i cerca en català. També es poden pujar imatges pròpies.
 - **Perfils visuals:** estàndard, alt contrast i mínim, amb mida de text configurable a la projecció i al panell.
@@ -65,13 +75,15 @@ Funcionen al panell, al mode classe i a la finestra de projecció. Són compatib
 | `→` / `AvPàg` | Activitat següent                                    |
 | `←` / `RePàg` | Activitat anterior                                   |
 | `Espai`       | Inicia o pausa el temporitzador                      |
-| `1` `2` `3`   | Mostra l'agenda, el temporitzador o Primer → Després |
+| `1` … `9` `0` | Mostra un mòdul a l'escenari (en l'ordre del panell) |
 | `B` / `.`     | Pantalla de calma                                    |
 | `F`           | Pantalla completa                                    |
 | `C`           | Mode classe (només al panell)                        |
 | `P`           | Obre la finestra de projecció (només al panell)      |
 | `?`           | Ajuda (només al panell)                              |
 | `Esc`         | Surt del mode classe                                 |
+
+Quan les **instruccions**, els **torns** o una **història social** són a l'escenari, `→` / `←` (i AvPàg/RePàg) passen el pas, el torn o la vinyeta en lloc de l'activitat.
 
 Les dreceres no s'activen mentre escrius en un camp de text.
 
@@ -81,7 +93,9 @@ Les dreceres no s'activen mentre escrius en un camp de text.
 - **ARASAAC.** L'única connexió externa és la cerca de pictogrames. Només s'hi envia la paraula cercada, sense galetes ni capçalera _Referer_. Els pictogrames triats es desen al dispositiu.
 - **Ordinadors compartits.** A _Configuració › Privadesa_ pots desactivar «Conserva la sessió en directe»: la sessió s'esborra en tancar el navegador. També hi ha un botó per esborrar totes les dades.
 - **Content Security Policy.** Impedeix carregar codi o connectar amb qualsevol altre lloc.
-- **Exportacions.** Les plantilles exportades no contenen cap dada de l'alumnat.
+- **Exportacions.** Les plantilles exportades no contenen cap dada de l'alumnat. Els noms dels torns només s'hi inclouen si el docent marca explícitament la casella (que sempre comença desmarcada).
+- **Sonòmetre.** El micròfon només s'activa amb un botó, hi ha un indicador permanent «Micròfon actiu» i s'apaga quan el sonòmetre deixa de ser a l'escenari. L'àudio es processa al navegador (`AnalyserNode`) i només se'n calcula el volum: no es grava, no es desa, no s'envia i no hi ha historial. El nivell arriba a la projecció com a valor efímer, sense passar per l'estat ni pel desat.
+- **Torns, regulació i tauler d'elecció.** Els noms dels torns només es desen en local i es poden amagar a la projecció. Cap d'aquests mòduls registra res de cap alumne.
 
 ## Instal·lació i desenvolupament
 
@@ -128,6 +142,8 @@ core/                   Nucli: store, accions, registre, sincronització, teclat
   sync/                 Sincronització entre finestres (transport intercanviable)
 modules/                Una carpeta per eina, totes amb el mateix contracte
   agenda/  timer/  first-then/  transitions/
+  steps/  expectations/  noise/  turns/  story/  regulation/  choice/
+  shared/               Lògica comuna (elements amb pictograma, contingut per activitat, escala de veu)
   index.js              Llista de mòduls actius
 components/             Interfície reutilitzable (diàlegs, pestanyes, <tea-picto>…)
 storage/                StorageAdapter: IndexedDB, localStorage i memòria
@@ -169,10 +185,10 @@ tests/unit  tests/e2e   Vitest i Playwright
 
 ```js
 AppData = {
-  schemaVersion: 1,
-  settings: { locale, profile, textScale, uiScale, motion, sound, keepSession },
-  templates: [{ id, name, config: { [mòdul]: {...} }, content: { [mòdul]: {...} }, createdAt, updatedAt }],
-  live: { templateId, name, stage, calm, config: { [mòdul]: {...} }, modules: { [mòdul]: estat } },
+  schemaVersion: 3,
+  settings: { locale, profile, textScale, uiScale, motion, sound, keepSession, layout },
+  templates: [{ id, name, config: { layout, [mòdul]: {...} }, content: { [mòdul]: {...} }, createdAt, updatedAt }],
+  live: { templateId, name, stage, calm, config: { layout, [mòdul]: {...} }, modules: { [mòdul]: estat } },
 }
 ```
 
@@ -225,7 +241,8 @@ export default {
     // reductors purs: (estat, payload, { now, live, settings }) => estat nou
     suma: (s) => ({ ...s, comptador: s.comptador + 1 }),
   },
-  keys: [{ keys: ['+'], action: 'suma', descKey: 'elMeuModul.keys.suma' }], // opcional
+  // opcional; amb when: 'stage' la drecera només val quan el mòdul és a l'escenari
+  keys: [{ keys: ['+'], action: 'suma', descKey: 'elMeuModul.keys.suma' }],
   renderControl(el, ctx) {
     // controls al panell (ctx.dispatch, ctx.t, ctx.ui…)
     const btn = document.createElement('button');
@@ -246,7 +263,8 @@ export default {
       destroy: () => el.replaceChildren(),
     };
   },
-  // Opcionals: toTemplate, sanitizeContent, sanitizeState, onTick
+  // Opcionals: toTemplate, sanitizeContent, sanitizeState, onTick,
+  // exportContent (treu dades personals en exportar), calmLaunch (botó a la pantalla de calma)
 };
 ```
 
@@ -277,29 +295,24 @@ Ja està: tindrà pestanya al panell, tecla numèrica si és d'escenari, configu
   - zones clicables de 44 px;
   - contrast AA a tots els perfils;
   - avisos de confirmació anunciats amb `aria-live`.
-- **Tests unitaris** (Vitest): store, compartició estructural, validació, migracions, reductors de tots els mòduls, avisos, sincronització, persistència, exportació/importació, dreceres i i18n.
+- **Tests unitaris** (Vitest): store, compartició estructural, validació, migracions, reductors de tots els mòduls, temporitzador lligat, franges, dreceres d'escenari, avisos, sincronització (també els valors efímers), persistència, exportació/importació sense dades personals i i18n.
 - **Tests e2e** (Playwright):
   - preparar i conduir una sessió;
   - sincronització entre el panell i la projecció;
   - ús només amb el teclat;
-  - revisió automàtica amb axe del panell, dels diàlegs, de tots els perfils i de la projecció.
+  - revisió automàtica amb axe del panell, dels diàlegs, de tots els perfils i de la projecció;
+  - agenda desplaçable, franges, temporitzador lligat, dreceres d'escenari, exportació sense noms i axe de tots els mòduls nous.
 - **Rendiment:** uns 35 kB de JavaScript comprimit, sense dependències, i cap animació costosa. Pensat per a ordinadors d'aula modestos.
 
 ## Full de ruta
 
-- **Fase 2:**
-  - instruccions pas a pas;
-  - expectatives de l'activitat (on, com parlo, què necessito, quan acabo);
-  - sonòmetre visual (local, sense gravar);
-  - torns previsibles (noms només en local, ocultables).
-- **Fase 3:**
-  - històries socials;
-  - termòmetre emocional i respiració guiada;
-  - tauler d'elecció.
+- **Fet:** Fase 1 (amb els ajustos d'agenda, temporitzador i franges), Fase 2 (instruccions, expectatives, sonòmetre, torns) i Fase 3 (històries socials, regulació, tauler d'elecció).
+- **Pendent de validar:** millores de la pantalla de calma (missatge configurable, fons més o menys fosc).
 - **Futur:**
   - control des del mòbil (`SyncTransport` amb WebRTC);
   - col·locació automàtica a la segona pantalla (Window Management API);
-  - suport RTL complet (àrab, urdú).
+  - suport RTL complet (àrab, urdú);
+  - proves amb Firefox i Safari.
 
 ## Crèdits i llicències
 

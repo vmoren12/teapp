@@ -24,11 +24,14 @@ export function sanitizeAppData(input, registry) {
   const templates = (Array.isArray(source.templates) ? source.templates : [])
     .map((tpl) => sanitizeTemplate(tpl, registry))
     .filter((tpl) => tpl !== null && !ids.has(tpl.id) && ids.add(tpl.id));
+  const settings = sanitizeSettings(source.settings);
   return {
     schemaVersion: SCHEMA_VERSION,
-    settings: sanitizeSettings(source.settings),
+    settings,
     templates: /** @type {import('./types.js').Template[]} */ (templates),
-    live: sanitizeLive(source.live, registry) ?? createLive(registry, templates[0] ?? null),
+    live:
+      sanitizeLive(source.live, registry) ??
+      createLive(registry, templates[0] ?? null, settings.layout),
   };
 }
 
@@ -81,7 +84,7 @@ export async function loadAppData({ storage, registry, t, newId, now, session = 
   if (!data.settings.keepSession) {
     data.live =
       sanitizeLive(readSessionLive(session), registry) ??
-      createLive(registry, data.templates[0] ?? null);
+      createLive(registry, data.templates[0] ?? null, data.settings.layout);
   }
   return { data, notice: null };
 }

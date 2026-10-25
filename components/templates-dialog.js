@@ -9,6 +9,7 @@ import { icon } from './icons.js';
 import {
   buildTemplatesExport,
   downloadJson,
+  hasPrivateData,
   ImportError,
   readTemplatesImport,
 } from '../core/io.js';
@@ -59,6 +60,31 @@ export function openTemplatesDialog({
     description: t('templates.description'),
     className: 'dialog--wide',
     body: (close) => {
+      // Privadesa per defecte: els noms de l'alumnat (torns) només s'exporten
+      // si el docent ho marca explícitament, i la casella sempre comença desmarcada.
+      const includePrivate = h('input', {
+        type: 'checkbox',
+        id: 'tpl-include-private',
+        'aria-describedby': 'tpl-include-private-hint',
+      });
+      const privateField = h(
+        'div',
+        { class: 'field field--check' },
+        includePrivate,
+        h('label', { for: 'tpl-include-private' }, t('templates.includePrivate')),
+        h(
+          'p',
+          { class: 'field__hint', id: 'tpl-include-private-hint' },
+          t('templates.includePrivateHint'),
+        ),
+      );
+      /** @param {Template[]} templates */
+      const exportOf = (templates) =>
+        buildTemplatesExport(templates, library, now(), {
+          registry,
+          includePrivate: includePrivate.checked,
+        });
+
       const list = h('ul', { class: 'template-list' });
       const empty = h('p', { class: 'empty' }, t('templates.empty'));
       const saveArea = h('div', { class: 'btn-row btn-row--wrap' });
@@ -150,10 +176,7 @@ export function openTemplatesDialog({
               variant: 'ghost',
               attrs: { 'aria-label': t('templates.exportNamed', { name: tpl.name }) },
               onClick: async () => {
-                downloadJson(
-                  await buildTemplatesExport([tpl], library, now()),
-                  `teapp-${slug(tpl.name)}.json`,
-                );
+                downloadJson(await exportOf([tpl]), `teapp-${slug(tpl.name)}.json`);
               },
             }),
             button({
@@ -182,6 +205,9 @@ export function openTemplatesDialog({
         const { templates, live } = store.getState();
         list.replaceChildren(...templates.map((tpl) => row(tpl, tpl.id === live.templateId)));
         empty.hidden = templates.length > 0;
+
+        privateField.hidden = !hasPrivateData(templates, registry);
+        if (privateField.hidden) includePrivate.checked = false;
 
         const current = templates.find((tpl) => tpl.id === live.templateId);
         saveArea.replaceChildren();
@@ -266,6 +292,7 @@ export function openTemplatesDialog({
           { class: 'stack', 'aria-labelledby': 'tpl-io' },
           h('h3', { id: 'tpl-io', class: 'section-title' }, t('templates.share')),
           h('p', { class: 'muted' }, t('templates.shareHelp')),
+          privateField,
           h(
             'div',
             { class: 'btn-row btn-row--wrap' },
@@ -281,10 +308,7 @@ export function openTemplatesDialog({
               icon: 'download',
               onClick: async () => {
                 const { templates } = store.getState();
-                downloadJson(
-                  await buildTemplatesExport(templates, library, now()),
-                  t('templates.fileName', { date: today() }),
-                );
+                downloadJson(await exportOf(templates), t('templates.fileName', { date: today() }));
               },
             }),
           ),

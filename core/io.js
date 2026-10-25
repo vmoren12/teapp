@@ -37,11 +37,48 @@ export function collectLocalPictos(value, found = new Map()) {
 }
 
 /**
+ * Treu de les plantilles les dades personals (p. ex. noms dels torns). Cada
+ * mòdul decideix què és personal amb `exportContent`.
  * @param {Template[]} templates
+ * @param {import('./registry.js').Registry} registry
+ * @returns {Template[]}
+ */
+export function withoutPrivateData(templates, registry) {
+  return templates.map((tpl) => {
+    const content = { ...tpl.content };
+    for (const mod of registry.all()) {
+      if (mod.exportContent && content[mod.id] !== undefined) {
+        content[mod.id] = mod.exportContent(content[mod.id]);
+      }
+    }
+    return { ...tpl, content };
+  });
+}
+
+/**
+ * Cert si alguna plantilla té dades que només s'exporten si el docent ho marca.
+ * @param {Template[]} templates
+ * @param {import('./registry.js').Registry} registry
+ */
+export function hasPrivateData(templates, registry) {
+  const stripped = withoutPrivateData(templates, registry);
+  return JSON.stringify(stripped) !== JSON.stringify(templates);
+}
+
+/**
+ * @param {Template[]} input
  * @param {import('../pictograms/library.js').PictoLibrary} library
  * @param {number} now
+ * @param {{ registry: import('./registry.js').Registry, includePrivate?: boolean }} options
+ *   Per defecte no s'exporta cap dada personal (privadesa per defecte).
  */
-export async function buildTemplatesExport(templates, library, now) {
+export async function buildTemplatesExport(
+  input,
+  library,
+  now,
+  { registry, includePrivate = false },
+) {
+  const templates = includePrivate ? input : withoutPrivateData(input, registry);
   /** @type {Record<string, { label: string, dataUrl: string }>} */
   const pictos = {};
   for (const [id, label] of collectLocalPictos(templates)) {

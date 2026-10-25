@@ -8,7 +8,14 @@
     "displayOptions": "Opcions de visualització",
     "minutesShort": "min",
     "newTab": "s'obre en una pestanya nova",
-    "skipToContent": "Salta al contingut"
+    "skipToContent": "Salta al contingut",
+    "moveUp": "Mou amunt",
+    "moveDown": "Mou avall",
+    "moveUpNamed": "Mou amunt «{name}»",
+    "moveDownNamed": "Mou avall «{name}»",
+    "deleteNamed": "Elimina «{name}»",
+    "addPicto": "Afegeix un pictograma a «{name}»",
+    "changePicto": "Canvia el pictograma de «{name}»"
   },
   "error": {
     "boot": "No s'ha pogut iniciar TEApp. Torna a carregar la pàgina."
@@ -109,10 +116,12 @@
     "finished": "Hem acabat la sessió",
     "config": {
       "view": "Què es veu a la projecció",
-      "viewHint": "«Ara i després» mostra només tres targetes i redueix la informació a la pantalla.",
+      "viewHint": "«Ara i després» mostra targetes més grans: se'n veuen unes tres, i les altres es poden veure desplaçant la fila.",
       "viewAll": "Tot el dia",
       "viewFocus": "Ara i després"
-    }
+    },
+    "dragHint": "Arrossega per canviar l'ordre (o fes servir «Mou amunt» i «Mou avall»)",
+    "scrollLabel": "Activitats del dia. Fes servir les fletxes per desplaçar-te."
   },
   "timer": {
     "name": "Temporitzador",
@@ -127,7 +136,7 @@
     "preset": "{minutes} min",
     "customLabel": "Altres minuts",
     "apply": "Aplica",
-    "fromActivity": "Temps que queda de l'activitat",
+    "fromActivity": "Lliga'l a l'activitat actual",
     "label": "Text a la pantalla (opcional)",
     "labelPlaceholder": "p. ex. Temps per acabar la fitxa",
     "minutesLeft": {
@@ -144,7 +153,12 @@
       "digitsClock": "Minuts i segons",
       "digitsNone": "Cap",
       "sound": "So suau quan s'acaba"
-    }
+    },
+    "linkedTo": "Lligat a: {name}",
+    "linkedFinished": "Lligat a l'agenda (la sessió s'ha acabat)",
+    "linkedNotice": "El temporitzador segueix el temps de l'activitat actual de l'agenda.",
+    "unlink": "Deslliga",
+    "unlinkedNotice": "El temporitzador ara té temps propi."
   },
   "firstThen": {
     "name": "Primer → Després",
@@ -249,7 +263,7 @@
     "nameLabel": "Nom de la plantilla",
     "defaultName": "Plantilla nova",
     "share": "Compartir i còpies de seguretat",
-    "shareHelp": "Exporta les plantilles en un fitxer JSON per guardar-les o passar-les a un altre docent. No contenen cap dada de l'alumnat.",
+    "shareHelp": "Exporta les plantilles en un fitxer JSON per guardar-les o passar-les a un altre docent. Per defecte no contenen cap dada de l'alumnat.",
     "import": "Importa…",
     "exportAll": "Exporta-les totes",
     "fileName": "teapp-plantilles-{date}.json",
@@ -263,7 +277,9 @@
       "format": "Aquest fitxer no és una exportació de plantilles de TEApp.",
       "newer": "El fitxer és d'una versió més nova de TEApp. Actualitza l'app.",
       "empty": "El fitxer no conté cap plantilla vàlida."
-    }
+    },
+    "includePrivate": "Inclou els noms dels torns (dades de l'alumnat)",
+    "includePrivateHint": "Només si el fitxer es queda en un lloc segur. Si no ho marques, els noms no surten mai del dispositiu."
   },
   "settings": {
     "title": "Configuració",
@@ -302,7 +318,9 @@
     "keepSession": "Conserva la sessió en directe en tancar el navegador",
     "keepSessionHint": "Desactiva-ho en ordinadors compartits: la sessió es mantindrà si recarregues la pàgina, però s'esborrarà en tancar el navegador. Les plantilles es conserven sempre.",
     "clearData": "Esborra totes les dades",
-    "clearConfirm": "S'esborraran les plantilles, la sessió, les imatges pròpies i la configuració d'aquest navegador. No es pot desfer."
+    "clearConfirm": "S'esborraran les plantilles, la sessió, les imatges pròpies i la configuració d'aquest navegador. No es pot desfer.",
+    "layoutDefault": "Franges de la projecció per a les sessions noves",
+    "layoutDefaultHint": "Cada sessió i cada plantilla poden tenir la seva mida (a «A la pantalla»). Aquí tries la que tindran les sessions noves."
   },
   "help": {
     "title": "Ajuda",
@@ -338,7 +356,13 @@
     "exit": "Surt del mode classe",
     "spaceKey": "Espai",
     "pageDown": "AvPàg",
-    "pageUp": "RePàg"
+    "pageUp": "RePàg",
+    "stepsNext": "Pas següent (quan les instruccions són a la pantalla)",
+    "stepsPrev": "Pas anterior (quan les instruccions són a la pantalla)",
+    "turnsNext": "Torn següent (quan els torns són a la pantalla)",
+    "turnsPrev": "Torn anterior (quan els torns són a la pantalla)",
+    "storyNext": "Vinyeta següent (quan la història és a la pantalla)",
+    "storyPrev": "Vinyeta anterior (quan la història és a la pantalla)"
   },
   "attribution": {
     "arasaac": "Pictogrames: Sergio Palao. Origen: ARASAAC (https://arasaac.org). Llicència: CC BY-NC-SA 4.0. Propietat: Govern d'Aragó.",
@@ -422,5 +446,365 @@
     "professor": "Professor/a",
     "companys": "Companys",
     "llibre": "Llibre"
+  },
+  "layout": {
+    "title": "Mida de les franges de la pantalla",
+    "hint": "Fes més petita la franja «Ara → Després» o la dels avisos perquè l'escenari (p. ex. el temporitzador) es vegi més gran. També pots arrossegar els tiradors de la vista prèvia o moure'ls amb les fletxes.",
+    "header": "Franja superior (Ara → Després)",
+    "footer": "Franja inferior (avisos)",
+    "reset": "Restableix",
+    "handle": {
+      "header": "Alçada de la franja superior",
+      "footer": "Alçada de la franja inferior"
+    },
+    "sizes": {
+      "hidden": "Amagada",
+      "small": "Petita",
+      "medium": "Mitjana",
+      "large": "Gran"
+    }
+  },
+  "scope": {
+    "label": "Per a quina activitat?",
+    "general": "Totes les activitats (general)",
+    "activity": "{n}. {name}",
+    "activityOwn": "{n}. {name} (pròpies)",
+    "showingGeneral": "Ara es mostra el contingut general.",
+    "showingOwn": "Ara es mostra el contingut propi de «{name}».",
+    "usesGeneral": "Aquesta activitat fa servir el contingut general.",
+    "create": "Crea'n de propis per a aquesta activitat",
+    "remove": "Torna a fer servir el general",
+    "created": "S'ha creat contingut propi per a l'activitat (a partir del general).",
+    "removed": "L'activitat torna a fer servir el contingut general."
+  },
+  "voice": {
+    "l0": "0 · Silenci",
+    "l1": "1 · Xiuxiueig",
+    "l2": "2 · Veu de parella",
+    "l3": "3 · Veu de grup",
+    "l4": "4 · Veu per a tota la classe"
+  },
+  "steps": {
+    "name": "Instruccions",
+    "help": "Divideix la tasca en passos curts amb pictograma. Quan les instruccions són a la pantalla, les fletxes i el comandament de presentació passen els passos.",
+    "listLabel": "Passos",
+    "itemLabel": "Text del pas {n}",
+    "placeholder": "p. ex. Obre el llibre",
+    "untitled": "Pas sense text",
+    "add": "Afegeix un pas",
+    "empty": "Encara no hi ha passos.",
+    "prev": "Pas anterior",
+    "next": "Pas següent",
+    "restart": "Torna al primer pas",
+    "status": "Pas {n} de {count}",
+    "statusDone": "Tots els passos fets",
+    "statusEmpty": "No hi ha passos per a l'activitat actual",
+    "count": "Pas {n} de {count}",
+    "allDone": "Tots els passos fets",
+    "projectionEmpty": "Encara no hi ha instruccions",
+    "config": {
+      "view": "Com es veuen a la projecció",
+      "viewSingle": "Un pas gran",
+      "viewList": "Tota la llista"
+    }
+  },
+  "expectations": {
+    "name": "Expectatives",
+    "help": "Fes explícit com es treballa en aquesta activitat: sempre les mateixes quatre preguntes, al mateix lloc.",
+    "questions": {
+      "where": "On treballo?",
+      "voice": "Com parlo?",
+      "need": "Què necessito?",
+      "when": "Quan acabo?"
+    },
+    "placeholders": {
+      "where": "p. ex. Al meu lloc",
+      "need": "p. ex. Llibre i llapis",
+      "when": "p. ex. Quan soni el temporitzador"
+    },
+    "voiceNone": "Sense indicar",
+    "timerLink": "Mostra el temps del temporitzador",
+    "presetsLabel": "Valors predefinits",
+    "applied": "S'han aplicat les expectatives «{name}».",
+    "clear": "Buida el tauler",
+    "projectionEmpty": "Encara no hi ha expectatives",
+    "presets": {
+      "individual": {
+        "name": "Treball individual",
+        "where": "Al meu lloc",
+        "need": "Llibre i llapis",
+        "when": "Quan s'acabi el temps"
+      },
+      "pairs": {
+        "name": "En parelles",
+        "where": "Amb la meva parella",
+        "need": "Un llibre per parella",
+        "when": "Quan s'acabi el temps"
+      },
+      "group": {
+        "name": "En grup",
+        "where": "A la taula del grup",
+        "need": "Un ordinador per grup",
+        "when": "Quan el grup hagi acabat"
+      },
+      "presentation": {
+        "name": "Exposició",
+        "where": "Al meu lloc, escoltant",
+        "need": "Pensar una pregunta",
+        "when": "Després de les preguntes"
+      }
+    }
+  },
+  "noise": {
+    "name": "Sonòmetre",
+    "help": "Mostra a la pantalla el nivell de soroll de tota l'aula amb l'escala de veu. En activar-lo, es mostra a la pantalla; en mostrar una altra cosa, el micròfon s'apaga.",
+    "privacy": "El so es processa en aquest navegador i només se'n calcula el volum. No es grava, no es desa, no s'envia enlloc i no hi ha cap historial.",
+    "start": "Activa el micròfon",
+    "stop": "Apaga el micròfon",
+    "calibrate": "Calibra (3 s de silenci)",
+    "calibrating": "Calibrant: mantingueu silenci 3 segons.",
+    "calibrated": "Calibratge fet.",
+    "micActive": "Micròfon actiu",
+    "active": "Escoltant el volum de l'aula.",
+    "activeUncalibrated": "Escoltant el volum de l'aula. Per a més precisió, calibra'l amb l'aula en silenci.",
+    "inactive": "El micròfon està apagat.",
+    "stopped": "S'ha apagat el micròfon.",
+    "error": "No s'ha pogut activar el micròfon. Comprova els permisos del navegador.",
+    "projectionTitle": "Volum de la classe",
+    "projectionOff": "El sonòmetre està apagat",
+    "limitCaption": "Ara toca: {name}",
+    "config": {
+      "limit": "Volum que toca",
+      "limitHint": "«Segons les expectatives» fa servir el «Com parlo?» de l'activitat actual.",
+      "limitAuto": "Segons les expectatives",
+      "sensitivity": "Sensibilitat",
+      "sensitivityHint": "Amb més sensibilitat, el sonòmetre puja abans.",
+      "s1": "Molt baixa",
+      "s2": "Baixa",
+      "s3": "Mitjana",
+      "s4": "Alta",
+      "s5": "Molt alta"
+    }
+  },
+  "turns": {
+    "name": "Torns",
+    "help": "Mostra qui té el torn ara i qui després, en un ordre fix i visible. Quan els torns són a la pantalla, les fletxes passen el torn.",
+    "privacy": "Els noms es desen només en aquest navegador i no s'exporten amb les plantilles si no ho marques. També pots fer servir números, colors o noms de grup.",
+    "kind": "Qui participa",
+    "kinds": {
+      "names": "Noms o grups",
+      "numbers": "Números",
+      "colors": "Colors"
+    },
+    "names": "Noms, àlies o grups (un per línia)",
+    "namesHint": "Màxim {max}.",
+    "namesPlaceholder": "Grup 1\nGrup 2\nGrup 3",
+    "count": "Quants n'hi ha",
+    "noneYet": "Encara no hi ha participants.",
+    "currentStatus": "Ara: {now} · Després: {next}",
+    "prev": "Torn anterior",
+    "next": "Torn següent",
+    "shuffle": "Barreja i anuncia l'ordre",
+    "shuffleHelp": "L'ordre barrejat es mostra sencer a la pantalla abans de començar: no hi ha sorpreses.",
+    "shuffled": "Ordre nou, ja visible a la pantalla.",
+    "listOrder": "Torna a l'ordre de la llista",
+    "orderLabel": "Ordre dels torns",
+    "goTo": "Dona el torn a {name}",
+    "now": "Ara",
+    "after": "Després",
+    "turnNumber": "Torn {n}",
+    "randomAnnounced": "Aquest és l'ordre d'avui",
+    "projectionEmpty": "Encara no hi ha torns",
+    "colors": {
+      "blue": "Blau",
+      "green": "Verd",
+      "yellow": "Groc",
+      "orange": "Taronja",
+      "purple": "Lila",
+      "pink": "Rosa",
+      "grey": "Gris",
+      "brown": "Marró"
+    },
+    "config": {
+      "hideNames": "Amaga els noms a la projecció",
+      "hideNamesHint": "Només es veu el número de torn.",
+      "showOrder": "Mostra l'ordre sencer"
+    }
+  },
+  "story": {
+    "name": "Històries socials",
+    "help": "Prepara una història breu per anticipar una situació nova o un canvi. Escriu-la per a tot el grup, amb més frases descriptives que directives.",
+    "choose": "Història",
+    "new": "Història nova",
+    "untitled": "Història sense títol",
+    "examplesLabel": "Històries d'exemple",
+    "addExample": "Afegeix-la",
+    "exampleAdded": "S'ha afegit «{name}».",
+    "title": "Títol",
+    "empty": "Encara no hi ha cap història. Crea'n una o afegeix-ne una d'exemple.",
+    "emptyPanels": "Aquesta història encara no té vinyetes.",
+    "panelsLabel": "Vinyetes",
+    "panelLabel": "Frase de la vinyeta {n}",
+    "panelPlaceholder": "p. ex. Avui ve un altre docent",
+    "panelUntitled": "Vinyeta sense text",
+    "addPanel": "Afegeix una vinyeta",
+    "kindLabel": "Tipus de frase",
+    "kinds": {
+      "descriptive": "Descriptiva",
+      "perspective": "De perspectiva",
+      "directive": "Directiva",
+      "affirmative": "Afirmativa"
+    },
+    "balanceOk": "Proporció recomanada: {others} descriptives o semblants per {directive} directives.",
+    "balanceWarn": "Hi ha massa frases directives ({directive}) per a {others} de descriptives. Es recomanen almenys dues descriptives per cada directiva.",
+    "status": "Vinyeta {n} de {count}",
+    "statusEmpty": "Sense vinyetes",
+    "prev": "Vinyeta anterior",
+    "next": "Vinyeta següent",
+    "remove": "Elimina la història",
+    "removeTitle": "Eliminar la història",
+    "removeConfirm": "Segur que vols eliminar «{name}»?",
+    "projectionEmpty": "Encara no hi ha cap història",
+    "examples": {
+      "substitute": {
+        "title": "Avui tenim un substitut",
+        "p1": "De vegades, el nostre professor o la nostra professora no pot venir a classe.",
+        "p2": "Llavors ve un altre docent. Es diu substitut o substituta.",
+        "p3": "Al principi, potser ens sembla estrany. És normal.",
+        "p4": "L'agenda del dia continua a la pissarra.",
+        "p5": "Podem escoltar el substitut i preguntar si tenim dubtes.",
+        "p6": "Un altre dia, el nostre professor o professora tornarà."
+      },
+      "fireDrill": {
+        "title": "Simulacre d'incendi",
+        "p1": "Avui farem un simulacre d'incendi. És un assaig: no hi ha cap foc.",
+        "p2": "Sonarà una alarma forta durant una estona.",
+        "p3": "El soroll pot molestar. Ens podem tapar les orelles.",
+        "p4": "Sortim en fila i caminant, amb el grup i el docent.",
+        "p5": "Esperem tots junts al lloc de trobada fins que ens diuen que podem tornar.",
+        "p6": "Després tornem a classe i continuem l'agenda."
+      },
+      "outing": {
+        "title": "Fem una sortida",
+        "p1": "Avui fem una sortida fora de l'escola.",
+        "p2": "Hi anirem amb autobús, amb tot el grup.",
+        "p3": "Potser hi haurà més gent i més soroll que a l'aula.",
+        "p4": "Ens quedem a prop del grup i del docent.",
+        "p5": "En acabar, tornarem a l'escola."
+      }
+    }
+  },
+  "regulation": {
+    "name": "Regulació",
+    "tool": "Eina",
+    "tools": {
+      "thermometer": "Termòmetre emocional",
+      "breathing": "Respiració guiada"
+    },
+    "thermometerHelp": "Escala de 3 a 5 nivells amb colors i estratègies. A la projecció és una referència per a tot el grup.",
+    "privacy": "No es registra mai l'estat de ningú: el termòmetre només mostra els nivells i què podem fer.",
+    "exampleFive": "Termòmetre d'exemple (5 nivells)",
+    "exampleThree": "Termòmetre d'exemple (3 nivells)",
+    "exampleApplied": "S'ha creat el termòmetre d'exemple.",
+    "levelsLabel": "Nivells, de més calma a més intensitat",
+    "levelName": "Nivell {n}",
+    "colorLabel": "Color del nivell",
+    "addLevel": "Afegeix un nivell",
+    "strategiesLabel": "Estratègies",
+    "strategyLabel": "Estratègia {n}",
+    "strategyPlaceholder": "p. ex. Beure aigua",
+    "strategyUntitled": "Estratègia sense text",
+    "addStrategy": "Afegeix una estratègia",
+    "colors": {
+      "blue": "Blau",
+      "green": "Verd",
+      "yellow": "Groc",
+      "orange": "Taronja",
+      "rose": "Rosa"
+    },
+    "examples": {
+      "calm": "Calma",
+      "fine": "Tot bé",
+      "restless": "Inquietud",
+      "nervous": "Molts nervis",
+      "help": "Necessito ajuda"
+    },
+    "strategies": {
+      "keepGoing": "Continuar la tasca",
+      "breathe": "Respirar a poc a poc",
+      "water": "Beure aigua",
+      "pause": "Demanar una pausa",
+      "calmCorner": "Anar al racó de calma",
+      "askAdult": "Demanar ajuda a un adult"
+    },
+    "breathingHelp": "Una forma que creix i s'encongeix al ritme triat. Amb «moviment reduït», només es mostren el text i el comptador. Es pot començar també des de la pantalla de calma.",
+    "startBreathing": "Comença la respiració",
+    "stopBreathing": "Atura la respiració",
+    "launchBreathing": "Respiració guiada",
+    "breathingPaused": "Respiració guiada",
+    "phases": {
+      "in": "Inspira",
+      "hold": "Aguanta",
+      "out": "Expira",
+      "rest": "Descansa"
+    },
+    "projectionThermometer": "Com estem? Què podem fer?",
+    "projectionEmpty": "Encara no hi ha termòmetre",
+    "config": {
+      "pattern": "Ritme",
+      "patternHint": "Segons de cada fase: inspirar, aguantar i expirar.",
+      "p46": "4-6 (inspira 4, expira 6)",
+      "p444": "4-4-4 (inspira, aguanta, expira)",
+      "p55": "5-5 (inspira 5, expira 5)",
+      "p478": "4-7-8 (inspira, aguanta, expira)",
+      "sound": "So molt suau a cada canvi de fase"
+    }
+  },
+  "choice": {
+    "name": "Tauler d'elecció",
+    "help": "Mostra de 2 a 6 opcions amb pictograma. Pots marcar l'opció que ha triat el grup o deixar el tauler només com a referència.",
+    "privacy": "No es registra qui tria què: només, si vols, l'opció del grup.",
+    "title": "Pregunta (opcional)",
+    "titlePlaceholder": "p. ex. Què fem ara?",
+    "examplesLabel": "Opcions d'exemple",
+    "useExample": "Fes-les servir",
+    "exampleApplied": "S'han posat les opcions d'exemple.",
+    "optionsLabel": "Opcions",
+    "optionLabel": "Text de l'opció {n}",
+    "optionPlaceholder": "p. ex. Llegir",
+    "optionUntitled": "Opció sense text",
+    "add": "Afegeix una opció",
+    "minNote": "Calen entre {min} i {max} opcions perquè el tauler es mostri.",
+    "chooseLabel": "Opció triada pel grup",
+    "chooseNamed": "El grup tria «{name}»",
+    "none": "Cap (només referència)",
+    "chosen": "Triat",
+    "projectionEmpty": "Encara no hi ha prou opcions",
+    "examples": {
+      "breaks": {
+        "name": "Descansos",
+        "title": "Què necessitem?"
+      },
+      "activities": {
+        "name": "Activitats",
+        "title": "Què fem ara?"
+      },
+      "materials": {
+        "name": "Materials",
+        "title": "Amb què treballem?"
+      }
+    },
+    "options": {
+      "water": "Beure aigua",
+      "toilet": "Lavabo",
+      "rest": "Descansar",
+      "calmCorner": "Racó de calma",
+      "read": "Llegir",
+      "draw": "Dibuixar",
+      "computer": "Ordinador",
+      "play": "Jugar",
+      "book": "Llibre",
+      "write": "Escriure"
+    }
   }
 }

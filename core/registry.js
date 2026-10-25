@@ -2,6 +2,8 @@
 // Registre de mòduls. El nucli no coneix cap mòdul concret: rep la llista
 // des de modules/index.js i en comprova el contracte en arrencar.
 
+import { LAYOUT_KEY } from './layout.js';
+
 /** @typedef {import('./types.js').TeappModule} TeappModule */
 
 /**
@@ -42,6 +44,9 @@ export function assertModule(candidate) {
   if (!/^[a-z][a-zA-Z0-9]*$/.test(String(mod.id))) {
     throw new Error(`Mòdul «${name}»: l'id ha de ser camelCase`);
   }
+  if (mod.id === 'core' || mod.id === LAYOUT_KEY) {
+    throw new Error(`Mòdul «${name}»: aquest id està reservat`);
+  }
   if (mod.region !== 'stage' && mod.region !== 'footer') {
     throw new Error(`Mòdul «${name}»: region ha de ser 'stage' o 'footer'`);
   }
@@ -65,11 +70,27 @@ export function createRegistry(modules, { reservedKeys = [] } = {}) {
     assertModule(candidate);
     const mod = candidate;
     if (byId.has(mod.id)) throw new Error(`Mòdul duplicat: «${mod.id}»`);
+    // Les dreceres «d'escenari» (when: 'stage') només valen quan el mòdul és a
+    // l'escenari: poden coincidir amb les generals, però no amb les del nucli.
+    /** @type {Set<string>} */
+    const stageKeys = new Set();
     for (const binding of mod.keys ?? []) {
       if (!mod.actions[binding.action]) {
         throw new Error(`Mòdul «${mod.id}»: la drecera apunta a una acció inexistent`);
       }
       for (const key of binding.keys) {
+        if (binding.when === 'stage') {
+          if (mod.region !== 'stage') {
+            throw new Error(
+              `Mòdul «${mod.id}»: només els mòduls d'escenari tenen dreceres d'escenari`,
+            );
+          }
+          if (keyOwner.get(key) === 'core' || stageKeys.has(key)) {
+            throw new Error(`La tecla «${key}» ja la fa servir «${keyOwner.get(key) ?? mod.id}»`);
+          }
+          stageKeys.add(key);
+          continue;
+        }
         const owner = keyOwner.get(key);
         if (owner) throw new Error(`La tecla «${key}» ja la fa servir «${owner}»`);
         keyOwner.set(key, mod.id);

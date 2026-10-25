@@ -2,6 +2,7 @@
 // Creació de sessions en directe a partir de plantilles, i a l'inrevés.
 
 import { cleanText, isObject, sanitizeConfig } from './schema/validate.js';
+import { LAYOUT_KEY, sanitizeLayout } from './layout.js';
 
 /** @typedef {import('./types.js').LiveSession} LiveSession */
 /** @typedef {import('./types.js').Template} Template */
@@ -27,16 +28,18 @@ export function moduleConfig(mod, stored) {
  * (la plantilla original no es modifica mai durant la classe).
  * @param {Registry} registry
  * @param {Template | null} template
+ * @param {import('./types.js').Layout} [layout]  Franges per defecte (de la configuració)
+ *   si la plantilla no en porta.
  * @returns {LiveSession}
  */
-export function createLive(registry, template) {
+export function createLive(registry, template, layout) {
   /** @type {LiveSession} */
   const live = {
     templateId: template?.id ?? null,
     name: template?.name ?? '',
     stage: registry.stage()[0]?.id ?? '',
     calm: false,
-    config: {},
+    config: { [LAYOUT_KEY]: sanitizeLayout(template?.config[LAYOUT_KEY], layout) },
     modules: {},
   };
   for (const mod of registry.all()) {
@@ -66,7 +69,7 @@ export function sanitizeLive(input, registry) {
     name: cleanText(input.name, 80),
     stage: stage ?? '',
     calm: input.calm === true,
-    config: {},
+    config: { [LAYOUT_KEY]: sanitizeLayout(config[LAYOUT_KEY]) },
     modules: {},
   };
   for (const mod of registry.all()) {

@@ -112,3 +112,18 @@ describe('agenda: dades desades', () => {
     expect(s.startedAt).toBeNull();
   });
 });
+
+describe('agenda: reordenar arrossegant', () => {
+  it('mou una activitat a una posició i l’actual continua sent la mateixa', () => {
+    /** @type {AgendaState} */
+    let s = A.start(agenda(), null, env(0));
+    s = A.next(s, null, env(1));
+    expect(currentActivity(s)?.id).toBe('b');
+    s = A.moveTo(s, { id: 'c', to: 0 }, env(2));
+    expect(s.activities.map((a) => a.id)).toEqual(['c', 'a', 'b']);
+    expect(currentActivity(s)?.id).toBe('b');
+    s = A.moveTo(s, { id: 'b', to: 99 }, env(3));
+    expect(s.activities.map((a) => a.id)).toEqual(['c', 'a', 'b']);
+    expect(A.moveTo(s, { id: 'x', to: 0 }, env(4))).toBe(s);
+  });
+});

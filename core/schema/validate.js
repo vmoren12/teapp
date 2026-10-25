@@ -3,6 +3,8 @@
 // valor (p. ex. un JSON importat) i retornen un objecte vàlid, o null si no es
 // pot recuperar. Mai no confiem en dades externes sense passar per aquí.
 
+import { defaultLayout, LAYOUT_KEY, sanitizeLayout } from '../layout.js';
+
 /** @typedef {import('../types.js').Settings} Settings */
 /** @typedef {import('../types.js').PictoRef} PictoRef */
 /** @typedef {import('../types.js').ConfigField} ConfigField */
@@ -59,6 +61,7 @@ export function defaultSettings() {
     motion: 'system',
     sound: { enabled: true, volume: 0.3 },
     keepSession: true,
+    layout: defaultLayout(),
   };
 }
 
@@ -84,6 +87,7 @@ export function sanitizeSettings(input) {
           : d.sound.volume,
     },
     keepSession: typeof input.keepSession === 'boolean' ? input.keepSession : d.keepSession,
+    layout: sanitizeLayout(input.layout),
   };
 }
 
@@ -163,6 +167,8 @@ export function sanitizeTemplate(input, registry) {
     createdAt: cleanText(input.createdAt, 40) || new Date(0).toISOString(),
     updatedAt: cleanText(input.updatedAt, 40) || new Date(0).toISOString(),
   };
+  if (config[LAYOUT_KEY] !== undefined)
+    template.config[LAYOUT_KEY] = sanitizeLayout(config[LAYOUT_KEY]);
   for (const mod of registry.all()) {
     if (config[mod.id] !== undefined) {
       template.config[mod.id] = sanitizeConfig(mod.configSchema, config[mod.id], mod.defaults());

@@ -68,11 +68,16 @@ async function boot() {
     return { settings, live };
   };
 
-  /** @param {'warning' | 'end'} kind */
+  /** @param {'warning' | 'end' | 'soft'} kind */
   const playSound = (kind) => {
     const { sound } = store.getState().settings;
     if (sound.enabled) playChime(kind, sound.volume);
   };
+
+  // Valors efímers (p. ex. el nivell del sonòmetre): van directament a les vistes
+  // de projecció, sense passar pel store ni desar-se enlloc.
+  /** @type {(moduleId: string, value: unknown) => void} */
+  let publish = () => {};
 
   /** @type {import('./types.js').ControlUi} */
   const ui = {
@@ -81,6 +86,7 @@ async function boot() {
     announce,
     newId,
     playSound,
+    publish: (moduleId, value) => publish(moduleId, value),
   };
 
   /** @type {Map<string, ModuleContext>} */
@@ -156,6 +162,10 @@ async function boot() {
     onDuplicateHost: () => shell.showBanner('duplicate', t('banner.duplicate')),
   });
   shell.setPeers(0);
+  publish = (moduleId, value) => {
+    shell.transient(moduleId, value);
+    host.sendTransient(moduleId, value);
+  };
 
   store.subscribe((state, prev) => {
     if (state.settings !== prev.settings) applyAppearance(state.settings);
@@ -183,6 +193,7 @@ async function boot() {
   attachKeyboard({
     shortcuts,
     where: 'control',
+    getStage: () => store.getState().live.stage,
     onAction: dispatch,
     onCommand: (command) => shell.runCommand(command),
   });

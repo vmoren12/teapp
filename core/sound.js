@@ -43,7 +43,9 @@ function tone(ctx, frequency, start, volume) {
 }
 
 /**
- * @param {'warning' | 'end'} kind  'warning' = un to; 'end' = dos tons ascendents.
+ * @param {'warning' | 'end' | 'soft'} kind
+ *   'warning' = un to; 'end' = dos tons ascendents; 'soft' = un to greu i molt fluix
+ *   (canvis de fase de la respiració guiada).
  * @param {number} volume           0–1
  */
 export function playChime(kind, volume) {
@@ -55,6 +57,8 @@ export function playChime(kind, volume) {
   if (kind === 'end') {
     tone(ctx, 523.25, t0, level); // do5
     tone(ctx, 659.25, t0 + 0.45, level); // mi5
+  } else if (kind === 'soft') {
+    tone(ctx, 392, t0, level * 0.5); // sol4
   } else {
     tone(ctx, 587.33, t0, level); // re5
   }

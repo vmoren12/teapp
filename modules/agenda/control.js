@@ -160,7 +160,19 @@ export function renderAgendaControl(el, ctx, schema) {
     /** @type {string} */
     let pictoKey = '';
 
-    const num = h('span', { class: 'agenda-row__num', 'aria-hidden': 'true' });
+    // El número fa de nansa per reordenar arrossegant. Només és per al punter:
+    // amb el teclat (o un sol clic) es fan servir els botons «Mou amunt/avall».
+    const numText = h('span');
+    const num = h(
+      'span',
+      {
+        class: 'agenda-row__num agenda-row__handle',
+        'aria-hidden': 'true',
+        title: t('agenda.dragHint'),
+      },
+      icon('grip'),
+      numText,
+    );
     const badge = h('span', { class: 'agenda-row__badge' });
     const pictoBtn = h('button', { type: 'button', class: 'picto-btn' });
     const labelInput = h('input', {
@@ -227,6 +239,36 @@ export function renderAgendaControl(el, ctx, schema) {
     const patch = (/** @type {Partial<Activity>} */ p) =>
       dispatch({ type: 'update', payload: { id: current.id, patch: p } });
 
+    num.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault();
+      num.setPointerCapture(event.pointerId);
+      li.dataset.dragging = 'true';
+      /** @param {PointerEvent} e */
+      const move = (e) => {
+        // La posició nova és la de la fila que hi ha sota el punter.
+        const others = [...list.children];
+        let to = others.length - 1;
+        for (let i = 0; i < others.length; i++) {
+          const rect = others[i].getBoundingClientRect();
+          if (e.clientY < rect.top + rect.height / 2) {
+            to = i;
+            break;
+          }
+        }
+        if (to !== index) dispatch({ type: 'moveTo', payload: { id: current.id, to } });
+      };
+      const up = () => {
+        delete li.dataset.dragging;
+        num.removeEventListener('pointermove', move);
+        num.removeEventListener('pointerup', up);
+        num.removeEventListener('pointercancel', up);
+      };
+      num.addEventListener('pointermove', move);
+      num.addEventListener('pointerup', up);
+      num.addEventListener('pointercancel', up);
+    });
+
     labelInput.addEventListener('input', () => patch({ label: labelInput.value }));
     durInput.addEventListener('change', () => {
       const n = Number(durInput.value);
@@ -285,7 +327,7 @@ export function renderAgendaControl(el, ctx, schema) {
         index = i;
         li.dataset.status = rowStatus;
         li.dataset.kind = a.kind;
-        num.textContent = String(i + 1);
+        numText.textContent = String(i + 1);
         badge.textContent =
           rowStatus === 'now' ? t('status.now') : rowStatus === 'done' ? t('status.done') : '';
         badge.hidden = badge.textContent === '';

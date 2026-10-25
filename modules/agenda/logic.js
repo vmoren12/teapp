@@ -175,4 +175,18 @@ export const agendaActions = {
     else if (to === s.currentIndex) currentIndex = from;
     return { ...s, activities, currentIndex };
   },
+  /** Mou una activitat a una posició concreta (reordenar arrossegant). */
+  moveTo: (/** @type {AgendaState} */ s, p) => {
+    const from = s.activities.findIndex((a) => a.id === p?.id);
+    if (from < 0 || !Number.isInteger(p?.to)) return s;
+    const to = clamp(p.to, 0, s.activities.length - 1);
+    if (to === from) return s;
+    const current = s.activities[s.currentIndex];
+    const activities = s.activities.slice();
+    const [moved] = activities.splice(from, 1);
+    activities.splice(to, 0, moved);
+    // L'activitat actual continua sent la mateixa (si la sessió no ha acabat).
+    const currentIndex = current ? activities.indexOf(current) : s.currentIndex;
+    return { ...s, activities, currentIndex };
+  },
 };

@@ -2,6 +2,29 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.2.0] - 2026-10-25
+
+### Afegit (Fase 2)
+
+- **Instruccions pas a pas:** un pas gran o la llista, amb els fets marcats. Passos generals o propis de cada activitat, que es carreguen sols quan l'activitat comença. Les fletxes passen els passos quan són a l'escenari.
+- **Expectatives de l'activitat:** on treballo, com parlo (escala de veu 0–4), què necessito i quan acabo (amb el temps del temporitzador). Valors predefinits: individual, parelles, grup i exposició.
+- **Sonòmetre de grup:** volum de tota l'aula amb l'escala de veu, calibratge i sensibilitat. Només es calcula el volum al navegador; indicador «Micròfon actiu» i apagada automàtica.
+- **Torns previsibles:** noms, números o colors; ordre de la llista o aleatori anunciat; opció d'amagar els noms.
+
+### Afegit (Fase 3)
+
+- **Històries socials:** vinyetes amb tipus de frase (pautes de Carol Gray) i tres històries d'exemple.
+- **Regulació:** termòmetre emocional (3–5 nivells amb estratègies) i respiració guiada (4-6, 4-4-4, 5-5, 4-7-8), sense so per defecte i amb alternativa estàtica per a «moviment reduït». Es pot llançar des de la pantalla de calma.
+- **Tauler d'elecció:** de 2 a 6 opcions, amb l'opció del grup marcada o només com a referència.
+
+### Canviat (ajustos de la Fase 1)
+
+- **Agenda:** una sola fila desplaçable amb el dit, el ratolí i el teclat, amb indicadors discrets i retorn a l'activitat actual. Reordenar arrossegant al panell.
+- **Temporitzador:** es pot lligar a l'activitat actual de l'agenda i en segueix tots els canvis.
+- **Projecció:** alçada configurable de les franges superior i inferior.
+- **Exportacions:** les dades personals (noms dels torns) només s'exporten amb una casella explícita.
+- **Dades:** versió 3 del model (migracions 1→2 i 2→3).
+
 ## [0.1.0] - 2026-10-25
 
 ### Afegit (Fase 1)

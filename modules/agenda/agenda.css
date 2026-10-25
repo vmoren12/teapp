@@ -1,20 +1,103 @@
 @layer modules {
+  /* Una sola fila desplaçable. Les mides es mesuren respecte de l'escenari
+     (cqh/cqw), així les targetes aprofiten l'espai que deixen les franges. */
+  .pj-agenda {
+    --card-w: clamp(6.2em, 34cqh, 11em);
+    --picto-h: min(calc(var(--card-w) * 0.62), 40cqh);
+  }
+
+  .pj-agenda__strip {
+    position: relative;
+    min-height: 0;
+  }
+
+  .pj-agenda__scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    /* El dit desplaça la fila; el navegador no fa zoom ni desplaça la pàgina. */
+    touch-action: pan-x;
+    border-radius: var(--radius-l);
+    cursor: grab;
+  }
+
+  .pj-agenda__scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pj-agenda__strip[data-dragging] .pj-agenda__scroller {
+    scroll-snap-type: none;
+    cursor: grabbing;
+  }
+
   .pj-agenda__list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.2em), 1fr));
+    display: flex;
     align-items: stretch;
     gap: 0.6em;
-    padding: 0;
+    width: max-content;
+    min-width: 100%;
+    padding: 0.25em 0.4em;
     margin: 0;
     list-style: none;
   }
 
+  /* Indicadors de «n'hi ha més»: un esvaïment suau a la vora i una fletxa
+     estàtica. Sense parpelleig ni moviment. */
+  .pj-agenda__more {
+    position: absolute;
+    inset-block: 0;
+    display: grid;
+    place-items: center;
+    width: 2.2em;
+    opacity: 0;
+    pointer-events: none;
+    color: var(--c-text-muted);
+    transition: opacity var(--dur) ease-out;
+  }
+
+  .pj-agenda__more .icon {
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  .pj-agenda__more--start {
+    inset-inline-start: 0;
+    background: linear-gradient(to right, var(--c-bg), transparent);
+  }
+
+  .pj-agenda__more--end {
+    inset-inline-end: 0;
+    background: linear-gradient(to left, var(--c-bg), transparent);
+  }
+
+  [dir='rtl'] .pj-agenda__more--start {
+    background: linear-gradient(to left, var(--c-bg), transparent);
+  }
+
+  [dir='rtl'] .pj-agenda__more--end {
+    background: linear-gradient(to right, var(--c-bg), transparent);
+  }
+
+  [dir='rtl'] .pj-agenda__more .icon {
+    transform: scaleX(-1);
+  }
+
+  .pj-agenda__strip[data-more-start='true'] .pj-agenda__more--start,
+  .pj-agenda__strip[data-more-end='true'] .pj-agenda__more--end {
+    opacity: 1;
+  }
+
   .pj-card {
     display: flex;
+    flex: 1 0 var(--card-w);
     flex-direction: column;
     align-items: center;
     gap: 0.35em;
     min-width: 0;
+    max-width: calc(var(--card-w) * 1.6);
+    scroll-snap-align: center;
     padding: 0.45em 0.45em 0.6em;
     border: var(--border-strong) solid var(--c-border);
     border-radius: var(--radius-l);
@@ -88,7 +171,7 @@
 
   .pj-card__picto {
     width: 100%;
-    height: 4.6em;
+    height: var(--picto-h);
   }
 
   .pj-card__label {
@@ -98,34 +181,32 @@
     hyphens: auto;
   }
 
-  /* Vista «ara i després»: tres targetes, l'actual més gran. */
+  /* Vista «ara i després»: targetes grans (en caben unes tres) i l'actual,
+     més gran encara. Les altres es poden veure desplaçant la fila. */
+  .pj-agenda[data-view='focus'] {
+    --card-w: clamp(7em, calc((100cqw - 3em) / 3.4), 15em);
+    --picto-h: min(calc(var(--card-w) * 0.6), 46cqh);
+  }
+
   .pj-agenda[data-view='focus'] .pj-agenda__list {
-    display: flex;
-    justify-content: center;
     align-items: center;
     gap: 1em;
   }
 
   .pj-agenda[data-view='focus'] .pj-card {
-    flex: 0 1 8em;
+    flex-grow: 0;
   }
 
   .pj-agenda[data-view='focus'] .pj-card[data-status='now'] {
-    flex-basis: 12em;
-    font-size: 1.25em;
-  }
-
-  .pj-agenda[data-view='focus'] .pj-card__picto {
-    height: 6em;
+    font-size: 1.2em;
   }
 
   :root[data-profile='minimal'] .pj-agenda .pj-agenda__list {
-    display: flex;
     justify-content: center;
     gap: 1em;
   }
 
   :root[data-profile='minimal'] .pj-agenda .pj-card {
-    flex: 0 1 11em;
+    flex: 0 0 var(--card-w);
   }
 }

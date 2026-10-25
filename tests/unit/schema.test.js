@@ -1,6 +1,6 @@
 // @ts-check
 import { describe, expect, it } from 'vitest';
-import { migrate, MigrationError } from '../../core/schema/migrations.js';
+import { migrate, MigrationError, SCHEMA_VERSION } from '../../core/schema/migrations.js';
 import {
   defaultSettings,
   sanitizeConfig,
@@ -13,8 +13,25 @@ import { registry } from './helpers.js';
 
 describe('migrate', () => {
   it('no toca dades de la versió actual', () => {
-    const data = { schemaVersion: 1, x: 1 };
+    const data = { schemaVersion: SCHEMA_VERSION, x: 1 };
     expect(migrate(data)).toEqual(data);
+  });
+
+  it('v1 → v2: el temporitzador no està lligat a l’agenda', () => {
+    const out = migrate({ schemaVersion: 1, live: { modules: { timer: { totalMs: 60000 } } } });
+    expect(out.live.modules.timer).toEqual({ totalMs: 60000, linkedActivityId: null });
+  });
+
+  it('v2 → v3: franges de la mida de sempre, a la sessió i a la configuració', () => {
+    const out = migrate({ schemaVersion: 2, settings: { locale: 'es' }, live: { config: {} } });
+    expect(out.schemaVersion).toBe(3);
+    expect(out.settings).toEqual({ locale: 'es', layout: { header: 'medium', footer: 'medium' } });
+    expect(out.live.config.layout).toEqual({ header: 'medium', footer: 'medium' });
+  });
+
+  it('també migra fitxers exportats (sense live ni settings)', () => {
+    const file = { schemaVersion: 1, app: 'teapp', kind: 'templates', templates: [] };
+    expect(migrate(file)).toEqual({ ...file, schemaVersion: SCHEMA_VERSION });
   });
 
   it('aplica les migracions en ordre', () => {
@@ -136,11 +153,13 @@ describe('sanitizeTemplate i sanitizeAppData', () => {
     expect(data.templates.map((t) => t.id)).toEqual(['ok']);
     expect(data.settings).toEqual(defaultSettings());
     expect(data.live.stage).toBe('agenda');
-    expect(Object.keys(data.live.modules).sort()).toEqual([
-      'agenda',
-      'firstThen',
-      'timer',
-      'transitions',
-    ]);
+    expect(Object.keys(data.live.modules).sort()).toEqual(
+      registry
+        .all()
+        .map((m) => m.id)
+        .sort(),
+    );
+    expect(Object.keys(data.live.modules)).toContain('turns');
+    expect(data.live.config.layout).toEqual({ header: 'medium', footer: 'medium' });
   });
 });

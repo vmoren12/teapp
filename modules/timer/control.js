@@ -4,8 +4,9 @@
 import { h } from '../../core/dom.js';
 import { formatClock } from '../../core/clock.js';
 import { button, setButton } from '../../components/button.js';
+import { icon } from '../../components/icons.js';
 import { createConfigForm } from '../../components/config-form.js';
-import { isRunning, PRESETS, remaining } from './logic.js';
+import { isLinked, isRunning, PRESETS, remaining, timerView } from './logic.js';
 import { currentActivity, getAgenda } from '../agenda/selectors.js';
 
 /** @typedef {import('./logic.js').TimerState} TimerState */
@@ -75,9 +76,31 @@ export function renderTimerControl(el, ctx, schema) {
 
   const fromActivityBtn = button({
     label: t('timer.fromActivity'),
-    icon: 'list',
-    onClick: () => dispatch({ type: 'fromActivity' }),
+    icon: 'link',
+    onClick: () => {
+      dispatch({ type: 'fromActivity' });
+      ctx.ui?.announce(t('timer.linkedNotice'));
+    },
   });
+
+  // Estat del vincle amb l'agenda: «Lligat a: …» i botó per deslligar-lo.
+  const linkText = h('p', { class: 'timer-link__text' });
+  const unlinkBtn = button({
+    label: t('timer.unlink'),
+    icon: 'unlink',
+    variant: 'ghost',
+    onClick: () => {
+      dispatch({ type: 'unlink' });
+      ctx.ui?.announce(t('timer.unlinkedNotice'));
+    },
+  });
+  const linkBox = h(
+    'div',
+    { class: 'timer-link', role: 'status' },
+    h('span', { class: 'timer-link__icon', 'aria-hidden': 'true' }, icon('link')),
+    linkText,
+    unlinkBtn,
+  );
 
   const labelInput = h('input', {
     type: 'text',
@@ -100,6 +123,7 @@ export function renderTimerControl(el, ctx, schema) {
 
   el.append(
     h('div', { class: 'timer-readout', 'aria-live': 'off' }, clock, state),
+    linkBox,
     h('div', { class: 'btn-row' }, toggleBtn, resetBtn, addBtn),
     h(
       'fieldset',
@@ -123,7 +147,7 @@ export function renderTimerControl(el, ctx, schema) {
     ),
   );
 
-  /** @type {TimerState | null} */
+  /** @type {import('./logic.js').TimerView | null} */
   let timer = null;
   let lastClock = '';
   let lastRunning = /** @type {boolean | null} */ (null);
@@ -151,13 +175,25 @@ export function renderTimerControl(el, ctx, schema) {
 
   return {
     update(shared) {
-      timer = shared.live.modules.timer ?? null;
+      /** @type {TimerState | undefined} */
+      const s = shared.live.modules.timer;
+      timer = s ? timerView(s, shared.live) : null;
       configForm.update(shared.live.config.timer ?? {});
-      if (timer && document.activeElement !== labelInput) labelInput.value = timer.label;
+      if (s && document.activeElement !== labelInput) labelInput.value = s.label;
       if (timer && document.activeElement !== custom)
         custom.value = String(Math.round(timer.totalMs / 60000) || 1);
       const agenda = getAgenda(shared.live);
-      fromActivityBtn.disabled = !agenda || !currentActivity(agenda);
+      const linked = s ? isLinked(s) : false;
+      linkBox.hidden = !linked;
+      if (linked) {
+        const name = timer?.activity?.label || t('agenda.untitled');
+        linkText.textContent = timer?.activity
+          ? t('timer.linkedTo', { name })
+          : t('timer.linkedFinished');
+      }
+      fromActivityBtn.disabled = !agenda || !currentActivity(agenda) || linked;
+      labelInput.placeholder =
+        linked && timer?.activity ? timer.activity.label : t('timer.labelPlaceholder');
       lastRunning = null;
       tick(ctx.now());
     },

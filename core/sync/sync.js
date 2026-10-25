@@ -6,6 +6,8 @@
 //   rèplica → hello      Demana l'estat complet (en obrir-se).
 //   amfitrió → state     Estat complet + revisió. S'envia a cada canvi.
 //   amfitrió → ping      Cada pocs segons; la rèplica respon pong.
+//   amfitrió → transient Valor efímer d'un mòdul (p. ex. el nivell del sonòmetre).
+//                        No forma part de l'estat: no es desa ni té revisió.
 //   rèplica → command    Una acció (p. ex. tecla premuda a la projecció).
 //   rèplica → bye        En tancar-se.
 //   amfitrió → host-hello / host-present / host-bye   Detecta panells duplicats.
@@ -26,6 +28,7 @@ import { newId } from '../id.js';
  *   | { type: 'command', id: string, action: Action }
  *   | { type: 'state', hostId: string, rev: number, state: SharedState }
  *   | { type: 'ping', hostId: string }
+ *   | { type: 'transient', hostId: string, module: string, value: unknown }
  *   | { type: 'host-hello', hostId: string }
  *   | { type: 'host-present', hostId: string }
  *   | { type: 'host-bye', hostId: string }} SyncMessage
@@ -114,6 +117,8 @@ export function startHost({
     hostId,
     /** Envia l'estat actual a totes les rèpliques. */
     broadcast,
+    /** @param {string} module @param {unknown} value */
+    sendTransient: (module, value) => transport.send({ type: 'transient', hostId, module, value }),
     peerCount: () => peers.size,
     stop() {
       clearInterval(timer);
@@ -127,10 +132,16 @@ export function startHost({
  * @param {{
  *   transport: SyncTransport,
  *   onState: (state: SharedState) => void,
+ *   onTransient?: (module: string, value: unknown) => void,
  *   onHostGone?: () => void,
  * }} options
  */
-export function startReplica({ transport, onState, onHostGone = () => {} }) {
+export function startReplica({
+  transport,
+  onState,
+  onTransient = () => {},
+  onHostGone = () => {},
+}) {
   const id = newId();
   /** @type {string | null} */
   let hostId = null;
@@ -148,6 +159,9 @@ export function startReplica({ transport, onState, onHostGone = () => {} }) {
           lastRev = msg.rev;
           onState(msg.state);
         }
+        break;
+      case 'transient':
+        if (msg.hostId === hostId) onTransient(msg.module, msg.value);
         break;
       case 'ping':
         transport.send({ type: 'pong', id });

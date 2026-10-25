@@ -9,6 +9,8 @@ import { icon } from './icons.js';
 import { createTabs } from './tabs.js';
 import { mountProjection } from './projection-shell.js';
 import { hideIdleCursor } from './idle-cursor.js';
+import { createLayoutControls } from './layout-controls.js';
+import { STAGE_KEYS } from '../core/keyboard.js';
 
 /** @typedef {import('../core/types.js').SharedState} SharedState */
 /** @typedef {import('../core/types.js').ModuleContext} ModuleContext */
@@ -105,6 +107,14 @@ export function mountControlShell(root, deps) {
     ctxFor: deps.viewCtxFor,
     mode: 'preview',
   });
+  const layoutControls = createLayoutControls({
+    t,
+    setLayout: (patch) => core('setLayout', { patch }),
+    resetLayout: () => core('resetLayout'),
+    previewEl: preview,
+    projectionRoot: () => previewView.root,
+  });
+  const previewWrap = h('div', { class: 'preview-wrap' }, preview, layoutControls.handles);
 
   const stageModules = registry.stage();
   const stageInputs = stageModules.map((mod, i) => {
@@ -119,7 +129,7 @@ export function mountControlShell(root, deps) {
         input,
         icon(mod.icon),
         h('span', null, t(mod.nameKey)),
-        h('kbd', { 'aria-hidden': 'true' }, String(i + 1)),
+        STAGE_KEYS[i] ? h('kbd', { 'aria-hidden': 'true' }, STAGE_KEYS[i]) : null,
       ),
     };
   });
@@ -130,6 +140,22 @@ export function mountControlShell(root, deps) {
     className: 'btn--calm',
     onClick: () => core('toggleCalm'),
   });
+  // Accions que es poden llançar des de la pantalla de calma (p. ex. la respiració guiada).
+  const calmLaunchers = registry
+    .all()
+    .filter((mod) => mod.calmLaunch && mod.region === 'stage')
+    .map((mod) => {
+      const launch = /** @type {NonNullable<typeof mod.calmLaunch>} */ (mod.calmLaunch);
+      return button({
+        label: t(launch.labelKey),
+        icon: launch.icon,
+        className: 'btn--calm-launch',
+        onClick: () => {
+          dispatch({ module: mod.id, type: launch.action });
+          core('setStage', { id: mod.id });
+        },
+      });
+    });
   const stageSwitch = h(
     'div',
     { class: 'stage-switch' },
@@ -139,7 +165,7 @@ export function mountControlShell(root, deps) {
       h('legend', { class: 'sr-only' }, t('stage.choose')),
       stageInputs.map((s) => s.el),
     ),
-    calmBtn,
+    h('div', { class: 'btn-row btn-row--wrap' }, calmBtn, calmLaunchers),
   );
 
   // Pestanyes amb els controls dels mòduls (tots menys l'agenda).
@@ -185,8 +211,9 @@ export function mountControlShell(root, deps) {
       h('h2', { class: 'pane__title', id: 'stage-title' }, icon('screen'), t('stage.title')),
       connection,
     ),
-    preview,
+    previewWrap,
     stageSwitch,
+    layoutControls.panel,
     tabs.el,
   );
 
@@ -273,6 +300,8 @@ export function mountControlShell(root, deps) {
       document.title = state.live.name ? `${state.live.name} · ${APP_NAME}` : APP_NAME;
       for (const s of stageInputs) s.input.checked = s.id === state.live.stage;
       calmBtn.setAttribute('aria-pressed', String(state.live.calm));
+      for (const launcher of calmLaunchers) launcher.hidden = !state.live.calm;
+      layoutControls.update(state);
       for (const { id, showBtn } of tabHeaders) {
         if (!showBtn) continue;
         const showing = state.live.stage === id && !state.live.calm;
@@ -290,6 +319,11 @@ export function mountControlShell(root, deps) {
       previewView.tick(now);
       classMode?.view.tick(now);
       for (const { view } of controlViews) view.tick?.(now);
+    },
+    /** @param {string} moduleId @param {unknown} value */
+    transient(moduleId, value) {
+      previewView.transient(moduleId, value);
+      classMode?.view.transient(moduleId, value);
     },
     /** @param {number} peers */
     setPeers(peers) {

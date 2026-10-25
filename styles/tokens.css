@@ -49,6 +49,11 @@
   --c-calm-shape: #cbdad4;
   --c-calm-text: #34463f;
 
+  /* Sonòmetre: zona permesa i to «massa fort» (taronja apagat, mai vermell viu). */
+  --c-noise-ok: #e3efe6;
+  --c-noise-high: #a8571c;
+  --c-noise-high-soft: #f5e3d2;
+
   /* Temporitzador */
   --c-timer: #3a7896;
   --c-timer-track: #e3ded5;

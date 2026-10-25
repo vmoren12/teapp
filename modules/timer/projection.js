@@ -6,7 +6,7 @@
 
 import { h } from '../../core/dom.js';
 import { formatClock, minutesLeft } from '../../core/clock.js';
-import { isRunning, progress, remaining } from './logic.js';
+import { isRunning, progress, remaining, timerView } from './logic.js';
 
 /** @typedef {import('./logic.js').TimerState} TimerState */
 
@@ -29,7 +29,7 @@ export function renderTimerProjection(el, ctx) {
   const note = h('p', { class: 'pj-timer__note' });
   el.append(label, h('div', { class: 'pj-timer__visual' }, disc, bar), digits, note);
 
-  /** @type {TimerState | null} */
+  /** @type {import('./logic.js').TimerView | null} */
   let timer = null;
   /** @type {Record<string, unknown>} */
   let config = {};
@@ -66,11 +66,15 @@ export function renderTimerProjection(el, ctx) {
 
   return {
     update(state) {
-      timer = state.live.modules.timer ?? null;
+      /** @type {TimerState | undefined} */
+      const s = state.live.modules.timer;
+      timer = s ? timerView(s, state.live) : null;
       config = state.live.config.timer ?? {};
       el.dataset.shape = String(config.shape ?? 'disc');
-      label.textContent = timer?.label ?? '';
-      label.hidden = !timer?.label;
+      // Lligat i sense text propi: es mostra el nom de l'activitat (i el segueix).
+      const text = s?.label || timer?.activity?.label || '';
+      label.textContent = text;
+      label.hidden = !text;
       tick(ctx.now());
     },
     tick,

@@ -90,6 +90,10 @@
   color: var(--c-change);
 }
 
+.btn--calm-launch {
+  border-color: var(--c-calm-text);
+}
+
 .btn--calm[aria-pressed='true'] {
   background: var(--c-calm-text);
   border-color: var(--c-calm-text);
@@ -137,6 +141,16 @@ select.input {
   width: 5.5rem;
 }
 
+.input--small {
+  width: auto;
+  min-width: 9rem;
+}
+
+textarea.input {
+  padding-block: var(--space-2);
+  line-height: var(--lh);
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -168,6 +182,12 @@ select.input {
   flex-flow: row wrap;
   align-items: center;
   gap: var(--space-2) var(--space-3);
+}
+
+/* El text es queda al costat de la casella encara que hagi de fer dues línies. */
+.field--check > label {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .field--check .field__hint {
@@ -473,6 +493,112 @@ tea-picto[data-missing] {
 .picto-btn .icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+/* ---------- Editor de llistes (passos, vinyetes, opcions, estratègies) ---------- */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.item-list:empty {
+  display: none;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 1.5rem 3.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border) solid var(--c-border);
+  border-inline-start-width: 6px;
+  border-radius: var(--radius-m);
+  background: var(--c-surface-2);
+}
+
+.item-row[data-status='now'] {
+  border-color: var(--c-accent);
+  background: var(--c-accent-soft);
+}
+
+.item-row[data-status='done'] {
+  background: var(--c-done-bg);
+}
+
+.item-row__num {
+  color: var(--c-text-muted);
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-row__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.item-row__actions {
+  display: flex;
+  gap: 2px;
+}
+
+.item-row__actions .btn--icon {
+  width: 2.25rem;
+  min-height: 2.25rem;
+}
+
+@media (max-width: 700px) {
+  .item-row {
+    grid-template-columns: 1.5rem 3.5rem minmax(0, 1fr);
+  }
+
+  .item-row__actions {
+    grid-column: 2 / -1;
+  }
+}
+
+/* ---------- Casella amb pictograma i text (expectatives) ---------- */
+.card-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border) solid var(--c-border);
+  border-radius: var(--radius-m);
+  background: var(--c-surface-2);
+}
+
+.card-editor__title {
+  font-weight: 700;
+}
+
+.card-editor__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.card-editor .picto-btn--large {
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+/* ---------- Selector «per a quina activitat» ---------- */
+.scope {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: var(--border) solid var(--c-border);
+  border-radius: var(--radius-m);
+  background: var(--c-surface-2);
 }
 
 /* ---------- Selector de pictogrames ---------- */

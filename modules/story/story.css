@@ -1,0 +1,69 @@
+@layer modules {
+  /* ---------- Projecció ---------- */
+  .pj-story {
+    align-items: center;
+    gap: 0.5em;
+    text-align: center;
+  }
+
+  .pj-story__title {
+    font-size: 1em;
+    color: var(--c-text-muted);
+  }
+
+  .pj-story__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 0;
+    width: min(100%, 36em);
+    padding: 0.6em 1.2em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: var(--c-surface);
+  }
+
+  .pj-story__picto {
+    width: clamp(4em, calc(100cqh - 9em), 55cqw);
+    aspect-ratio: 1;
+  }
+
+  .pj-story__text {
+    font-size: 1.35em;
+    font-weight: 700;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .pj-story__dots {
+    display: flex;
+    gap: 0.4em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pj-story__dots li {
+    width: 0.6em;
+    height: 0.6em;
+    border: 0.1em solid var(--c-border-strong);
+    border-radius: 50%;
+  }
+
+  .pj-story__dots li[data-status='done'] {
+    background: var(--c-border-strong);
+  }
+
+  .pj-story__dots li[data-status='now'] {
+    border-color: var(--c-now);
+    background: var(--c-now);
+    scale: 1.3;
+  }
+
+  /* ---------- Panell de control ---------- */
+  .story-balance[data-balanced='false'] {
+    color: var(--c-warn-text);
+    font-weight: 700;
+  }
+}

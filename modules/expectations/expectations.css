@@ -1,0 +1,109 @@
+@layer modules {
+  /* ---------- Projecció ---------- */
+  .pj-expect__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 0.6em;
+    height: 100%;
+  }
+
+  .pj-expect__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    min-height: 0;
+    padding: 0.4em 0.6em;
+    overflow: hidden;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: var(--c-surface);
+    text-align: center;
+  }
+
+  .pj-expect__question {
+    font-size: 0.85em;
+    color: var(--c-text-muted);
+  }
+
+  .pj-expect__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    min-height: 0;
+  }
+
+  .pj-expect__picto {
+    width: clamp(2em, calc(50cqh - 6em), 7em);
+    aspect-ratio: 1;
+  }
+
+  .pj-expect__answer {
+    font-size: 1.05em;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .pj-expect__timer {
+    font-weight: 700;
+    color: var(--c-now);
+  }
+
+  /* Escala de veu 0–4: cinc graons que creixen. El nivell que toca es destaca
+     amb vora i mida, a més del color. */
+  .pj-voice {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.3em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pj-voice li {
+    display: grid;
+    place-items: end center;
+    width: 1.6em;
+    padding-block-end: 0.1em;
+    border: 0.08em solid var(--c-border-strong);
+    border-radius: var(--radius-s);
+    background: var(--c-muted-bg);
+    color: var(--c-text-muted);
+    font-size: 0.8em;
+    font-weight: 700;
+  }
+
+  .pj-voice li[data-level='0'] {
+    height: 1.4em;
+  }
+  .pj-voice li[data-level='1'] {
+    height: 2em;
+  }
+  .pj-voice li[data-level='2'] {
+    height: 2.6em;
+  }
+  .pj-voice li[data-level='3'] {
+    height: 3.2em;
+  }
+  .pj-voice li[data-level='4'] {
+    height: 3.8em;
+  }
+
+  .pj-voice li[data-active='true'] {
+    border-width: 0.16em;
+    border-color: var(--c-now);
+    background: var(--c-now);
+    color: var(--c-on-accent);
+    font-size: 1em;
+  }
+
+  /* ---------- Panell de control ---------- */
+  .expect-editors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: var(--space-3);
+  }
+}

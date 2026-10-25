@@ -8,7 +8,14 @@
     "displayOptions": "Opciones de visualización",
     "minutesShort": "min",
     "newTab": "se abre en una pestaña nueva",
-    "skipToContent": "Saltar al contenido"
+    "skipToContent": "Saltar al contenido",
+    "moveUp": "Subir",
+    "moveDown": "Bajar",
+    "moveUpNamed": "Subir «{name}»",
+    "moveDownNamed": "Bajar «{name}»",
+    "deleteNamed": "Eliminar «{name}»",
+    "addPicto": "Añadir un pictograma a «{name}»",
+    "changePicto": "Cambiar el pictograma de «{name}»"
   },
   "error": {
     "boot": "No se ha podido iniciar TEApp. Vuelve a cargar la página."
@@ -109,10 +116,12 @@
     "finished": "Hemos terminado la sesión",
     "config": {
       "view": "Qué se ve en la proyección",
-      "viewHint": "«Ahora y después» muestra solo tres tarjetas y reduce la información en pantalla.",
+      "viewHint": "«Ahora y después» muestra tarjetas más grandes: se ven unas tres, y las demás se pueden ver desplazando la fila.",
       "viewAll": "Todo el día",
       "viewFocus": "Ahora y después"
-    }
+    },
+    "dragHint": "Arrastra para cambiar el orden (o usa «Subir» y «Bajar»)",
+    "scrollLabel": "Actividades del día. Usa las flechas para desplazarte."
   },
   "timer": {
     "name": "Temporizador",
@@ -127,7 +136,7 @@
     "preset": "{minutes} min",
     "customLabel": "Otros minutos",
     "apply": "Aplicar",
-    "fromActivity": "Tiempo que queda de la actividad",
+    "fromActivity": "Vincular a la actividad actual",
     "label": "Texto en pantalla (opcional)",
     "labelPlaceholder": "p. ej. Tiempo para acabar la ficha",
     "minutesLeft": {
@@ -144,7 +153,12 @@
       "digitsClock": "Minutos y segundos",
       "digitsNone": "Ninguno",
       "sound": "Sonido suave al terminar"
-    }
+    },
+    "linkedTo": "Vinculado a: {name}",
+    "linkedFinished": "Vinculado a la agenda (la sesión ha terminado)",
+    "linkedNotice": "El temporizador sigue el tiempo de la actividad actual de la agenda.",
+    "unlink": "Desvincular",
+    "unlinkedNotice": "El temporizador ahora tiene tiempo propio."
   },
   "firstThen": {
     "name": "Primero → Después",
@@ -249,7 +263,7 @@
     "nameLabel": "Nombre de la plantilla",
     "defaultName": "Plantilla nueva",
     "share": "Compartir y copias de seguridad",
-    "shareHelp": "Exporta las plantillas en un archivo JSON para guardarlas o pasarlas a otro docente. No contienen ningún dato del alumnado.",
+    "shareHelp": "Exporta las plantillas en un archivo JSON para guardarlas o pasarlas a otro docente. Por defecto no contienen ningún dato del alumnado.",
     "import": "Importar…",
     "exportAll": "Exportarlas todas",
     "fileName": "teapp-plantillas-{date}.json",
@@ -263,7 +277,9 @@
       "format": "Este archivo no es una exportación de plantillas de TEApp.",
       "newer": "El archivo es de una versión más nueva de TEApp. Actualiza la app.",
       "empty": "El archivo no contiene ninguna plantilla válida."
-    }
+    },
+    "includePrivate": "Incluir los nombres de los turnos (datos del alumnado)",
+    "includePrivateHint": "Solo si el archivo se queda en un lugar seguro. Si no lo marcas, los nombres nunca salen del dispositivo."
   },
   "settings": {
     "title": "Configuración",
@@ -302,7 +318,9 @@
     "keepSession": "Conservar la sesión en directo al cerrar el navegador",
     "keepSessionHint": "Desactívalo en ordenadores compartidos: la sesión se mantendrá si recargas la página, pero se borrará al cerrar el navegador. Las plantillas se conservan siempre.",
     "clearData": "Borrar todos los datos",
-    "clearConfirm": "Se borrarán las plantillas, la sesión, las imágenes propias y la configuración de este navegador. No se puede deshacer."
+    "clearConfirm": "Se borrarán las plantillas, la sesión, las imágenes propias y la configuración de este navegador. No se puede deshacer.",
+    "layoutDefault": "Franjas de la proyección para las sesiones nuevas",
+    "layoutDefaultHint": "Cada sesión y cada plantilla pueden tener su tamaño (en «En pantalla»). Aquí eliges el que tendrán las sesiones nuevas."
   },
   "help": {
     "title": "Ayuda",
@@ -338,7 +356,13 @@
     "exit": "Salir del modo clase",
     "spaceKey": "Espacio",
     "pageDown": "AvPág",
-    "pageUp": "RePág"
+    "pageUp": "RePág",
+    "stepsNext": "Paso siguiente (cuando las instrucciones están en pantalla)",
+    "stepsPrev": "Paso anterior (cuando las instrucciones están en pantalla)",
+    "turnsNext": "Turno siguiente (cuando los turnos están en pantalla)",
+    "turnsPrev": "Turno anterior (cuando los turnos están en pantalla)",
+    "storyNext": "Viñeta siguiente (cuando la historia está en pantalla)",
+    "storyPrev": "Viñeta anterior (cuando la historia está en pantalla)"
   },
   "attribution": {
     "arasaac": "Pictogramas: Sergio Palao. Origen: ARASAAC (https://arasaac.org). Licencia: CC BY-NC-SA 4.0. Propiedad: Gobierno de Aragón.",
@@ -422,5 +446,365 @@
     "professor": "Profesor/a",
     "companys": "Compañeros",
     "llibre": "Libro"
+  },
+  "layout": {
+    "title": "Tamaño de las franjas de la pantalla",
+    "hint": "Haz más pequeña la franja «Ahora → Después» o la de los avisos para que el escenario (p. ej. el temporizador) se vea más grande. También puedes arrastrar los tiradores de la vista previa o moverlos con las flechas.",
+    "header": "Franja superior (Ahora → Después)",
+    "footer": "Franja inferior (avisos)",
+    "reset": "Restablecer",
+    "handle": {
+      "header": "Altura de la franja superior",
+      "footer": "Altura de la franja inferior"
+    },
+    "sizes": {
+      "hidden": "Oculta",
+      "small": "Pequeña",
+      "medium": "Mediana",
+      "large": "Grande"
+    }
+  },
+  "scope": {
+    "label": "¿Para qué actividad?",
+    "general": "Todas las actividades (general)",
+    "activity": "{n}. {name}",
+    "activityOwn": "{n}. {name} (propias)",
+    "showingGeneral": "Ahora se muestra el contenido general.",
+    "showingOwn": "Ahora se muestra el contenido propio de «{name}».",
+    "usesGeneral": "Esta actividad usa el contenido general.",
+    "create": "Crear contenido propio para esta actividad",
+    "remove": "Volver a usar el general",
+    "created": "Se ha creado contenido propio para la actividad (a partir del general).",
+    "removed": "La actividad vuelve a usar el contenido general."
+  },
+  "voice": {
+    "l0": "0 · Silencio",
+    "l1": "1 · Susurro",
+    "l2": "2 · Voz de pareja",
+    "l3": "3 · Voz de grupo",
+    "l4": "4 · Voz para toda la clase"
+  },
+  "steps": {
+    "name": "Instrucciones",
+    "help": "Divide la tarea en pasos cortos con pictograma. Cuando las instrucciones están en pantalla, las flechas y el mando de presentación pasan los pasos.",
+    "listLabel": "Pasos",
+    "itemLabel": "Texto del paso {n}",
+    "placeholder": "p. ej. Abre el libro",
+    "untitled": "Paso sin texto",
+    "add": "Añadir un paso",
+    "empty": "Todavía no hay pasos.",
+    "prev": "Paso anterior",
+    "next": "Paso siguiente",
+    "restart": "Volver al primer paso",
+    "status": "Paso {n} de {count}",
+    "statusDone": "Todos los pasos hechos",
+    "statusEmpty": "No hay pasos para la actividad actual",
+    "count": "Paso {n} de {count}",
+    "allDone": "Todos los pasos hechos",
+    "projectionEmpty": "Todavía no hay instrucciones",
+    "config": {
+      "view": "Cómo se ven en la proyección",
+      "viewSingle": "Un paso grande",
+      "viewList": "Toda la lista"
+    }
+  },
+  "expectations": {
+    "name": "Expectativas",
+    "help": "Haz explícito cómo se trabaja en esta actividad: siempre las mismas cuatro preguntas, en el mismo lugar.",
+    "questions": {
+      "where": "¿Dónde trabajo?",
+      "voice": "¿Cómo hablo?",
+      "need": "¿Qué necesito?",
+      "when": "¿Cuándo termino?"
+    },
+    "placeholders": {
+      "where": "p. ej. En mi sitio",
+      "need": "p. ej. Libro y lápiz",
+      "when": "p. ej. Cuando suene el temporizador"
+    },
+    "voiceNone": "Sin indicar",
+    "timerLink": "Mostrar el tiempo del temporizador",
+    "presetsLabel": "Valores predefinidos",
+    "applied": "Se han aplicado las expectativas «{name}».",
+    "clear": "Vaciar el tablero",
+    "projectionEmpty": "Todavía no hay expectativas",
+    "presets": {
+      "individual": {
+        "name": "Trabajo individual",
+        "where": "En mi sitio",
+        "need": "Libro y lápiz",
+        "when": "Cuando se acabe el tiempo"
+      },
+      "pairs": {
+        "name": "En parejas",
+        "where": "Con mi pareja",
+        "need": "Un libro por pareja",
+        "when": "Cuando se acabe el tiempo"
+      },
+      "group": {
+        "name": "En grupo",
+        "where": "En la mesa del grupo",
+        "need": "Un ordenador por grupo",
+        "when": "Cuando el grupo haya terminado"
+      },
+      "presentation": {
+        "name": "Exposición",
+        "where": "En mi sitio, escuchando",
+        "need": "Pensar una pregunta",
+        "when": "Después de las preguntas"
+      }
+    }
+  },
+  "noise": {
+    "name": "Sonómetro",
+    "help": "Muestra en pantalla el nivel de ruido de toda el aula con la escala de voz. Al activarlo, se muestra en pantalla; al mostrar otra cosa, el micrófono se apaga.",
+    "privacy": "El sonido se procesa en este navegador y solo se calcula su volumen. No se graba, no se guarda, no se envía a ningún sitio y no hay historial.",
+    "start": "Activar el micrófono",
+    "stop": "Apagar el micrófono",
+    "calibrate": "Calibrar (3 s de silencio)",
+    "calibrating": "Calibrando: mantened silencio 3 segundos.",
+    "calibrated": "Calibración hecha.",
+    "micActive": "Micrófono activo",
+    "active": "Escuchando el volumen del aula.",
+    "activeUncalibrated": "Escuchando el volumen del aula. Para más precisión, calíbralo con el aula en silencio.",
+    "inactive": "El micrófono está apagado.",
+    "stopped": "Se ha apagado el micrófono.",
+    "error": "No se ha podido activar el micrófono. Comprueba los permisos del navegador.",
+    "projectionTitle": "Volumen de la clase",
+    "projectionOff": "El sonómetro está apagado",
+    "limitCaption": "Ahora toca: {name}",
+    "config": {
+      "limit": "Volumen que toca",
+      "limitHint": "«Según las expectativas» usa el «¿Cómo hablo?» de la actividad actual.",
+      "limitAuto": "Según las expectativas",
+      "sensitivity": "Sensibilidad",
+      "sensitivityHint": "Con más sensibilidad, el sonómetro sube antes.",
+      "s1": "Muy baja",
+      "s2": "Baja",
+      "s3": "Media",
+      "s4": "Alta",
+      "s5": "Muy alta"
+    }
+  },
+  "turns": {
+    "name": "Turnos",
+    "help": "Muestra quién tiene el turno ahora y quién después, en un orden fijo y visible. Cuando los turnos están en pantalla, las flechas pasan el turno.",
+    "privacy": "Los nombres se guardan solo en este navegador y no se exportan con las plantillas si no lo marcas. También puedes usar números, colores o nombres de grupo.",
+    "kind": "Quién participa",
+    "kinds": {
+      "names": "Nombres o grupos",
+      "numbers": "Números",
+      "colors": "Colores"
+    },
+    "names": "Nombres, alias o grupos (uno por línea)",
+    "namesHint": "Máximo {max}.",
+    "namesPlaceholder": "Grupo 1\nGrupo 2\nGrupo 3",
+    "count": "Cuántos hay",
+    "noneYet": "Todavía no hay participantes.",
+    "currentStatus": "Ahora: {now} · Después: {next}",
+    "prev": "Turno anterior",
+    "next": "Turno siguiente",
+    "shuffle": "Mezclar y anunciar el orden",
+    "shuffleHelp": "El orden mezclado se muestra entero en pantalla antes de empezar: no hay sorpresas.",
+    "shuffled": "Orden nuevo, ya visible en pantalla.",
+    "listOrder": "Volver al orden de la lista",
+    "orderLabel": "Orden de los turnos",
+    "goTo": "Dar el turno a {name}",
+    "now": "Ahora",
+    "after": "Después",
+    "turnNumber": "Turno {n}",
+    "randomAnnounced": "Este es el orden de hoy",
+    "projectionEmpty": "Todavía no hay turnos",
+    "colors": {
+      "blue": "Azul",
+      "green": "Verde",
+      "yellow": "Amarillo",
+      "orange": "Naranja",
+      "purple": "Lila",
+      "pink": "Rosa",
+      "grey": "Gris",
+      "brown": "Marrón"
+    },
+    "config": {
+      "hideNames": "Ocultar los nombres en la proyección",
+      "hideNamesHint": "Solo se ve el número de turno.",
+      "showOrder": "Mostrar el orden completo"
+    }
+  },
+  "story": {
+    "name": "Historias sociales",
+    "help": "Prepara una historia breve para anticipar una situación nueva o un cambio. Escríbela para todo el grupo, con más frases descriptivas que directivas.",
+    "choose": "Historia",
+    "new": "Historia nueva",
+    "untitled": "Historia sin título",
+    "examplesLabel": "Historias de ejemplo",
+    "addExample": "Añadirla",
+    "exampleAdded": "Se ha añadido «{name}».",
+    "title": "Título",
+    "empty": "Todavía no hay ninguna historia. Crea una o añade una de ejemplo.",
+    "emptyPanels": "Esta historia todavía no tiene viñetas.",
+    "panelsLabel": "Viñetas",
+    "panelLabel": "Frase de la viñeta {n}",
+    "panelPlaceholder": "p. ej. Hoy viene otro docente",
+    "panelUntitled": "Viñeta sin texto",
+    "addPanel": "Añadir una viñeta",
+    "kindLabel": "Tipo de frase",
+    "kinds": {
+      "descriptive": "Descriptiva",
+      "perspective": "De perspectiva",
+      "directive": "Directiva",
+      "affirmative": "Afirmativa"
+    },
+    "balanceOk": "Proporción recomendada: {others} descriptivas o similares por {directive} directivas.",
+    "balanceWarn": "Hay demasiadas frases directivas ({directive}) para {others} descriptivas. Se recomiendan al menos dos descriptivas por cada directiva.",
+    "status": "Viñeta {n} de {count}",
+    "statusEmpty": "Sin viñetas",
+    "prev": "Viñeta anterior",
+    "next": "Viñeta siguiente",
+    "remove": "Eliminar la historia",
+    "removeTitle": "Eliminar la historia",
+    "removeConfirm": "¿Seguro que quieres eliminar «{name}»?",
+    "projectionEmpty": "Todavía no hay ninguna historia",
+    "examples": {
+      "substitute": {
+        "title": "Hoy tenemos un sustituto",
+        "p1": "A veces, nuestro profesor o nuestra profesora no puede venir a clase.",
+        "p2": "Entonces viene otro docente. Se llama sustituto o sustituta.",
+        "p3": "Al principio, quizá nos parezca raro. Es normal.",
+        "p4": "La agenda del día sigue en la pizarra.",
+        "p5": "Podemos escuchar al sustituto y preguntar si tenemos dudas.",
+        "p6": "Otro día, nuestro profesor o profesora volverá."
+      },
+      "fireDrill": {
+        "title": "Simulacro de incendio",
+        "p1": "Hoy haremos un simulacro de incendio. Es un ensayo: no hay fuego.",
+        "p2": "Sonará una alarma fuerte durante un rato.",
+        "p3": "El ruido puede molestar. Podemos taparnos las orejas.",
+        "p4": "Salimos en fila y caminando, con el grupo y el docente.",
+        "p5": "Esperamos todos juntos en el punto de encuentro hasta que nos dicen que podemos volver.",
+        "p6": "Después volvemos a clase y seguimos la agenda."
+      },
+      "outing": {
+        "title": "Hacemos una salida",
+        "p1": "Hoy hacemos una salida fuera de la escuela.",
+        "p2": "Iremos en autobús, con todo el grupo.",
+        "p3": "Quizá habrá más gente y más ruido que en el aula.",
+        "p4": "Nos quedamos cerca del grupo y del docente.",
+        "p5": "Al terminar, volveremos a la escuela."
+      }
+    }
+  },
+  "regulation": {
+    "name": "Regulación",
+    "tool": "Herramienta",
+    "tools": {
+      "thermometer": "Termómetro emocional",
+      "breathing": "Respiración guiada"
+    },
+    "thermometerHelp": "Escala de 3 a 5 niveles con colores y estrategias. En la proyección es una referencia para todo el grupo.",
+    "privacy": "Nunca se registra el estado de nadie: el termómetro solo muestra los niveles y qué podemos hacer.",
+    "exampleFive": "Termómetro de ejemplo (5 niveles)",
+    "exampleThree": "Termómetro de ejemplo (3 niveles)",
+    "exampleApplied": "Se ha creado el termómetro de ejemplo.",
+    "levelsLabel": "Niveles, de más calma a más intensidad",
+    "levelName": "Nivel {n}",
+    "colorLabel": "Color del nivel",
+    "addLevel": "Añadir un nivel",
+    "strategiesLabel": "Estrategias",
+    "strategyLabel": "Estrategia {n}",
+    "strategyPlaceholder": "p. ej. Beber agua",
+    "strategyUntitled": "Estrategia sin texto",
+    "addStrategy": "Añadir una estrategia",
+    "colors": {
+      "blue": "Azul",
+      "green": "Verde",
+      "yellow": "Amarillo",
+      "orange": "Naranja",
+      "rose": "Rosa"
+    },
+    "examples": {
+      "calm": "Calma",
+      "fine": "Todo bien",
+      "restless": "Inquietud",
+      "nervous": "Muchos nervios",
+      "help": "Necesito ayuda"
+    },
+    "strategies": {
+      "keepGoing": "Seguir con la tarea",
+      "breathe": "Respirar despacio",
+      "water": "Beber agua",
+      "pause": "Pedir una pausa",
+      "calmCorner": "Ir al rincón de calma",
+      "askAdult": "Pedir ayuda a un adulto"
+    },
+    "breathingHelp": "Una forma que crece y se encoge al ritmo elegido. Con «movimiento reducido», solo se muestran el texto y el contador. También se puede empezar desde la pantalla de calma.",
+    "startBreathing": "Empezar la respiración",
+    "stopBreathing": "Parar la respiración",
+    "launchBreathing": "Respiración guiada",
+    "breathingPaused": "Respiración guiada",
+    "phases": {
+      "in": "Inspira",
+      "hold": "Aguanta",
+      "out": "Espira",
+      "rest": "Descansa"
+    },
+    "projectionThermometer": "¿Cómo estamos? ¿Qué podemos hacer?",
+    "projectionEmpty": "Todavía no hay termómetro",
+    "config": {
+      "pattern": "Ritmo",
+      "patternHint": "Segundos de cada fase: inspirar, aguantar y espirar.",
+      "p46": "4-6 (inspira 4, espira 6)",
+      "p444": "4-4-4 (inspira, aguanta, espira)",
+      "p55": "5-5 (inspira 5, espira 5)",
+      "p478": "4-7-8 (inspira, aguanta, espira)",
+      "sound": "Sonido muy suave en cada cambio de fase"
+    }
+  },
+  "choice": {
+    "name": "Tablero de elección",
+    "help": "Muestra de 2 a 6 opciones con pictograma. Puedes marcar la opción que ha elegido el grupo o dejar el tablero solo como referencia.",
+    "privacy": "No se registra quién elige qué: solo, si quieres, la opción del grupo.",
+    "title": "Pregunta (opcional)",
+    "titlePlaceholder": "p. ej. ¿Qué hacemos ahora?",
+    "examplesLabel": "Opciones de ejemplo",
+    "useExample": "Usarlas",
+    "exampleApplied": "Se han puesto las opciones de ejemplo.",
+    "optionsLabel": "Opciones",
+    "optionLabel": "Texto de la opción {n}",
+    "optionPlaceholder": "p. ej. Leer",
+    "optionUntitled": "Opción sin texto",
+    "add": "Añadir una opción",
+    "minNote": "Hacen falta entre {min} y {max} opciones para que el tablero se muestre.",
+    "chooseLabel": "Opción elegida por el grupo",
+    "chooseNamed": "El grupo elige «{name}»",
+    "none": "Ninguna (solo referencia)",
+    "chosen": "Elegido",
+    "projectionEmpty": "Todavía no hay suficientes opciones",
+    "examples": {
+      "breaks": {
+        "name": "Descansos",
+        "title": "¿Qué necesitamos?"
+      },
+      "activities": {
+        "name": "Actividades",
+        "title": "¿Qué hacemos ahora?"
+      },
+      "materials": {
+        "name": "Materiales",
+        "title": "¿Con qué trabajamos?"
+      }
+    },
+    "options": {
+      "water": "Beber agua",
+      "toilet": "Lavabo",
+      "rest": "Descansar",
+      "calmCorner": "Rincón de calma",
+      "read": "Leer",
+      "draw": "Dibujar",
+      "computer": "Ordenador",
+      "play": "Jugar",
+      "book": "Libro",
+      "write": "Escribir"
+    }
   }
 }

@@ -1,0 +1,130 @@
+@layer modules {
+  /* ---------- Projecció ---------- */
+  .pj-steps {
+    align-items: center;
+    gap: 0.5em;
+    text-align: center;
+  }
+
+  .pj-steps__count {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--c-text-muted);
+  }
+
+  /* Indicador de progrés: un punt per pas (fets plens, l'actual més gran). */
+  .pj-steps__dots {
+    display: flex;
+    gap: 0.4em;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pj-steps__dots li {
+    width: 0.6em;
+    height: 0.6em;
+    border: 0.1em solid var(--c-border-strong);
+    border-radius: 50%;
+  }
+
+  .pj-steps__dots li[data-status='done'] {
+    background: var(--c-border-strong);
+  }
+
+  .pj-steps__dots li[data-status='now'] {
+    border-color: var(--c-now);
+    background: var(--c-now);
+    scale: 1.3;
+  }
+
+  .pj-steps__single {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4em;
+    min-height: 0;
+    padding: 0.6em 1.2em;
+    border: 0.16em solid var(--c-now);
+    border-radius: var(--radius-l);
+    background: var(--c-now-soft);
+  }
+
+  .pj-steps__picto {
+    width: clamp(4em, calc(100cqh - 8em), 60cqw);
+    aspect-ratio: 1;
+  }
+
+  .pj-steps__label {
+    max-width: 22em;
+    font-size: 1.4em;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .pj-steps__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+    width: min(100%, 30em);
+    max-height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    list-style: none;
+    text-align: start;
+  }
+
+  .pj-step {
+    display: grid;
+    grid-template-columns: 1.6em 2.4em minmax(0, 1fr);
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.25em 0.6em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-m);
+    background: var(--c-surface);
+  }
+
+  .pj-step[data-status='now'] {
+    border-width: 0.14em;
+    border-color: var(--c-now);
+    background: var(--c-now-soft);
+  }
+
+  .pj-step[data-status='done'] {
+    background: var(--c-done-bg);
+    color: var(--c-done-text);
+  }
+
+  .pj-step[data-status='done'] .pj-step__picto {
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  .pj-step__num {
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+  }
+
+  .pj-step__num .icon {
+    width: 1.2em;
+    height: 1.2em;
+    color: var(--c-success);
+  }
+
+  .pj-step__picto {
+    width: 2.4em;
+    height: 2.4em;
+  }
+
+  .pj-step__label {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  :root[data-profile='minimal'] .pj-steps__dots {
+    display: none;
+  }
+}

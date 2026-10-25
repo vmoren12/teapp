@@ -8,6 +8,7 @@ import { openDialog, confirmDialog } from './dialog.js';
 import { button } from './button.js';
 import { MOTIONS, PROFILES, TEXT_SCALES, UI_SCALES } from '../core/schema/validate.js';
 import { LOCALES } from '../i18n/index.js';
+import { FOOTER_SIZES, HEADER_SIZES } from '../core/layout.js';
 
 /** @typedef {import('../core/types.js').Settings} Settings */
 
@@ -117,6 +118,30 @@ export function openSettingsDialog({
         set({ motion: /** @type {Settings['motion']} */ (motion.value) }),
       );
 
+      // --- Franges de la projecció per a les sessions noves -----------------------
+      /**
+       * @param {'header' | 'footer'} band @param {readonly string[]} values
+       */
+      const bandSelect = (band, values) => {
+        const id = `set-layout-${band}`;
+        const select = h(
+          'select',
+          { id, class: 'input' },
+          values.map((v) =>
+            h('option', { value: v, selected: s.layout[band] === v }, t(`layout.sizes.${v}`)),
+          ),
+        );
+        select.addEventListener('change', () =>
+          set({ layout: { ...settings().layout, [band]: select.value } }),
+        );
+        return h(
+          'div',
+          { class: 'field' },
+          h('label', { for: id, class: 'field__label' }, t(`layout.${band}`)),
+          select,
+        );
+      };
+
       // --- So -------------------------------------------------------------------
       const soundOn = h('input', { type: 'checkbox', id: 'set-sound', checked: s.sound.enabled });
       soundOn.addEventListener('change', () =>
@@ -175,6 +200,10 @@ export function openSettingsDialog({
             h('label', { for: 'set-motion', class: 'field__label' }, t('settings.motion')),
             motion,
           ),
+          h('h4', { class: 'field__label' }, t('settings.layoutDefault')),
+          h('p', { class: 'field__hint' }, t('settings.layoutDefaultHint')),
+          bandSelect('header', HEADER_SIZES),
+          bandSelect('footer', FOOTER_SIZES),
         ),
         h(
           'section',

@@ -8,7 +8,14 @@
     "displayOptions": "Display options",
     "minutesShort": "min",
     "newTab": "opens in a new tab",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "moveUpNamed": "Move “{name}” up",
+    "moveDownNamed": "Move “{name}” down",
+    "deleteNamed": "Delete “{name}”",
+    "addPicto": "Add a pictogram to “{name}”",
+    "changePicto": "Change the pictogram of “{name}”"
   },
   "error": {
     "boot": "TEApp could not start. Please reload the page."
@@ -109,10 +116,12 @@
     "finished": "We have finished the session",
     "config": {
       "view": "What the projection shows",
-      "viewHint": "“Now and next” shows only three cards and reduces the information on screen.",
+      "viewHint": "“Now and next” shows bigger cards: about three fit, and you can scroll the row to see the rest.",
       "viewAll": "Whole day",
       "viewFocus": "Now and next"
-    }
+    },
+    "dragHint": "Drag to reorder (or use “Move up” and “Move down”)",
+    "scrollLabel": "Today's activities. Use the arrow keys to scroll."
   },
   "timer": {
     "name": "Timer",
@@ -127,7 +136,7 @@
     "preset": "{minutes} min",
     "customLabel": "Other minutes",
     "apply": "Apply",
-    "fromActivity": "Time left in the activity",
+    "fromActivity": "Link to the current activity",
     "label": "Text on screen (optional)",
     "labelPlaceholder": "e.g. Time to finish the worksheet",
     "minutesLeft": {
@@ -144,7 +153,12 @@
       "digitsClock": "Minutes and seconds",
       "digitsNone": "None",
       "sound": "Soft sound when finished"
-    }
+    },
+    "linkedTo": "Linked to: {name}",
+    "linkedFinished": "Linked to the agenda (the session has finished)",
+    "linkedNotice": "The timer follows the time of the current agenda activity.",
+    "unlink": "Unlink",
+    "unlinkedNotice": "The timer now keeps its own time."
   },
   "firstThen": {
     "name": "First → Then",
@@ -249,7 +263,7 @@
     "nameLabel": "Template name",
     "defaultName": "New template",
     "share": "Sharing and backups",
-    "shareHelp": "Export templates to a JSON file to keep them or share them with another teacher. They contain no student data.",
+    "shareHelp": "Export your templates to a JSON file to back them up or share them with another teacher. By default they contain no student data.",
     "import": "Import…",
     "exportAll": "Export all",
     "fileName": "teapp-templates-{date}.json",
@@ -263,7 +277,9 @@
       "format": "This file is not a TEApp template export.",
       "newer": "The file comes from a newer version of TEApp. Update the app.",
       "empty": "The file contains no valid template."
-    }
+    },
+    "includePrivate": "Include the names in Turns (student data)",
+    "includePrivateHint": "Only if the file will be kept somewhere safe. If you leave it unticked, names never leave this device."
   },
   "settings": {
     "title": "Settings",
@@ -302,7 +318,9 @@
     "keepSession": "Keep the live session when the browser closes",
     "keepSessionHint": "Turn this off on shared computers: the session survives a page reload but is erased when the browser closes. Templates are always kept.",
     "clearData": "Erase all data",
-    "clearConfirm": "Templates, session, your images and settings in this browser will be erased. This cannot be undone."
+    "clearConfirm": "Templates, session, your images and settings in this browser will be erased. This cannot be undone.",
+    "layoutDefault": "Projection bands for new sessions",
+    "layoutDefaultHint": "Each session and each template can have its own size (under “On screen”). Here you choose the size for new sessions."
   },
   "help": {
     "title": "Help",
@@ -338,7 +356,13 @@
     "exit": "Exit class mode",
     "spaceKey": "Space",
     "pageDown": "PgDn",
-    "pageUp": "PgUp"
+    "pageUp": "PgUp",
+    "stepsNext": "Next step (when the instructions are on screen)",
+    "stepsPrev": "Previous step (when the instructions are on screen)",
+    "turnsNext": "Next turn (when turns are on screen)",
+    "turnsPrev": "Previous turn (when turns are on screen)",
+    "storyNext": "Next panel (when the story is on screen)",
+    "storyPrev": "Previous panel (when the story is on screen)"
   },
   "attribution": {
     "arasaac": "Pictograms: Sergio Palao. Source: ARASAAC (https://arasaac.org). Licence: CC BY-NC-SA 4.0. Owner: Government of Aragón.",
@@ -422,5 +446,365 @@
     "professor": "Teacher",
     "companys": "Classmates",
     "llibre": "Book"
+  },
+  "layout": {
+    "title": "Size of the screen bands",
+    "hint": "Make the “Now → Next” band or the notices band smaller so the stage (e.g. the timer) looks bigger. You can also drag the handles on the preview or move them with the arrow keys.",
+    "header": "Top band (Now → Next)",
+    "footer": "Bottom band (notices)",
+    "reset": "Reset",
+    "handle": {
+      "header": "Height of the top band",
+      "footer": "Height of the bottom band"
+    },
+    "sizes": {
+      "hidden": "Hidden",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    }
+  },
+  "scope": {
+    "label": "For which activity?",
+    "general": "All activities (general)",
+    "activity": "{n}. {name}",
+    "activityOwn": "{n}. {name} (own)",
+    "showingGeneral": "The general content is shown now.",
+    "showingOwn": "The content of “{name}” is shown now.",
+    "usesGeneral": "This activity uses the general content.",
+    "create": "Create content for this activity",
+    "remove": "Use the general content again",
+    "created": "This activity now has its own content (copied from the general one).",
+    "removed": "This activity uses the general content again."
+  },
+  "voice": {
+    "l0": "0 · Silence",
+    "l1": "1 · Whisper",
+    "l2": "2 · Partner voice",
+    "l3": "3 · Group voice",
+    "l4": "4 · Whole-class voice"
+  },
+  "steps": {
+    "name": "Instructions",
+    "help": "Split the task into short steps with pictograms. When the instructions are on screen, the arrow keys and presentation remote move through the steps.",
+    "listLabel": "Steps",
+    "itemLabel": "Text of step {n}",
+    "placeholder": "e.g. Open your book",
+    "untitled": "Untitled step",
+    "add": "Add a step",
+    "empty": "No steps yet.",
+    "prev": "Previous step",
+    "next": "Next step",
+    "restart": "Back to the first step",
+    "status": "Step {n} of {count}",
+    "statusDone": "All steps done",
+    "statusEmpty": "No steps for the current activity",
+    "count": "Step {n} of {count}",
+    "allDone": "All steps done",
+    "projectionEmpty": "No instructions yet",
+    "config": {
+      "view": "How they look on the projection",
+      "viewSingle": "One big step",
+      "viewList": "The whole list"
+    }
+  },
+  "expectations": {
+    "name": "Expectations",
+    "help": "Make clear how this activity works: always the same four questions, in the same place.",
+    "questions": {
+      "where": "Where do I work?",
+      "voice": "How do I talk?",
+      "need": "What do I need?",
+      "when": "When am I done?"
+    },
+    "placeholders": {
+      "where": "e.g. At my desk",
+      "need": "e.g. Book and pencil",
+      "when": "e.g. When the timer rings"
+    },
+    "voiceNone": "Not set",
+    "timerLink": "Show the timer's time",
+    "presetsLabel": "Presets",
+    "applied": "“{name}” expectations applied.",
+    "clear": "Clear the board",
+    "projectionEmpty": "No expectations yet",
+    "presets": {
+      "individual": {
+        "name": "Individual work",
+        "where": "At my desk",
+        "need": "Book and pencil",
+        "when": "When time is up"
+      },
+      "pairs": {
+        "name": "In pairs",
+        "where": "With my partner",
+        "need": "One book per pair",
+        "when": "When time is up"
+      },
+      "group": {
+        "name": "In groups",
+        "where": "At the group table",
+        "need": "One computer per group",
+        "when": "When the group has finished"
+      },
+      "presentation": {
+        "name": "Presentation",
+        "where": "At my desk, listening",
+        "need": "Think of a question",
+        "when": "After the questions"
+      }
+    }
+  },
+  "noise": {
+    "name": "Noise meter",
+    "help": "Shows the noise level of the whole class on screen using the voice scale. Turning it on puts it on screen; showing something else turns the microphone off.",
+    "privacy": "Sound is processed in this browser and only its volume is measured. Nothing is recorded, saved or sent anywhere, and there is no history.",
+    "start": "Turn on the microphone",
+    "stop": "Turn off the microphone",
+    "calibrate": "Calibrate (3 s of silence)",
+    "calibrating": "Calibrating: please keep quiet for 3 seconds.",
+    "calibrated": "Calibration done.",
+    "micActive": "Microphone on",
+    "active": "Listening to the classroom volume.",
+    "activeUncalibrated": "Listening to the classroom volume. For better accuracy, calibrate it while the room is quiet.",
+    "inactive": "The microphone is off.",
+    "stopped": "The microphone has been turned off.",
+    "error": "The microphone could not be turned on. Check the browser permissions.",
+    "projectionTitle": "Class volume",
+    "projectionOff": "The noise meter is off",
+    "limitCaption": "Right now: {name}",
+    "config": {
+      "limit": "Expected volume",
+      "limitHint": "“From the expectations” uses “How do I talk?” from the current activity.",
+      "limitAuto": "From the expectations",
+      "sensitivity": "Sensitivity",
+      "sensitivityHint": "With higher sensitivity, the meter rises sooner.",
+      "s1": "Very low",
+      "s2": "Low",
+      "s3": "Medium",
+      "s4": "High",
+      "s5": "Very high"
+    }
+  },
+  "turns": {
+    "name": "Turns",
+    "help": "Shows whose turn it is now and next, in a fixed, visible order. When turns are on screen, the arrow keys move to the next turn.",
+    "privacy": "Names are saved only in this browser and are not exported with templates unless you tick the box. You can also use numbers, colours or group names.",
+    "kind": "Who takes part",
+    "kinds": {
+      "names": "Names or groups",
+      "numbers": "Numbers",
+      "colors": "Colours"
+    },
+    "names": "Names, nicknames or groups (one per line)",
+    "namesHint": "Up to {max}.",
+    "namesPlaceholder": "Group 1\nGroup 2\nGroup 3",
+    "count": "How many",
+    "noneYet": "No participants yet.",
+    "currentStatus": "Now: {now} · Next: {next}",
+    "prev": "Previous turn",
+    "next": "Next turn",
+    "shuffle": "Shuffle and announce the order",
+    "shuffleHelp": "The shuffled order is shown in full on screen before you start: no surprises.",
+    "shuffled": "New order, now visible on screen.",
+    "listOrder": "Back to list order",
+    "orderLabel": "Order of turns",
+    "goTo": "Give the turn to {name}",
+    "now": "Now",
+    "after": "Next",
+    "turnNumber": "Turn {n}",
+    "randomAnnounced": "This is today's order",
+    "projectionEmpty": "No turns yet",
+    "colors": {
+      "blue": "Blue",
+      "green": "Green",
+      "yellow": "Yellow",
+      "orange": "Orange",
+      "purple": "Purple",
+      "pink": "Pink",
+      "grey": "Grey",
+      "brown": "Brown"
+    },
+    "config": {
+      "hideNames": "Hide names on the projection",
+      "hideNamesHint": "Only the turn number is shown.",
+      "showOrder": "Show the full order"
+    }
+  },
+  "story": {
+    "name": "Social stories",
+    "help": "Prepare a short story to anticipate a new situation or a change. Write it for the whole group, with more descriptive than directive sentences.",
+    "choose": "Story",
+    "new": "New story",
+    "untitled": "Untitled story",
+    "examplesLabel": "Example stories",
+    "addExample": "Add it",
+    "exampleAdded": "“{name}” added.",
+    "title": "Title",
+    "empty": "No stories yet. Create one or add an example.",
+    "emptyPanels": "This story has no panels yet.",
+    "panelsLabel": "Panels",
+    "panelLabel": "Sentence of panel {n}",
+    "panelPlaceholder": "e.g. Today another teacher is coming",
+    "panelUntitled": "Panel without text",
+    "addPanel": "Add a panel",
+    "kindLabel": "Sentence type",
+    "kinds": {
+      "descriptive": "Descriptive",
+      "perspective": "Perspective",
+      "directive": "Directive",
+      "affirmative": "Affirmative"
+    },
+    "balanceOk": "Recommended balance: {others} descriptive or similar sentences for {directive} directive ones.",
+    "balanceWarn": "Too many directive sentences ({directive}) for {others} descriptive ones. At least two descriptive sentences per directive one are recommended.",
+    "status": "Panel {n} of {count}",
+    "statusEmpty": "No panels",
+    "prev": "Previous panel",
+    "next": "Next panel",
+    "remove": "Delete the story",
+    "removeTitle": "Delete story",
+    "removeConfirm": "Are you sure you want to delete “{name}”?",
+    "projectionEmpty": "No stories yet",
+    "examples": {
+      "substitute": {
+        "title": "Today we have a substitute teacher",
+        "p1": "Sometimes our teacher cannot come to class.",
+        "p2": "Then another teacher comes. They are called a substitute teacher.",
+        "p3": "At first, it may feel strange. That is normal.",
+        "p4": "Today's agenda is still on the board.",
+        "p5": "We can listen to the substitute and ask if we have questions.",
+        "p6": "Another day, our teacher will come back."
+      },
+      "fireDrill": {
+        "title": "Fire drill",
+        "p1": "Today we will have a fire drill. It is a practice: there is no fire.",
+        "p2": "A loud alarm will ring for a while.",
+        "p3": "The noise may bother us. We can cover our ears.",
+        "p4": "We walk out in a line, with the group and the teacher.",
+        "p5": "We wait together at the meeting point until we are told we can go back.",
+        "p6": "Then we go back to class and continue the agenda."
+      },
+      "outing": {
+        "title": "We are going on a trip",
+        "p1": "Today we are going on a trip outside school.",
+        "p2": "We will go by bus, with the whole group.",
+        "p3": "There may be more people and more noise than in class.",
+        "p4": "We stay close to the group and the teacher.",
+        "p5": "At the end, we will come back to school."
+      }
+    }
+  },
+  "regulation": {
+    "name": "Regulation",
+    "tool": "Tool",
+    "tools": {
+      "thermometer": "Feelings thermometer",
+      "breathing": "Guided breathing"
+    },
+    "thermometerHelp": "A scale of 3 to 5 levels with colours and strategies. On the projection it is a reference for the whole group.",
+    "privacy": "Nobody's state is ever recorded: the thermometer only shows the levels and what we can do.",
+    "exampleFive": "Example thermometer (5 levels)",
+    "exampleThree": "Example thermometer (3 levels)",
+    "exampleApplied": "The example thermometer has been created.",
+    "levelsLabel": "Levels, from calmest to most intense",
+    "levelName": "Level {n}",
+    "colorLabel": "Level colour",
+    "addLevel": "Add a level",
+    "strategiesLabel": "Strategies",
+    "strategyLabel": "Strategy {n}",
+    "strategyPlaceholder": "e.g. Drink some water",
+    "strategyUntitled": "Strategy without text",
+    "addStrategy": "Add a strategy",
+    "colors": {
+      "blue": "Blue",
+      "green": "Green",
+      "yellow": "Yellow",
+      "orange": "Orange",
+      "rose": "Rose"
+    },
+    "examples": {
+      "calm": "Calm",
+      "fine": "All good",
+      "restless": "Restless",
+      "nervous": "Very nervous",
+      "help": "I need help"
+    },
+    "strategies": {
+      "keepGoing": "Keep working",
+      "breathe": "Breathe slowly",
+      "water": "Drink some water",
+      "pause": "Ask for a break",
+      "calmCorner": "Go to the calm corner",
+      "askAdult": "Ask an adult for help"
+    },
+    "breathingHelp": "A shape that grows and shrinks at the chosen pace. With “reduced motion”, only the text and the counter are shown. It can also be started from the calm screen.",
+    "startBreathing": "Start breathing",
+    "stopBreathing": "Stop breathing",
+    "launchBreathing": "Guided breathing",
+    "breathingPaused": "Guided breathing",
+    "phases": {
+      "in": "Breathe in",
+      "hold": "Hold",
+      "out": "Breathe out",
+      "rest": "Rest"
+    },
+    "projectionThermometer": "How are we? What can we do?",
+    "projectionEmpty": "No thermometer yet",
+    "config": {
+      "pattern": "Pace",
+      "patternHint": "Seconds for each phase: breathe in, hold and breathe out.",
+      "p46": "4-6 (in 4, out 6)",
+      "p444": "4-4-4 (in, hold, out)",
+      "p55": "5-5 (in 5, out 5)",
+      "p478": "4-7-8 (in, hold, out)",
+      "sound": "Very soft sound at each phase change"
+    }
+  },
+  "choice": {
+    "name": "Choice board",
+    "help": "Shows 2 to 6 options with pictograms. You can mark the option the group chose or leave the board as a reference only.",
+    "privacy": "Who chooses what is never recorded: only, if you want, the group's option.",
+    "title": "Question (optional)",
+    "titlePlaceholder": "e.g. What shall we do now?",
+    "examplesLabel": "Example options",
+    "useExample": "Use them",
+    "exampleApplied": "Example options added.",
+    "optionsLabel": "Options",
+    "optionLabel": "Text of option {n}",
+    "optionPlaceholder": "e.g. Reading",
+    "optionUntitled": "Option without text",
+    "add": "Add an option",
+    "minNote": "The board needs between {min} and {max} options to be shown.",
+    "chooseLabel": "Option chosen by the group",
+    "chooseNamed": "The group chooses “{name}”",
+    "none": "None (reference only)",
+    "chosen": "Chosen",
+    "projectionEmpty": "Not enough options yet",
+    "examples": {
+      "breaks": {
+        "name": "Breaks",
+        "title": "What do we need?"
+      },
+      "activities": {
+        "name": "Activities",
+        "title": "What shall we do now?"
+      },
+      "materials": {
+        "name": "Materials",
+        "title": "What do we work with?"
+      }
+    },
+    "options": {
+      "water": "Drink water",
+      "toilet": "Toilet",
+      "rest": "Rest",
+      "calmCorner": "Calm corner",
+      "read": "Read",
+      "draw": "Draw",
+      "computer": "Computer",
+      "play": "Play",
+      "book": "Book",
+      "write": "Write"
+    }
   }
 }

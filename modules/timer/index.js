@@ -1,7 +1,15 @@
 // @ts-check
 // Mòdul 2 · Temporitzador visual.
 
-import { initialTimer, isRunning, remaining, sanitizeState, timerActions } from './logic.js';
+import {
+  initialTimer,
+  isLinked,
+  isRunning,
+  remaining,
+  sanitizeState,
+  timerActions,
+  timerView,
+} from './logic.js';
 import { renderTimerControl } from './control.js';
 import { renderTimerProjection } from './projection.js';
 import './timer.css';
@@ -46,16 +54,34 @@ const timer = {
   keys: [{ keys: [' '], action: 'toggle', descKey: 'keys.timer' }],
   renderControl: (el, ctx) => renderTimerControl(el, ctx, configSchema),
   renderProjection: renderTimerProjection,
-  // So suau quan s'acaba el temps (una sola vegada, des del panell de control).
+  // Des del panell de control: so suau quan s'acaba el temps (una sola vegada)
+  // i manteniment del vincle amb l'agenda.
   onTick(ctx, state, now, memo) {
     const s = state.live.modules.timer;
     if (!s) return;
-    const left = remaining(s, now);
-    const running = isRunning(s);
-    if (memo.wasCounting && running && left <= 0 && state.live.config.timer?.sound) {
+    const view = timerView(s, state.live);
+    const left = remaining(view, now);
+    const running = isRunning(view);
+    // Si està lligat, el final del temps és el final de l'activitat: si els avisos
+    // de transició ja hi fan sonar el seu so, no el repetim.
+    const transitions = state.live.config.transitions ?? {};
+    const covered =
+      view.activity !== null && transitions.enabled !== false && transitions.sound === true;
+    if (memo.wasCounting && running && left <= 0 && state.live.config.timer?.sound && !covered) {
       ctx.ui?.playSound('end');
     }
     memo.wasCounting = running && left > 0;
+
+    if (!isLinked(s)) return;
+    if (view.orphan) {
+      // L'activitat lligada s'ha esborrat: es deslliga en pausa amb el darrer temps conegut.
+      ctx.dispatch({ type: 'follow', payload: { remainingMs: memo.lastLeft ?? s.remainingMs } });
+    } else {
+      memo.lastLeft = left;
+      // L'agenda ha passat a una altra activitat: el vincle la segueix.
+      if (view.activity && view.activity.id !== s.linkedActivityId)
+        ctx.dispatch({ type: 'follow' });
+    }
   },
 };
 

@@ -5,6 +5,7 @@
 
 import { createLive, templateFromLive } from './session.js';
 import { cleanText, isObject, sanitizeConfig, sanitizeSettings } from './schema/validate.js';
+import { LAYOUT_KEY, liveLayout, sanitizeLayout } from './layout.js';
 
 /** @typedef {import('./types.js').AppData} AppData */
 /** @typedef {import('./types.js').Action} Action */
@@ -51,13 +52,29 @@ export function reduceCore(state, action, { now, registry }) {
       const config = sanitizeConfig(mod.configSchema, merged, mod.defaults());
       return withLive(state, { config: { ...state.live.config, [mod.id]: config } });
     }
+    case 'setLayout': {
+      const current = liveLayout(state.live);
+      const layout = sanitizeLayout({ ...current, ...(isObject(p.patch) ? p.patch : {}) }, current);
+      if (layout.header === current.header && layout.footer === current.footer) return state;
+      return withLive(state, { config: { ...state.live.config, [LAYOUT_KEY]: layout } });
+    }
+    case 'resetLayout':
+      return withLive(state, {
+        config: { ...state.live.config, [LAYOUT_KEY]: { ...state.settings.layout } },
+      });
     case 'loadTemplate': {
       const template = state.templates.find((tpl) => tpl.id === p.id);
       if (!template) return state;
-      return { ...state, live: createLive(registry, template) };
+      return { ...state, live: createLive(registry, template, state.settings.layout) };
     }
     case 'newSession':
-      return { ...state, live: { ...createLive(registry, null), name: cleanText(p.name, 80) } };
+      return {
+        ...state,
+        live: {
+          ...createLive(registry, null, state.settings.layout),
+          name: cleanText(p.name, 80),
+        },
+      };
     case 'saveTemplate': {
       // p.id: id nou (si es desa com a nova) o id existent (si se sobreescriu).
       if (typeof p.id !== 'string') return state;

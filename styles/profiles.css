@@ -38,6 +38,9 @@
   --c-calm-text: #ffffff;
   --c-timer: #ffd60a;
   --c-timer-track: #333333;
+  --c-noise-ok: #001a0a;
+  --c-noise-high: #ff9f5a;
+  --c-noise-high-soft: #2a1300;
   --shadow: none;
   --border: 2px;
   --border-strong: 3px;
@@ -72,6 +75,9 @@
   --c-calm-text: #333333;
   --c-timer: #444444;
   --c-timer-track: #e6e6e6;
+  --c-noise-ok: #ffffff;
+  --c-noise-high: #111111;
+  --c-noise-high-soft: #ededed;
   --shadow: none;
 }
 

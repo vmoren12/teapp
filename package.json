@@ -1,6 +1,6 @@
 {
   "name": "teapp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Estructura visual i previsible de la sessió per a la pissarra digital. Pensada per a alumnat TEA, útil per a tot el grup (DUA).",
   "license": "EUPL-1.2",

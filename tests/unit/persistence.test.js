@@ -67,7 +67,7 @@ describe('càrrega i desat', () => {
 describe('exportació i importació', () => {
   it('fa el viatge d’anada i tornada amb id nous', async () => {
     const library = createPictoLibrary(createMemoryStorage());
-    const exported = await buildTemplatesExport(appData().templates, library, 0);
+    const exported = await buildTemplatesExport(appData().templates, library, 0, { registry });
     const { templates, skipped } = await readTemplatesImport(JSON.stringify(exported), {
       registry,
       library,

@@ -21,9 +21,13 @@
 }
 
 .projection {
+  /* Alçada de les franges (core/layout.js). L'escenari ocupa la resta. */
+  --pj-header-h: 2.25em;
+  --pj-footer-h: 3.2em;
   position: relative;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: var(--pj-header-h) minmax(0, 1fr) var(--pj-footer-h);
+  transition: grid-template-rows var(--dur) ease-out;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -35,16 +39,34 @@
   user-select: none;
 }
 
-/* ---------- Franja superior: Ara → Després ---------- */
+/* ---------- Franja superior: Ara → Després ----------
+   Les franges són contenidors: el text i els pictogrames de dins es mesuren en
+   cqh (alçada de la franja), així creixen o s'encongeixen amb ella i mai no es
+   tallen. El max() garanteix una mida mínima llegible. */
+.pj-header,
+.pj-footer {
+  container-type: size;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--c-surface);
+}
+
 .pj-header {
+  border-bottom: var(--border-strong) solid var(--c-border);
+}
+
+.projection[data-header='hidden'] .pj-header {
+  visibility: hidden;
+  border: 0;
+}
+
+.pj-header__inner {
   display: flex;
   align-items: center;
   gap: 0.8em;
-  min-height: 2.6em;
+  height: 100%;
   padding: 0.35em 1em;
-  border-bottom: var(--border-strong) solid var(--c-border);
-  background: var(--c-surface);
-  font-size: 0.85em;
+  font-size: max(36cqh, 10px);
 }
 
 .pj-header__item {
@@ -87,11 +109,14 @@
   transform: scaleX(-1);
 }
 
-/* ---------- Escenari ---------- */
+/* ---------- Escenari ----------
+   També és un contenidor: els mòduls (p. ex. el disc del temporitzador)
+   s'ajusten a l'espai que deixen les franges. */
 .pj-stage {
   position: relative;
   min-height: 0;
   padding: 0.8em 1.2em;
+  container-type: size;
 }
 
 .pj-slot {
@@ -120,14 +145,17 @@
 
 /* ---------- Franja inferior: avisos + atribució ---------- */
 .pj-footer {
+  border-top: var(--border-strong) solid var(--c-border);
+}
+
+.pj-footer__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1em;
-  min-height: 3.2em;
-  padding: 0.35em 1em;
-  border-top: var(--border-strong) solid var(--c-border);
-  background: var(--c-surface);
+  height: 100%;
+  padding: 0.3em 1em;
+  font-size: max(30cqh, 10px);
 }
 
 .pj-footer__modules {
@@ -136,8 +164,9 @@
 }
 
 .pj-attribution {
+  flex-shrink: 0;
   max-width: 28%;
-  font-size: 0.42em;
+  font-size: max(0.42em, 9px);
   line-height: 1.3;
   text-align: end;
   color: var(--c-text-muted);

@@ -68,6 +68,7 @@ async function boot() {
       // Els missatges s'encadenen perquè un canvi d'idioma (asíncron) no es desordeni.
       queue = queue.then(() => apply(incoming));
     },
+    onTransient: (moduleId, value) => shell?.transient(moduleId, value),
   });
 
   /** @param {SharedState} incoming */
@@ -113,6 +114,7 @@ async function boot() {
   attachKeyboard({
     shortcuts,
     where: 'projection',
+    getStage: () => state?.live.stage,
     onAction: (action) => replica.sendCommand(action),
     onCommand: (command) => {
       if (command === 'fullscreen') toggleFullscreen();

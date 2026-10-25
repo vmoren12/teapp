@@ -15,6 +15,7 @@ import { isInteractiveTarget, isTypingTarget } from './dom.js';
  * @property {Action} [action]     Acció d'estat (s'envia al panell de control).
  * @property {string} [command]    Ordre local de la finestra (pantalla completa, ajuda…).
  * @property {'all' | 'control'} scope
+ * @property {string} [stage]      Només val mentre aquest mòdul és a l'escenari (i llavors té prioritat).
  */
 
 /** Tecles que els elements interactius ja fan servir per a ells mateixos. */
@@ -35,7 +36,8 @@ const CORE_SHORTCUTS = [
   { keys: ['Escape'], descKey: 'keys.exit', command: 'exit', scope: 'control' },
 ];
 
-const STAGE_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+/** Tecles per posar cada mòdul a l'escenari (el desè fa servir el 0). */
+export const STAGE_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
 /** Tecles reservades pel nucli: els mòduls no les poden fer servir. */
 export const RESERVED_KEYS = [...CORE_SHORTCUTS.flatMap((s) => s.keys), ...STAGE_KEYS];
@@ -67,6 +69,7 @@ export function buildShortcuts(registry) {
         descKey: binding.descKey,
         action: { module: mod.id, type: binding.action, payload: binding.payload },
         scope: 'all',
+        ...(binding.when === 'stage' ? { stage: mod.id } : {}),
       });
     }
   }
@@ -94,16 +97,20 @@ export function isRemoteAllowed(shortcuts, action) {
  * @param {Shortcut[]} shortcuts
  * @param {KeyboardEvent} event
  * @param {'control' | 'projection'} where
+ * @param {string} [stage]  Mòdul que ocupa ara l'escenari.
  * @returns {Shortcut | null}
  */
-export function matchShortcut(shortcuts, event, where) {
+export function matchShortcut(shortcuts, event, where, stage) {
   if (event.ctrlKey || event.metaKey || event.altKey) return null;
   if (isTypingTarget(event.target)) return null;
   if (NATIVE_KEYS.has(event.key) && isInteractiveTarget(event.target)) return null;
+  const candidates = shortcuts.filter(
+    (s) => s.keys.includes(event.key) && (s.scope === 'all' || where === 'control'),
+  );
   return (
-    shortcuts.find(
-      (s) => s.keys.includes(event.key) && (s.scope === 'all' || where === 'control'),
-    ) ?? null
+    candidates.find((s) => s.stage !== undefined && s.stage === stage) ??
+    candidates.find((s) => s.stage === undefined) ??
+    null
   );
 }
 
@@ -114,16 +121,24 @@ export function matchShortcut(shortcuts, event, where) {
  *   onAction: (action: Action) => void,
  *   onCommand: (command: string) => void,
  *   isEnabled?: () => boolean,
+ *   getStage?: () => string | undefined,
  * }} options
  * @returns {() => void}
  */
-export function attachKeyboard({ shortcuts, where, onAction, onCommand, isEnabled = () => true }) {
+export function attachKeyboard({
+  shortcuts,
+  where,
+  onAction,
+  onCommand,
+  isEnabled = () => true,
+  getStage = () => undefined,
+}) {
   /** @param {KeyboardEvent} event */
   const onKeyDown = (event) => {
     if (!isEnabled() || event.defaultPrevented) return;
     // Amb un diàleg obert, el teclat és del diàleg.
     if (document.querySelector('dialog[open]')) return;
-    const shortcut = matchShortcut(shortcuts, event, where);
+    const shortcut = matchShortcut(shortcuts, event, where, getStage());
     if (!shortcut) return;
     event.preventDefault();
     if (shortcut.action) onAction(shortcut.action);

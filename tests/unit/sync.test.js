@@ -43,6 +43,20 @@ describe('sincronització entre finestres', () => {
     expect(onPeersChange).toHaveBeenLastCalledWith(0);
   });
 
+  it('els valors efímers arriben a la projecció sense passar per l’estat', () => {
+    const [hostSide, replicaSide] = createMemoryTransportPair();
+    const data = appData();
+    const host = startHost({ transport: hostSide, getState: () => data, onCommand: () => {} });
+    cleanup.push(host.stop);
+    const onState = vi.fn();
+    const onTransient = vi.fn();
+    const replica = startReplica({ transport: replicaSide, onState, onTransient });
+    cleanup.push(replica.stop);
+    host.sendTransient('noise', { active: true, level: 1.5 });
+    expect(onTransient).toHaveBeenCalledWith('noise', { active: true, level: 1.5 });
+    expect(onState).toHaveBeenCalledTimes(1);
+  });
+
   it('avisa la projecció quan el panell es tanca', () => {
     const [hostSide, replicaSide] = createMemoryTransportPair();
     const data = appData();
