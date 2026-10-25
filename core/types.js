@@ -20,8 +20,8 @@
 /**
  * Alçada de les franges superior i inferior de la projecció.
  * @typedef {Object} Layout
- * @property {'hidden' | 'small' | 'medium' | 'large'} header
- * @property {'small' | 'medium' | 'large'} footer
+ * @property {'hidden' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} header
+ * @property {'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} footer
  */
 
 /**
@@ -182,6 +182,9 @@
  * @property {(content: unknown) => unknown} [exportContent]
  *   Treu les dades personals del contingut abans d'exportar una plantilla
  *   (p. ex. els noms dels torns). Només es manté tot si el docent ho marca.
+ * @property {string[]} [remoteActions]
+ *   Accions (a més de les de les dreceres) que es poden enviar des de la finestra
+ *   de projecció, p. ex. tocar una vinyeta a la pissarra. El reductor en valida la càrrega.
  * @property {{ labelKey: string, icon: string, action: string }} [calmLaunch]
  *   Botó que apareix al panell mentre hi ha la pantalla de calma: executa
  *   l'acció i mostra el mòdul a l'escenari (p. ex. la respiració guiada).

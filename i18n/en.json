@@ -50,7 +50,11 @@
     "message": "Calm time"
   },
   "classMode": {
-    "hint": "Class mode · Esc to exit · arrows to move on"
+    "hint": "Class mode · Esc to exit · arrows to move on",
+    "views": "Choose what is shown",
+    "viewsNamed": "Choose what is shown (now: {name})",
+    "prev": "Previous",
+    "next": "Next"
   },
   "projection": {
     "title": "TEApp · Projection",
@@ -65,8 +69,8 @@
     "recovered": "Saved data could not be read. A backup was kept and TEApp started fresh.",
     "newer": "Saved data comes from a newer version of TEApp. A backup was kept; update the app to recover it.",
     "memory": "This browser does not allow saving data. Changes will be lost when the page closes.",
-    "update": "A new version of TEApp is available. Reload the page whenever you like to use it.",
-    "updateAction": "Update"
+    "update": "A new version of TEApp is available. It will load by itself when you leave class mode or finish typing (your session is kept).",
+    "updateAction": "Update now"
   },
   "agenda": {
     "name": "Schedule",
@@ -365,8 +369,7 @@
     "storyPrev": "Previous panel (when the story is on screen)"
   },
   "attribution": {
-    "arasaac": "Pictograms: Sergio Palao. Source: ARASAAC (https://arasaac.org). Licence: CC BY-NC-SA 4.0. Owner: Government of Aragón.",
-    "arasaacShort": "Pictograms: Sergio Palao · ARASAAC · CC BY-NC-SA"
+    "arasaac": "Pictograms: Sergio Palao. Source: ARASAAC (https://arasaac.org). Licence: CC BY-NC-SA 4.0. Owner: Government of Aragón."
   },
   "samples": {
     "eso": {
@@ -461,7 +464,10 @@
       "hidden": "Hidden",
       "small": "Small",
       "medium": "Medium",
-      "large": "Large"
+      "large": "Large",
+      "xlarge": "Extra large",
+      "xxlarge": "Huge",
+      "huge": "Maximum"
     }
   },
   "scope": {
@@ -692,6 +698,53 @@
         "p4": "We stay close to the group and the teacher.",
         "p5": "At the end, we will come back to school."
       }
+    },
+    "suggest": {
+      "title": "Write the story and we will suggest the panels",
+      "label": "Story text",
+      "placeholder": "e.g. Today we will have a fire drill. A loud alarm will ring. The noise may bother us. We can cover our ears. Then we will go back to class.",
+      "hint": "Each sentence becomes a panel. A sentence type and a pictogram are suggested; you can change everything afterwards.",
+      "online": "Search ARASAAC for missing pictograms",
+      "onlineHint": "Only one keyword per panel is sent. If you leave it unticked, everything happens on this device.",
+      "run": "Suggest the panels",
+      "empty": "Write at least one sentence.",
+      "done": {
+        "one": "A story with {count} panel has been created. Review it below.",
+        "other": "A story with {count} panels has been created. Review it below."
+      },
+      "tooLong": "The text was long: the first {max} sentences were used.",
+      "perspective": "feel, feels, feeling, think, thinks, maybe, perhaps, normal, strange, bother, bothers, nervous, happy, worried, worry, scared, afraid, sad, angry, like",
+      "directive": "we can, i can, we have to, i have to, we should, try, remember, stay, we walk, we wait, listen, follow, ask, go, let us",
+      "affirmative": "important, okay, is good, will be fine, will come back, come back, always, together",
+      "stopwords": "today, tomorrow, then, after, before, when, because, also, very, this, that, these, have, will, always, maybe, sometimes, while, other, another, there, their",
+      "synonyms": {
+        "professor": "teacher, substitute",
+        "companys": "classmates, group, class, line, together",
+        "canvi": "change, changes, drill, unexpected, different",
+        "escoltar": "alarm, noise, hear, ring",
+        "silenci": "silence, ears, quiet, cover",
+        "esperar": "wait, meeting point",
+        "pati": "playground, outside",
+        "autobus": "bus",
+        "excursio": "trip, outing, visit",
+        "agenda": "agenda, board, schedule",
+        "preguntar": "question, questions, ask, help",
+        "beure": "water, drink",
+        "respirar": "breathe, breath, air",
+        "relaxar": "calm, relax",
+        "acabar": "finish, end",
+        "comencar": "start, begin, first",
+        "casa": "home, ill, sick, absent",
+        "entrar": "come back, go back, return"
+      }
+    },
+    "config": {
+      "view": "How it looks on the projection",
+      "viewHint": "“Sequence” shows all the panels at once, as a chain, with the current one highlighted.",
+      "viewSingle": "One big panel",
+      "viewSequence": "Whole sequence",
+      "screenControls": "On-screen controls",
+      "screenControlsHint": "Arrows on the sides and panels that can be tapped on the whiteboard."
     }
   },
   "regulation": {

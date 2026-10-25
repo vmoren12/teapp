@@ -50,7 +50,11 @@
     "message": "Moment de calma"
   },
   "classMode": {
-    "hint": "Mode classe · Esc per sortir · fletxes per avançar"
+    "hint": "Mode classe · Esc per sortir · fletxes per avançar",
+    "views": "Tria què es mostra",
+    "viewsNamed": "Tria què es mostra (ara: {name})",
+    "prev": "Anterior",
+    "next": "Següent"
   },
   "projection": {
     "title": "TEApp · Projecció",
@@ -65,8 +69,8 @@
     "recovered": "No s'han pogut llegir les dades desades. N'hem guardat una còpia i hem començat de nou.",
     "newer": "Les dades desades són d'una versió més nova de TEApp. N'hem guardat una còpia; actualitza l'app per recuperar-les.",
     "memory": "Aquest navegador no permet desar dades. Els canvis es perdran en tancar la pàgina.",
-    "update": "Hi ha una versió nova de TEApp. Recarrega la pàgina quan vulguis per fer-la servir.",
-    "updateAction": "Actualitza"
+    "update": "Hi ha una versió nova de TEApp. Es carregarà sola quan surtis del mode classe o acabis d'escriure (la sessió es conserva).",
+    "updateAction": "Actualitza ara"
   },
   "agenda": {
     "name": "Agenda",
@@ -365,8 +369,7 @@
     "storyPrev": "Vinyeta anterior (quan la història és a la pantalla)"
   },
   "attribution": {
-    "arasaac": "Pictogrames: Sergio Palao. Origen: ARASAAC (https://arasaac.org). Llicència: CC BY-NC-SA 4.0. Propietat: Govern d'Aragó.",
-    "arasaacShort": "Pictogrames: Sergio Palao · ARASAAC · CC BY-NC-SA"
+    "arasaac": "Pictogrames: Sergio Palao. Origen: ARASAAC (https://arasaac.org). Llicència: CC BY-NC-SA 4.0. Propietat: Govern d'Aragó."
   },
   "samples": {
     "eso": {
@@ -461,7 +464,10 @@
       "hidden": "Amagada",
       "small": "Petita",
       "medium": "Mitjana",
-      "large": "Gran"
+      "large": "Gran",
+      "xlarge": "Molt gran",
+      "xxlarge": "Enorme",
+      "huge": "Màxima"
     }
   },
   "scope": {
@@ -692,6 +698,53 @@
         "p4": "Ens quedem a prop del grup i del docent.",
         "p5": "En acabar, tornarem a l'escola."
       }
+    },
+    "suggest": {
+      "title": "Escriu la història i et suggerim les vinyetes",
+      "label": "Text de la història",
+      "placeholder": "p. ex. Avui farem un simulacre d'incendi. Sonarà una alarma forta. Potser ens molesta el soroll. Podem tapar-nos les orelles. Després tornarem a classe.",
+      "hint": "Cada frase serà una vinyeta. Es proposen el tipus de frase i un pictograma; després ho pots canviar tot.",
+      "online": "Busca a ARASAAC els pictogrames que falten",
+      "onlineHint": "S'hi envia només una paraula clau per vinyeta. Si no ho marques, tot es fa en aquest dispositiu.",
+      "run": "Suggereix les vinyetes",
+      "empty": "Escriu almenys una frase.",
+      "done": {
+        "one": "S'ha creat una història amb {count} vinyeta. Revisa-la a sota.",
+        "other": "S'ha creat una història amb {count} vinyetes. Revisa-la a sota."
+      },
+      "tooLong": "El text era llarg: s'han fet servir les {max} primeres frases.",
+      "perspective": "sentim, sento, sentir, ens sentim, pensem, penso, potser, normal, estrany, estranya, molesta, molestar, nerviosos, nerviós, nerviosa, contents, content, preocupa, por, tristos, enfadats, ens agrada, agrada",
+      "directive": "podem, puc, hem de, he de, cal, intentarem, intento, intentem, recordem, ens quedem, sortim, esperem, escoltem, seguim, demanem, caminem, anem, provem",
+      "affirmative": "important, està bé, és bo, tot anirà bé, tornarà, tornarem, sempre, junts",
+      "stopwords": "avui, demà, després, abans, quan, perquè, però, també, molt, molts, molta, aquest, aquesta, aquests, tenim, farem, sempre, potser, vegades, estona, nostre, nostra, altre, altra",
+      "synonyms": {
+        "professor": "professora, mestre, mestra, docent, substitut, substituta",
+        "companys": "companyes, grup, classe, fila, junts",
+        "canvi": "canvis, simulacre, imprevist, diferent",
+        "escoltar": "alarma, soroll, sentir, sonarà, escoltem",
+        "silenci": "orelles, callats, tapar",
+        "esperar": "esperem, espera, punt de trobada",
+        "pati": "patí, fora, exterior",
+        "autobus": "autobús, bus",
+        "excursio": "sortida, excursió, visita",
+        "agenda": "agenda, pissarra, classe",
+        "preguntar": "pregunta, preguntes, dubtes, ajuda",
+        "beure": "aigua",
+        "respirar": "respira, respirem, aire",
+        "relaxar": "calma, tranquils, tranquil",
+        "acabar": "acabem, final, acabarà",
+        "comencar": "començar, comencem, primer",
+        "casa": "malalt, malalta, absent",
+        "entrar": "tornarem, tornem, tornar"
+      }
+    },
+    "config": {
+      "view": "Com es veu a la projecció",
+      "viewHint": "«Seqüència» mostra totes les vinyetes alhora, en cadena, amb l'actual destacada.",
+      "viewSingle": "Una vinyeta gran",
+      "viewSequence": "Seqüència sencera",
+      "screenControls": "Control des de la pantalla",
+      "screenControlsHint": "Fletxes als costats i vinyetes que es poden tocar a la pissarra."
     }
   },
   "regulation": {

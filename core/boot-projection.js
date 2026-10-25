@@ -20,6 +20,7 @@ import { share } from './share.js';
 import { h } from './dom.js';
 import { mountProjection } from '../components/projection-shell.js';
 import { hideIdleCursor } from '../components/idle-cursor.js';
+import { reloadProjectionOnUpdate } from './pwa.js';
 
 /** @typedef {import('./types.js').SharedState} SharedState */
 
@@ -122,6 +123,7 @@ async function boot() {
   });
   root.addEventListener('dblclick', toggleFullscreen);
   hideIdleCursor(document.body);
+  reloadProjectionOnUpdate();
   window.addEventListener('pagehide', () => replica.stop());
 }
 

@@ -77,7 +77,9 @@ test('l’alçada de les franges es canvia amb els controls i amb els tiradors',
   await footer.focus();
   await control.keyboard.press('Home');
   await expect(root).toHaveAttribute('data-footer', 'small');
-  await expect(projection.locator('.pj-attribution')).toBeVisible();
+  // L'atribució d'ARASAAC no surt a la projecció, sinó al peu del panell.
+  await expect(projection.getByText(/ARASAAC/)).toHaveCount(0);
+  await expect(control.getByRole('contentinfo')).toContainText('ARASAAC');
 
   await control.getByText('Mida de les franges de la pantalla').click();
   await control.getByRole('button', { name: 'Restableix' }).click();
@@ -176,4 +178,58 @@ test('els mòduls nous no tenen errors d’accessibilitat (panell i projecció)'
     await expectNoViolations(control);
     await expectNoViolations(projection);
   }
+});
+
+test('mode classe: desplegable de vistes i botó «següent» discrets', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('.agenda-row')).toHaveCount(5);
+  await page.getByRole('button', { name: /Comença/ }).click();
+  await page.getByRole('button', { name: /Mode classe/ }).click();
+  const overlay = page.locator('.class-mode');
+  await expect(overlay).toBeVisible();
+
+  await overlay.getByRole('button', { name: 'Següent' }).click();
+  await expect(overlay.locator('.pj-card[data-status="now"]')).toContainText('Explicació');
+  // El focus torna a la pantalla: les fletxes (comandament) continuen funcionant.
+  await page.keyboard.press('ArrowRight');
+  await expect(overlay.locator('.pj-card[data-status="now"]')).toContainText('Treball individual');
+
+  await overlay.getByRole('button', { name: /Tria què es mostra/ }).click();
+  await overlay.getByRole('button', { name: 'Temporitzador' }).click();
+  await expect(overlay.locator('.pj-slot--timer')).toBeVisible();
+  // Esc tanca el desplegable sense sortir del mode classe.
+  await overlay.getByRole('button', { name: /Tria què es mostra/ }).click();
+  await page.keyboard.press('Escape');
+  await expect(overlay).toBeVisible();
+  await expectNoViolations(page);
+});
+
+test('històries: el text es converteix en vinyetes i la seqüència es controla des de la pantalla', async ({
+  context,
+}) => {
+  const { control, projection } = await openBoth(context);
+  await control.getByRole('tab', { name: 'Històries socials' }).click();
+  await control.getByText('Escriu la història i et suggerim les vinyetes').click();
+  await control
+    .getByLabel('Text de la història')
+    .fill('Avui ve una professora substituta. Potser ens sembla estrany. Podem preguntar dubtes.');
+  await control.getByRole('button', { name: 'Suggereix les vinyetes' }).click();
+  await expect(control.getByText(/amb 3 vinyetes/).first()).toBeVisible();
+  await expect(control.getByLabel('Frase de la vinyeta 2')).toHaveValue(
+    'Potser ens sembla estrany.',
+  );
+
+  await control.locator('.tabs__panel:not([hidden]) .pane__config summary').click();
+  await control.getByRole('radio', { name: 'Seqüència sencera' }).check({ force: true });
+  await projection.keyboard.press('8');
+  const steps = projection.locator('.pj-story__step');
+  await expect(steps).toHaveCount(3);
+  await expect(projection.locator('.pj-story__item').first().locator('tea-picto')).toHaveCount(1);
+  // Tocar la tercera vinyeta a la pissarra la fa actual.
+  await steps.nth(2).click();
+  await expect(projection.locator('.pj-story__item[data-status="now"]')).toContainText(
+    'Podem preguntar dubtes.',
+  );
+  await expect(control.locator('.callout').filter({ hasText: 'Vinyeta 3 de 3' })).toBeVisible();
+  await expectNoViolations(projection);
 });

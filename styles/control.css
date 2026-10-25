@@ -469,6 +469,97 @@
   opacity: 0;
 }
 
+/* Controls discrets del mode classe: translúcids i amagats quan el cursor és quiet. */
+.class-controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.class-controls__views,
+.class-controls__nav {
+  position: absolute;
+  display: flex;
+  gap: var(--space-2);
+  pointer-events: auto;
+  opacity: 0.45;
+  transition: opacity 400ms;
+}
+
+.class-controls__views {
+  inset-block-start: var(--space-3);
+  inset-inline-end: var(--space-3);
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.class-controls__nav {
+  inset-block-end: var(--space-3);
+  inset-inline-end: var(--space-3);
+}
+
+.class-controls__views:hover,
+.class-controls__nav:hover,
+.class-controls__views:focus-within,
+.class-controls__nav:focus-within,
+.class-controls[data-open] .class-controls__views {
+  opacity: 1;
+}
+
+.class-mode.is-idle .class-controls:not([data-open]) .class-controls__views,
+.class-mode.is-idle .class-controls__nav {
+  opacity: 0;
+}
+
+.class-controls__btn {
+  min-width: var(--target);
+  border: var(--border) solid var(--c-border-strong);
+  background: var(--c-surface);
+}
+
+.class-controls__toggle {
+  gap: var(--space-1);
+  padding-inline: var(--space-2);
+}
+
+.class-controls__toggle .icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.class-controls__current {
+  display: inline-flex;
+}
+
+.class-controls__current .icon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.class-controls__menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 14rem;
+  padding: var(--space-1);
+  border: var(--border) solid var(--c-border-strong);
+  border-radius: var(--radius-m);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-dialog);
+}
+
+.class-controls__option {
+  justify-content: flex-start;
+}
+
+.class-controls__option[aria-pressed='true'] {
+  background: var(--c-accent-soft);
+  color: var(--c-text);
+}
+
+[dir='rtl'] .class-controls__nav .icon {
+  transform: scaleX(-1);
+}
+
 .is-idle,
 .is-idle * {
   cursor: none !important;

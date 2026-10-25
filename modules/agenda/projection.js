@@ -115,11 +115,60 @@ export function renderAgendaProjection(el, ctx) {
   let idleTimer;
 
   // --- Desplaçament ---------------------------------------------------------------
+  // Sense scroll-snap: el navegador «estirava» la fila cap a la targeta més
+  // propera després de cada pas de la roda o d'arrossegar, i el moviment
+  // s'encallava. En lloc d'això, un desplaçament suau propi: la posició es mou
+  // a poc a poc cap a l'objectiu (roda, teclat, centrar) i, en deixar anar el
+  // ratolí, continua una mica amb la velocitat que portava (inèrcia).
+  // La posició es compta des de l'inici de la fila (també de dreta a esquerra).
+
+  const sign = () => (getComputedStyle(scroller).direction === 'rtl' ? -1 : 1);
+  const maxPos = () => Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+  const getPos = () => Math.abs(scroller.scrollLeft);
+  /** @param {number} p */
+  const setPos = (p) => {
+    scroller.scrollLeft = sign() * p;
+  };
+
+  /** @type {number | null} */
+  let goal = null;
+  let frame = 0;
+
+  const stopAnimation = () => {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    goal = null;
+  };
+
+  const animate = () => {
+    if (goal === null) return;
+    const pos = getPos();
+    const diff = goal - pos;
+    if (Math.abs(diff) < 1) {
+      setPos(goal);
+      stopAnimation();
+      return;
+    }
+    // Com a mínim un píxel per pas: el navegador arrodoneix la posició i, amb
+    // passos més petits, la fila es quedaria encallada a prop de l'objectiu.
+    setPos(pos + Math.sign(diff) * Math.max(Math.abs(diff) * 0.18, 1));
+    frame = requestAnimationFrame(animate);
+  };
+
+  /** Va a una posició, suaument si no cal reduir el moviment. @param {number} p */
+  const scrollToPos = (p) => {
+    goal = Math.min(maxPos(), Math.max(0, p));
+    if (prefersReducedMotion()) {
+      setPos(goal);
+      stopAnimation();
+      return;
+    }
+    if (!frame) frame = requestAnimationFrame(animate);
+  };
 
   const updateEdges = () => {
-    // scrollLeft és negatiu en escriptura de dreta a esquerra: fem servir el valor absolut.
-    const pos = Math.abs(scroller.scrollLeft);
-    const max = scroller.scrollWidth - scroller.clientWidth;
+    const pos = getPos();
+    const max = maxPos();
     strip.dataset.moreStart = String(pos > 2);
     strip.dataset.moreEnd = String(max - pos > 2);
   };
@@ -132,10 +181,12 @@ export function renderAgendaProjection(el, ctx) {
     const rect = target.getBoundingClientRect();
     const delta = rect.left + rect.width / 2 - (box.left + box.width / 2);
     if (Math.abs(delta) < 1) return;
-    scroller.scrollBy({
-      left: delta,
-      behavior: smooth && !prefersReducedMotion() ? 'smooth' : 'auto',
-    });
+    const p = getPos() + delta * sign();
+    if (smooth) scrollToPos(p);
+    else {
+      stopAnimation();
+      setPos(Math.min(maxPos(), Math.max(0, p)));
+    }
   };
 
   /** Cada interacció del docent o de l'alumnat torna a comptar els 15 s. */
@@ -152,65 +203,83 @@ export function renderAgendaProjection(el, ctx) {
 
   scroller.addEventListener('scroll', updateEdges, { passive: true });
 
-  // Roda del ratolí: el moviment vertical desplaça la fila en horitzontal.
+  // Roda del ratolí o del ratolí tàctil: el moviment vertical desplaça la fila.
   scroller.addEventListener(
     'wheel',
     (event) => {
       touched();
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      if (!delta) return;
       event.preventDefault();
-      scroller.scrollBy({ left: event.deltaY });
+      // Les rodes «per línies» (Firefox) envien valors petits.
+      const px = event.deltaMode === 1 ? delta * 40 : delta;
+      scrollToPos((goal ?? getPos()) + px);
     },
     { passive: false },
   );
 
-  // Dit: desplaçament natiu (touch-action: pan-x). Ratolí: arrossegar.
+  // Dit: desplaçament natiu del navegador (touch-action: pan-x), amb la seva inèrcia.
+  // Ratolí: arrossegar, amb inèrcia en deixar anar.
   scroller.addEventListener('pointerdown', (event) => {
     touched();
+    stopAnimation();
     // Tocar l'agenda no l'ha d'enfocar: si no, les fletxes del comandament de
     // presentació la desplaçarien en lloc d'avançar l'activitat.
     event.preventDefault();
     if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    const dir = sign();
     const startX = event.clientX;
-    const startLeft = scroller.scrollLeft;
+    const startPos = getPos();
+    let lastX = startX;
+    let lastTime = event.timeStamp;
+    let velocity = 0; // px per ms, en el sentit de la fila
     scroller.setPointerCapture(event.pointerId);
     strip.dataset.dragging = 'true';
     /** @param {PointerEvent} e */
     const move = (e) => {
-      scroller.scrollLeft = startLeft - (e.clientX - startX);
+      setPos(Math.min(maxPos(), Math.max(0, startPos - (e.clientX - startX) * dir)));
+      const dt = e.timeStamp - lastTime;
+      if (dt > 0) velocity = 0.8 * ((-(e.clientX - lastX) * dir) / dt) + 0.2 * velocity;
+      lastX = e.clientX;
+      lastTime = e.timeStamp;
     };
-    const up = () => {
+    /** @param {PointerEvent} e */
+    const up = (e) => {
       delete strip.dataset.dragging;
       touched();
       scroller.removeEventListener('pointermove', move);
       scroller.removeEventListener('pointerup', up);
       scroller.removeEventListener('pointercancel', up);
+      // Inèrcia: només si el punter encara es movia en deixar-lo anar.
+      if (e.timeStamp - lastTime < 80 && Math.abs(velocity) > 0.05) {
+        scrollToPos(getPos() + velocity * 260);
+      }
     };
     scroller.addEventListener('pointermove', move);
     scroller.addEventListener('pointerup', up);
     scroller.addEventListener('pointercancel', up);
   });
-  scroller.addEventListener('touchstart', touched, { passive: true });
+  scroller.addEventListener(
+    'touchstart',
+    () => {
+      touched();
+      stopAnimation();
+    },
+    { passive: true },
+  );
 
   // Teclat (només quan la zona té el focus): fletxes, Inici i Fi.
   scroller.addEventListener('keydown', (event) => {
-    const rtl = getComputedStyle(scroller).direction === 'rtl';
-    const sign = rtl ? -1 : 1;
-    /** @type {number | null} */
-    let left = null;
-    if (event.key === 'ArrowRight') left = step() * sign;
-    else if (event.key === 'ArrowLeft') left = -step() * sign;
-    else if (event.key === 'Home') {
-      scroller.scrollTo({ left: 0 });
-    } else if (event.key === 'End') {
-      scroller.scrollTo({ left: sign * scroller.scrollWidth });
-    } else return;
+    const dir = sign();
+    const base = goal ?? getPos();
+    if (event.key === 'ArrowRight') scrollToPos(base + step() * dir);
+    else if (event.key === 'ArrowLeft') scrollToPos(base - step() * dir);
+    else if (event.key === 'Home') scrollToPos(0);
+    else if (event.key === 'End') scrollToPos(maxPos());
+    else return;
     // Així les dreceres globals (activitat següent) no s'activen.
     event.preventDefault();
     touched();
-    if (left !== null) {
-      scroller.scrollBy({ left, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
-    }
   });
 
   const resize =
@@ -276,6 +345,7 @@ export function renderAgendaProjection(el, ctx) {
     },
     destroy() {
       clearTimeout(idleTimer);
+      stopAnimation();
       resize?.disconnect();
       el.replaceChildren();
     },

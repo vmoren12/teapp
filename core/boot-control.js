@@ -22,6 +22,7 @@ import { applyAppearance } from './appearance.js';
 import { playChime, unlockAudio } from './sound.js';
 import { isObject } from './schema/validate.js';
 import { registerServiceWorker } from './pwa.js';
+import { isTypingTarget } from './dom.js';
 import { mountControlShell } from '../components/control-shell.js';
 import { createAnnouncer } from '../components/toast.js';
 import { openPictoPicker } from '../components/picto-picker.js';
@@ -122,6 +123,7 @@ async function boot() {
   const shell = mountControlShell(root, {
     t,
     registry,
+    shortcuts,
     dispatch,
     getShared: shared,
     ctxFor: (id) => contextFor(id, true),
@@ -156,7 +158,7 @@ async function boot() {
     getState: shared,
     // Des de la projecció només s'accepten les accions de les dreceres.
     onCommand: (action) => {
-      if (isRemoteAllowed(shortcuts, action)) dispatch(action);
+      if (isRemoteAllowed(shortcuts, action, registry)) dispatch(action);
     },
     onPeersChange: (count) => shell.setPeers(count),
     onDuplicateHost: () => shell.showBanner('duplicate', t('banner.duplicate')),
@@ -211,12 +213,19 @@ async function boot() {
   if (notice === 'newer') shell.showBanner('newer', t('banner.newer'));
   if (storage.kind === 'memory') shell.showBanner('memory', t('banner.memory'));
 
+  // Actualització forçada: amb una versió nova, es desa la sessió i es recarrega
+  // tan aviat com sigui segur (fora del mode classe, sense diàlegs ni escriure).
   registerServiceWorker({
     onUpdateReady: (apply) =>
       shell.showBanner('update', t('banner.update'), {
         label: t('banner.updateAction'),
         onClick: apply,
       }),
+    isSafe: () =>
+      !shell.isClassMode() &&
+      !document.querySelector('dialog[open]') &&
+      !isTypingTarget(document.activeElement),
+    beforeReload: () => persistence.flush(),
   });
 }
 

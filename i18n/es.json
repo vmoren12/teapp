@@ -50,7 +50,11 @@
     "message": "Momento de calma"
   },
   "classMode": {
-    "hint": "Modo clase · Esc para salir · flechas para avanzar"
+    "hint": "Modo clase · Esc para salir · flechas para avanzar",
+    "views": "Elige qué se muestra",
+    "viewsNamed": "Elige qué se muestra (ahora: {name})",
+    "prev": "Anterior",
+    "next": "Siguiente"
   },
   "projection": {
     "title": "TEApp · Proyección",
@@ -65,8 +69,8 @@
     "recovered": "No se han podido leer los datos guardados. Hemos guardado una copia y hemos empezado de nuevo.",
     "newer": "Los datos guardados son de una versión más nueva de TEApp. Hemos guardado una copia; actualiza la app para recuperarlos.",
     "memory": "Este navegador no permite guardar datos. Los cambios se perderán al cerrar la página.",
-    "update": "Hay una versión nueva de TEApp. Recarga la página cuando quieras para usarla.",
-    "updateAction": "Actualizar"
+    "update": "Hay una versión nueva de TEApp. Se cargará sola cuando salgas del modo clase o termines de escribir (la sesión se conserva).",
+    "updateAction": "Actualizar ahora"
   },
   "agenda": {
     "name": "Agenda",
@@ -365,8 +369,7 @@
     "storyPrev": "Viñeta anterior (cuando la historia está en pantalla)"
   },
   "attribution": {
-    "arasaac": "Pictogramas: Sergio Palao. Origen: ARASAAC (https://arasaac.org). Licencia: CC BY-NC-SA 4.0. Propiedad: Gobierno de Aragón.",
-    "arasaacShort": "Pictogramas: Sergio Palao · ARASAAC · CC BY-NC-SA"
+    "arasaac": "Pictogramas: Sergio Palao. Origen: ARASAAC (https://arasaac.org). Licencia: CC BY-NC-SA 4.0. Propiedad: Gobierno de Aragón."
   },
   "samples": {
     "eso": {
@@ -461,7 +464,10 @@
       "hidden": "Oculta",
       "small": "Pequeña",
       "medium": "Mediana",
-      "large": "Grande"
+      "large": "Grande",
+      "xlarge": "Muy grande",
+      "xxlarge": "Enorme",
+      "huge": "Máxima"
     }
   },
   "scope": {
@@ -692,6 +698,53 @@
         "p4": "Nos quedamos cerca del grupo y del docente.",
         "p5": "Al terminar, volveremos a la escuela."
       }
+    },
+    "suggest": {
+      "title": "Escribe la historia y te sugerimos las viñetas",
+      "label": "Texto de la historia",
+      "placeholder": "p. ej. Hoy haremos un simulacro de incendio. Sonará una alarma fuerte. Quizá nos moleste el ruido. Podemos taparnos las orejas. Después volveremos a clase.",
+      "hint": "Cada frase será una viñeta. Se proponen el tipo de frase y un pictograma; después puedes cambiarlo todo.",
+      "online": "Buscar en ARASAAC los pictogramas que faltan",
+      "onlineHint": "Solo se envía una palabra clave por viñeta. Si no lo marcas, todo se hace en este dispositivo.",
+      "run": "Sugerir las viñetas",
+      "empty": "Escribe al menos una frase.",
+      "done": {
+        "one": "Se ha creado una historia con {count} viñeta. Revísala abajo.",
+        "other": "Se ha creado una historia con {count} viñetas. Revísala abajo."
+      },
+      "tooLong": "El texto era largo: se han usado las {max} primeras frases.",
+      "perspective": "sentimos, siento, sentir, nos sentimos, pensamos, pienso, quizá, quizás, normal, raro, rara, extraño, molesta, molestar, nerviosos, nervioso, nerviosa, contentos, contento, preocupa, miedo, tristes, enfadados, nos gusta, gusta",
+      "directive": "podemos, puedo, tenemos que, tengo que, hay que, intentaremos, intento, intentamos, recordamos, nos quedamos, salimos, esperamos, escuchamos, seguimos, pedimos, caminamos, vamos, probamos",
+      "affirmative": "importante, está bien, es bueno, todo irá bien, volverá, volveremos, siempre, juntos",
+      "stopwords": "hoy, mañana, después, antes, cuando, porque, pero, también, mucho, muchos, mucha, este, esta, estos, tenemos, haremos, siempre, quizá, veces, rato, nuestro, nuestra, otro, otra",
+      "synonyms": {
+        "professor": "profesora, profesor, maestro, maestra, docente, sustituto, sustituta",
+        "companys": "compañeros, compañeras, grupo, clase, fila, juntos",
+        "canvi": "cambio, cambios, simulacro, imprevisto, diferente",
+        "escoltar": "alarma, ruido, oír, sonará, escuchamos",
+        "silenci": "silencio, orejas, callados, tapar",
+        "esperar": "esperamos, espera, punto de encuentro",
+        "pati": "patio, fuera, exterior",
+        "autobus": "autobús, bus",
+        "excursio": "salida, excursión, visita",
+        "agenda": "agenda, pizarra, clase",
+        "preguntar": "pregunta, preguntas, dudas, ayuda",
+        "beure": "agua, beber",
+        "respirar": "respira, respiramos, aire",
+        "relaxar": "calma, tranquilos, tranquilo",
+        "acabar": "terminar, acabamos, final",
+        "comencar": "empezar, empezamos, primero",
+        "casa": "enfermo, enferma, ausente",
+        "entrar": "volveremos, volvemos, volver"
+      }
+    },
+    "config": {
+      "view": "Cómo se ve en la proyección",
+      "viewHint": "«Secuencia» muestra todas las viñetas a la vez, en cadena, con la actual destacada.",
+      "viewSingle": "Una viñeta grande",
+      "viewSequence": "Secuencia completa",
+      "screenControls": "Control desde la pantalla",
+      "screenControlsHint": "Flechas a los lados y viñetas que se pueden tocar en la pizarra."
     }
   },
   "regulation": {

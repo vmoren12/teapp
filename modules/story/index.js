@@ -9,6 +9,26 @@ import { renderStoryControl } from './control.js';
 import { renderStoryProjection } from './projection.js';
 import './story.css';
 
+/** @type {import('../../core/types.js').ConfigField[]} */
+const configSchema = [
+  {
+    key: 'view',
+    type: 'select',
+    labelKey: 'story.config.view',
+    hintKey: 'story.config.viewHint',
+    options: [
+      { value: 'single', labelKey: 'story.config.viewSingle' },
+      { value: 'sequence', labelKey: 'story.config.viewSequence' },
+    ],
+  },
+  {
+    key: 'screenControls',
+    type: 'boolean',
+    labelKey: 'story.config.screenControls',
+    hintKey: 'story.config.screenControlsHint',
+  },
+];
+
 /** @type {import('../../core/types.js').TeappModule} */
 const story = {
   id: 'story',
@@ -16,8 +36,8 @@ const story = {
   nameKey: 'story.name',
   icon: 'story',
   region: 'stage',
-  configSchema: [],
-  defaults: () => ({}),
+  configSchema,
+  defaults: () => ({ view: 'single', screenControls: true }),
   initialState: (_config, content) => initialStory(content),
   sanitizeState,
   sanitizeContent,
@@ -27,7 +47,9 @@ const story = {
     { keys: ['ArrowRight', 'PageDown'], action: 'next', descKey: 'keys.storyNext', when: 'stage' },
     { keys: ['ArrowLeft', 'PageUp'], action: 'prev', descKey: 'keys.storyPrev', when: 'stage' },
   ],
-  renderControl: renderStoryControl,
+  // Des de la pissarra (projecció o mode classe) es pot tocar una vinyeta per anar-hi.
+  remoteActions: ['goTo'],
+  renderControl: (el, ctx) => renderStoryControl(el, ctx, configSchema),
   renderProjection: renderStoryProjection,
 };
 

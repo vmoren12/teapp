@@ -96,6 +96,11 @@ export function createRegistry(modules, { reservedKeys = [] } = {}) {
         keyOwner.set(key, mod.id);
       }
     }
+    for (const type of mod.remoteActions ?? []) {
+      if (!mod.actions[type]) {
+        throw new Error(`Mòdul «${mod.id}»: l'acció remota «${type}» no existeix`);
+      }
+    }
     byId.set(mod.id, mod);
   }
 

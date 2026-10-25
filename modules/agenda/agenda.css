@@ -15,7 +15,6 @@
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
     scrollbar-width: none;
     /* El dit desplaça la fila; el navegador no fa zoom ni desplaça la pàgina. */
     touch-action: pan-x;
@@ -28,7 +27,6 @@
   }
 
   .pj-agenda__strip[data-dragging] .pj-agenda__scroller {
-    scroll-snap-type: none;
     cursor: grabbing;
   }
 
@@ -97,7 +95,6 @@
     gap: 0.35em;
     min-width: 0;
     max-width: calc(var(--card-w) * 1.6);
-    scroll-snap-align: center;
     padding: 0.45em 0.45em 0.6em;
     border: var(--border-strong) solid var(--c-border);
     border-radius: var(--radius-l);

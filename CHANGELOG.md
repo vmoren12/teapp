@@ -2,6 +2,21 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.3.0] - 2026-10-25
+
+### Afegit
+
+- **Mode classe:** desplegable discret per triar què es mostra (agenda, temporitzador…, pantalla de calma) i botons «anterior» i «següent», que fan el mateix que les fletxes. S'amaguen quan el cursor està quiet.
+- **Històries socials:** «Escriu la història» converteix un text en una seqüència de vinyetes (una per frase), amb el tipus de frase i un pictograma suggerits al dispositiu. Opcionalment, cerca a ARASAAC els pictogrames que falten (només una paraula clau per vinyeta, i només si es marca).
+- **Històries socials:** vista seqüencial amb totes les vinyetes en cadena i control des de la pantalla (fletxes i vinyetes que es poden tocar a la pissarra).
+- **Franges:** tres passos més grans per a la franja superior i la inferior («Molt gran», «Enorme», «Màxima»).
+
+### Canviat
+
+- **Agenda:** el desplaçament és fluid (sense «scroll-snap», amb moviment suau i inèrcia en arrossegar).
+- **Atribució d'ARASAAC:** ja no surt a la projecció (distreia l'alumnat); és al peu del panell del docent i a l'Ajuda.
+- **Actualitzacions forçades:** quan hi ha una versió nova, el panell desa la sessió i es recarrega sol en un moment segur (fora del mode classe, sense diàlegs i sense escriure). La projecció també, quan no és a pantalla completa.
+
 ## [0.2.1] - 2026-10-25
 
 ### Afegit

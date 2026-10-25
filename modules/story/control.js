@@ -5,6 +5,8 @@ import { h } from '../../core/dom.js';
 import { button } from '../../components/button.js';
 import { confirmDialog } from '../../components/dialog.js';
 import { createItemListEditor } from '../../components/item-list-editor.js';
+import { createConfigForm } from '../../components/config-form.js';
+import { createSuggestPanel } from './suggest-panel.js';
 import {
   currentIndex,
   currentStory,
@@ -22,9 +24,10 @@ import {
 /**
  * @param {HTMLElement} el
  * @param {import('../../core/types.js').ModuleContext} ctx
+ * @param {import('../../core/types.js').ConfigField[]} schema
  * @returns {import('../../core/types.js').View}
  */
-export function renderStoryControl(el, ctx) {
+export function renderStoryControl(el, ctx, schema) {
   const { t, dispatch, ui } = ctx;
   /** @returns {StoryState | undefined} */
   const story = () => ctx.getState().live.modules.story;
@@ -193,6 +196,14 @@ export function renderStoryControl(el, ctx) {
   );
   const noStory = h('p', { class: 'empty' }, t('story.empty'));
 
+  const configForm = createConfigForm({
+    schema,
+    values: ctx.getState().live.config.story ?? {},
+    t,
+    onChange: (patch) =>
+      dispatch({ module: 'core', type: 'setModuleConfig', payload: { moduleId: 'story', patch } }),
+  });
+
   el.append(
     h('p', { class: 'muted' }, t('story.help')),
     h(
@@ -208,14 +219,22 @@ export function renderStoryControl(el, ctx) {
       h('label', { for: 'story-example', class: 'field__label' }, t('story.examplesLabel')),
       h('div', { class: 'inline-form' }, exampleSelect, exampleBtn),
     ),
+    createSuggestPanel(ctx),
     noStory,
     storyArea,
+    h(
+      'details',
+      { class: 'pane__config' },
+      h('summary', null, t('common.displayOptions')),
+      configForm.el,
+    ),
   );
 
   /** @type {unknown} */
   let last = null;
   return {
     update(state) {
+      configForm.update(state.live.config.story ?? {});
       /** @type {StoryState | undefined} */
       const s = state.live.modules.story;
       if (!s || s === last) return;

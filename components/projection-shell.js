@@ -11,13 +11,15 @@
 //   │   Escenari: UN sol mòdul             │
 //   │                                      │
 //   ├──────────────────────────────────────┤
-//   │ Avisos de transició · atribució      │
+//   │ Avisos de transició                  │
+//
+// L'atribució d'ARASAAC no surt a la projecció (seria un distractor per a
+// l'alumnat): es mostra al peu del panell del docent i a l'Ajuda.
 //   └──────────────────────────────────────┘
 
 import { h } from '../core/dom.js';
 import { icon } from './icons.js';
 import { pictoElement } from './tea-picto.js';
-import { containsArasaac } from '../pictograms/library.js';
 import { FOOTER_EM, HEADER_EM, liveLayout } from '../core/layout.js';
 import {
   currentActivity,
@@ -99,11 +101,10 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
   const header = createHeader(t);
   const stage = h('div', { class: 'pj-stage', role: mode === 'window' ? 'main' : null });
   const footerSlots = h('div', { class: 'pj-footer__modules' });
-  const attribution = h('p', { class: 'pj-attribution' }, t('attribution.arasaacShort'));
   const footer = h(
     'div',
     { class: 'pj-footer' },
-    h('div', { class: 'pj-footer__inner' }, footerSlots, attribution),
+    h('div', { class: 'pj-footer__inner' }, footerSlots),
   );
   const calm = h(
     'div',
@@ -127,8 +128,6 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
 
   root.replaceChildren(header.el, stage, footer, calm);
 
-  /** @type {unknown} */
-  let lastLive = null;
   let lastLayout = '';
 
   return {
@@ -151,10 +150,6 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
       for (const { id, slot, region, view } of views) {
         if (region === 'stage') slot.hidden = id !== live.stage;
         view.update(state);
-      }
-      if (live !== lastLive) {
-        lastLive = live;
-        attribution.hidden = !containsArasaac(live.modules);
       }
     },
     /** @param {number} now */

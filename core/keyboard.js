@@ -78,11 +78,19 @@ export function buildShortcuts(registry) {
 
 /**
  * Accions que es poden rebre des d'una altra finestra (o un futur mòbil):
- * només les associades a dreceres. Mai editar plantilles ni dades.
+ * només les associades a dreceres i les que un mòdul declara a `remoteActions`
+ * (p. ex. tocar una vinyeta). Mai editar plantilles ni dades.
  * @param {Shortcut[]} shortcuts
  * @param {Action} action
+ * @param {import('./registry.js').Registry} [registry]
  */
-export function isRemoteAllowed(shortcuts, action) {
+export function isRemoteAllowed(shortcuts, action, registry) {
+  if (
+    action.module !== 'core' &&
+    registry?.get(action.module)?.remoteActions?.includes(action.type)
+  ) {
+    return true;
+  }
   return shortcuts.some(
     (s) =>
       s.scope === 'all' &&
@@ -91,6 +99,20 @@ export function isRemoteAllowed(shortcuts, action) {
       s.action.type === action.type &&
       JSON.stringify(s.action.payload ?? null) === JSON.stringify(action.payload ?? null),
   );
+}
+
+/**
+ * Acció que faria una tecla amb aquest mòdul a l'escenari. La fan servir els
+ * botons «anterior/següent» del mode classe, perquè facin igual que les fletxes.
+ * @param {Shortcut[]} shortcuts @param {string} key @param {string} [stage]
+ * @returns {Action | null}
+ */
+export function actionForKey(shortcuts, key, stage) {
+  const candidates = shortcuts.filter((s) => s.action && s.scope === 'all' && s.keys.includes(key));
+  const match =
+    candidates.find((s) => s.stage !== undefined && s.stage === stage) ??
+    candidates.find((s) => s.stage === undefined);
+  return match?.action ?? null;
 }
 
 /**

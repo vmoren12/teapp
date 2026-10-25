@@ -10,6 +10,7 @@ import { createTabs } from './tabs.js';
 import { mountProjection } from './projection-shell.js';
 import { hideIdleCursor } from './idle-cursor.js';
 import { createLayoutControls } from './layout-controls.js';
+import { createClassControls } from './class-controls.js';
 import { STAGE_KEYS } from '../core/keyboard.js';
 
 /** @typedef {import('../core/types.js').SharedState} SharedState */
@@ -29,6 +30,7 @@ import { STAGE_KEYS } from '../core/keyboard.js';
  *   openSettings: () => void,
  *   openHelp: () => void,
  *   openProjection: () => void,
+ *   shortcuts: import('../core/keyboard.js').Shortcut[],
  * }} deps
  */
 export function mountControlShell(root, deps) {
@@ -233,12 +235,20 @@ export function mountControlShell(root, deps) {
         date: APP_BUILD_DATE,
       }),
     ),
+    h('p', { class: 'attribution' }, t('attribution.arasaac')),
   );
   const app = h('div', { class: 'app' }, skip, topbar, banners, main, footer);
   root.replaceChildren(app);
 
   // --- Mode classe (una sola pantalla) --------------------------------------------
-  /** @type {{ overlay: HTMLElement, view: ReturnType<typeof mountProjection>, stopIdle: () => void } | null} */
+  /**
+   * @type {{
+   *   overlay: HTMLElement,
+   *   view: ReturnType<typeof mountProjection>,
+   *   controls: ReturnType<typeof createClassControls>,
+   *   stopIdle: () => void,
+   * } | null}
+   */
   let classMode = null;
 
   function enterClassMode() {
@@ -256,11 +266,21 @@ export function mountControlShell(root, deps) {
       screen,
       hint,
     );
+    const controls = createClassControls({
+      t,
+      registry,
+      dispatch,
+      shortcuts: deps.shortcuts,
+      getShared: deps.getShared,
+      focusHome: () => overlay.focus(),
+    });
+    overlay.append(controls.el);
     document.body.append(overlay);
     app.inert = true;
     const view = mountProjection(screen, { registry, t, ctxFor: deps.viewCtxFor, mode: 'class' });
     view.update(deps.getShared());
-    classMode = { overlay, view, stopIdle: hideIdleCursor(overlay) };
+    controls.update(deps.getShared());
+    classMode = { overlay, view, controls, stopIdle: hideIdleCursor(overlay) };
     overlay.tabIndex = -1;
     overlay.focus();
     overlay.requestFullscreen?.().catch(() => {});
@@ -269,8 +289,9 @@ export function mountControlShell(root, deps) {
 
   function exitClassMode() {
     if (!classMode) return;
-    const { overlay, view, stopIdle } = classMode;
+    const { overlay, view, controls, stopIdle } = classMode;
     classMode = null;
+    controls.destroy();
     if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
     stopIdle();
     view.destroy();
@@ -327,6 +348,7 @@ export function mountControlShell(root, deps) {
       }
       previewView.update(state);
       classMode?.view.update(state);
+      classMode?.controls.update(state);
       for (const { view } of controlViews) view.update(state);
     },
     /** @param {number} now */

@@ -14,14 +14,47 @@
 /** Clau de `live.config` reservada per a les franges (cap mòdul es pot dir així). */
 export const LAYOUT_KEY = 'layout';
 
-export const HEADER_SIZES = /** @type {const} */ (['hidden', 'small', 'medium', 'large']);
-// La franja inferior no es pot amagar: hi ha d'haver lloc per a l'atribució
-// d'ARASAAC i per als avisos de transició.
-export const FOOTER_SIZES = /** @type {const} */ (['small', 'medium', 'large']);
+export const HEADER_SIZES = /** @type {const} */ ([
+  'hidden',
+  'small',
+  'medium',
+  'large',
+  'xlarge',
+  'xxlarge',
+  'huge',
+]);
+// La franja inferior no es pot amagar: hi ha d'haver lloc per als avisos de transició.
+export const FOOTER_SIZES = /** @type {const} */ ([
+  'small',
+  'medium',
+  'large',
+  'xlarge',
+  'xxlarge',
+  'huge',
+]);
 
-/** Alçada de cada pas, en «em» de la projecció. «medium» és la mida de sempre. */
-export const HEADER_EM = { hidden: 0, small: 1.6, medium: 2.25, large: 3.4 };
-export const FOOTER_EM = { small: 2.4, medium: 3.2, large: 4.6 };
+/**
+ * Alçada de cada pas, en «em» de la projecció. «medium» és la mida de sempre.
+ * Els passos grans permeten que «Ara → Després» o els avisos ocupin bona part
+ * de la pantalla (el contingut de la franja creix amb ella).
+ */
+export const HEADER_EM = {
+  hidden: 0,
+  small: 1.6,
+  medium: 2.25,
+  large: 3.4,
+  xlarge: 5,
+  xxlarge: 7,
+  huge: 9.5,
+};
+export const FOOTER_EM = {
+  small: 2.4,
+  medium: 3.2,
+  large: 4.6,
+  xlarge: 6.5,
+  xxlarge: 8.5,
+  huge: 11,
+};
 
 /** @type {import('./types.js').ConfigField[]} */
 export const LAYOUT_SCHEMA = [

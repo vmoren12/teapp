@@ -29,24 +29,24 @@
 
 ## Què fa
 
-| Mòdul                    | Què fa                                                                                                                                                                       |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Agenda visual**        | Seqüència d'activitats amb pictograma i text i estats _fet / ara / després_. La **targeta de canvi** (vora discontínua i etiqueta «Canvi») serveix per anunciar imprevistos. |
-| **Temporitzador visual** | Disc o barra que s'esgota amb colors suaus. Mostra els minuts (opcionalment els segons, o res) i fa un so suau opcional en acabar.                                           |
-| **Primer → Després**     | Tauler de dues caselles editable en directe. Es pot marcar «fet», fer-lo avançar o omplir-lo amb l'agenda.                                                                   |
-| **Avisos de transició**  | Avís a la franja inferior a 5, 2 i 1 minut (configurable) abans d'acabar l'activitat de l'agenda, amb l'activitat que ve després.                                            |
-| **Instruccions**         | Passos curts amb pictograma: un pas gran («Pas 2 de 5») o la llista amb l'actual destacat. Cada activitat de l'agenda pot tenir les seves, i es carreguen soles.             |
-| **Expectatives**         | Tauler fix de quatre preguntes: on treballo, com parlo (escala de veu 0–4), què necessito i quan acabo (amb el temps del temporitzador, si es vol). Valors predefinits.      |
-| **Sonòmetre de grup**    | Nivell de soroll de tota l'aula amb l'escala de veu. Només es calcula el volum al navegador: no es grava ni es desa res. Canvi de color gradual, sense alarmes.              |
-| **Torns**                | Qui té el torn ara i després, en un ordre fix i visible. Noms, números o colors. L'ordre aleatori s'anuncia sencer abans de començar.                                        |
-| **Històries socials**    | Vinyetes (pictograma o imatge pròpia + frase) per anticipar canvis. Recorda la proporció de Carol Gray. Inclou històries d'exemple.                                          |
-| **Regulació**            | Termòmetre emocional de 3 a 5 nivells amb estratègies (referència de grup) i respiració guiada amb ritme configurable, també des de la pantalla de calma.                    |
-| **Tauler d'elecció**     | De 2 a 6 opcions amb pictograma. Es pot marcar l'opció del grup o deixar-lo com a referència.                                                                                |
+| Mòdul                    | Què fa                                                                                                                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Agenda visual**        | Seqüència d'activitats amb pictograma i text i estats _fet / ara / després_. La **targeta de canvi** (vora discontínua i etiqueta «Canvi») serveix per anunciar imprevistos.   |
+| **Temporitzador visual** | Disc o barra que s'esgota amb colors suaus. Mostra els minuts (opcionalment els segons, o res) i fa un so suau opcional en acabar.                                             |
+| **Primer → Després**     | Tauler de dues caselles editable en directe. Es pot marcar «fet», fer-lo avançar o omplir-lo amb l'agenda.                                                                     |
+| **Avisos de transició**  | Avís a la franja inferior a 5, 2 i 1 minut (configurable) abans d'acabar l'activitat de l'agenda, amb l'activitat que ve després.                                              |
+| **Instruccions**         | Passos curts amb pictograma: un pas gran («Pas 2 de 5») o la llista amb l'actual destacat. Cada activitat de l'agenda pot tenir les seves, i es carreguen soles.               |
+| **Expectatives**         | Tauler fix de quatre preguntes: on treballo, com parlo (escala de veu 0–4), què necessito i quan acabo (amb el temps del temporitzador, si es vol). Valors predefinits.        |
+| **Sonòmetre de grup**    | Nivell de soroll de tota l'aula amb l'escala de veu. Només es calcula el volum al navegador: no es grava ni es desa res. Canvi de color gradual, sense alarmes.                |
+| **Torns**                | Qui té el torn ara i després, en un ordre fix i visible. Noms, números o colors. L'ordre aleatori s'anuncia sencer abans de començar.                                          |
+| **Històries socials**    | Vinyetes per anticipar canvis. El docent pot escriure el text sencer i se'n suggereixen les vinyetes. Una vinyeta gran o la seqüència sencera, controlable des de la pissarra. |
+| **Regulació**            | Termòmetre emocional de 3 a 5 nivells amb estratègies (referència de grup) i respiració guiada amb ritme configurable, també des de la pantalla de calma.                      |
+| **Tauler d'elecció**     | De 2 a 6 opcions amb pictograma. Es pot marcar l'opció del grup o deixar-lo com a referència.                                                                                  |
 
 També inclou:
 
 - **Pantalla de calma.** Congela la projecció en una vista neutra amb un sol botó o la tecla `B`. Des d'aquí es pot llançar la respiració guiada.
-- **Agenda desplaçable.** A la pissarra, la fila d'activitats es desplaça amb el dit, el ratolí o el teclat i torna sola a l'activitat actual al cap de 15 s. Al panell, les activitats es reordenen arrossegant-les (o amb «Mou amunt/avall»).
+- **Agenda desplaçable.** A la pissarra, la fila d'activitats es desplaça de manera fluida amb el dit, el ratolí (arrossegant o amb la roda) o el teclat i torna sola a l'activitat actual al cap de 15 s. Al panell, les activitats es reordenen arrossegant-les (o amb «Mou amunt/avall»).
 - **Temporitzador lligat a l'agenda.** «Lliga'l a l'activitat actual» fa que segueixi el temps de la franja (durada, «+5 min», reiniciar) i l'activitat següent. Qualsevol acció manual el deslliga.
 - **Mida de les franges.** L'alçada de la franja superior i de la inferior es canvia amb controls lliscants o amb tiradors a la vista prèvia. Es desa a la sessió i a les plantilles.
 - **Plantilles** reutilitzables: «Dilluns 1r ESO», «Sessió PFI» i «Tutoria» venen d'exemple. Es poden exportar i importar en JSON.
@@ -62,7 +62,7 @@ També inclou:
 3. Carrega una plantilla o escriu l'agenda. Prem **Comença** i avança amb `→` o amb el comandament de presentació.
 4. Pots editar-ho tot en directe: la projecció s'actualitza al moment. El panell mostra una vista prèvia exacta del que es veu a la pissarra.
 
-**Amb una sola pantalla:** prem **Mode classe** (`C`). La projecció ocupa tota la pantalla i les dreceres continuen funcionant. Amb `Esc` tornes al panell per editar.
+**Amb una sola pantalla:** prem **Mode classe** (`C`). La projecció ocupa tota la pantalla i les dreceres continuen funcionant. A les cantonades hi ha un desplegable discret per triar què es mostra i els botons «anterior» i «següent». Amb `Esc` tornes al panell per editar.
 
 > Consell: no minimitzis la finestra del panell. Els navegadors alenteixen les pestanyes amagades i els avisos sonors podrien arribar tard.
 
@@ -90,7 +90,7 @@ Les dreceres no s'activen mentre escrius en un camp de text.
 ## Privadesa
 
 - **Tot és local.** Les dades es desen a IndexedDB, o a localStorage si IndexedDB no està disponible. No hi ha servidor, comptes, analítica ni galetes.
-- **ARASAAC.** L'única connexió externa és la cerca de pictogrames. Només s'hi envia la paraula cercada, sense galetes ni capçalera _Referer_. Els pictogrames triats es desen al dispositiu.
+- **ARASAAC.** L'única connexió externa és la cerca de pictogrames. Només s'hi envia la paraula cercada, sense galetes ni capçalera _Referer_. Els pictogrames triats es desen al dispositiu. El suggeriment de vinyetes de les històries es fa al dispositiu; només si el docent ho marca, s'envia a ARASAAC una paraula clau per vinyeta.
 - **Ordinadors compartits.** A _Configuració › Privadesa_ pots desactivar «Conserva la sessió en directe»: la sessió s'esborra en tancar el navegador. També hi ha un botó per esborrar totes les dades.
 - **Content Security Policy.** Impedeix carregar codi o connectar amb qualsevol altre lloc.
 - **Exportacions.** Les plantilles exportades no contenen cap dada de l'alumnat. Els noms dels torns només s'hi inclouen si el docent marca explícitament la casella (que sempre comença desmarcada).
@@ -317,5 +317,5 @@ Ja està: tindrà pestanya al panell, tecla numèrica si és d'escenari, configu
 ## Crèdits i llicències
 
 - **Codi:** [EUPL-1.2](LICENSE) (European Union Public Licence).
-- **Pictogrames:** l'autor és Sergio Palao i l'origen [ARASAAC](https://arasaac.org); la llicència és [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca) i la propietat, del Govern d'Aragó. Els de `public/starter-pictos/` es distribueixen amb aquesta llicència (vegeu-ne el [LICENSE](public/starter-pictos/LICENSE.md)). L'atribució es mostra a la projecció sempre que hi ha pictogrames d'ARASAAC.
+- **Pictogrames:** l'autor és Sergio Palao i l'origen [ARASAAC](https://arasaac.org); la llicència és [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca) i la propietat, del Govern d'Aragó. Els de `public/starter-pictos/` es distribueixen amb aquesta llicència (vegeu-ne el [LICENSE](public/starter-pictos/LICENSE.md)). L'atribució es mostra al peu del panell del docent i a l'Ajuda (no a la projecció, per no distreure l'alumnat).
 - **Tipografia:** Atkinson Hyperlegible, del Braille Institute, amb llicència [SIL Open Font License 1.1](styles/fonts/OFL.txt).

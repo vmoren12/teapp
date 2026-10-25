@@ -61,7 +61,173 @@
     scale: 1.3;
   }
 
+  /* Vinyeta gran amb fletxes discretes als costats (control des de la pissarra). */
+  .pj-story__single {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.6em;
+    width: 100%;
+    min-height: 0;
+    justify-items: center;
+  }
+
+  .pj-story__nav {
+    display: grid;
+    place-items: center;
+    width: 2.4em;
+    height: 2.4em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: 50%;
+    background: var(--c-surface);
+    color: var(--c-text-muted);
+    opacity: 0.55;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .pj-story__nav:hover,
+  .pj-story__nav:focus-visible {
+    opacity: 1;
+  }
+
+  .pj-story__nav:disabled {
+    visibility: hidden;
+  }
+
+  .pj-story__nav .icon {
+    width: 1.3em;
+    height: 1.3em;
+  }
+
+  [dir='rtl'] .pj-story__nav .icon {
+    transform: scaleX(-1);
+  }
+
+  /* Vista seqüencial: totes les vinyetes en cadena (fins a 5 per fila). */
+  .pj-story__sequence {
+    display: grid;
+    grid-template-columns: repeat(min(var(--cols, 5), 5), minmax(0, 1fr));
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 1.2em 1.4em;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    /* Espai perquè es vegi la fletxa del final de cada fila (la cadena continua). */
+    padding: 0 1.3em 0 0;
+    padding-inline: 0 1.3em;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pj-story__sequence[data-count='1'] {
+    --cols: 1;
+  }
+  .pj-story__sequence[data-count='2'] {
+    --cols: 2;
+  }
+  .pj-story__sequence[data-count='3'] {
+    --cols: 3;
+  }
+  .pj-story__sequence[data-count='4'] {
+    --cols: 4;
+  }
+  .pj-story__sequence[data-count='6'] {
+    --cols: 3;
+  }
+  .pj-story__sequence[data-count='7'],
+  .pj-story__sequence[data-count='8'] {
+    --cols: 4;
+  }
+
+  .pj-story__item {
+    position: relative;
+    min-height: 0;
+  }
+
+  /* Fletxa de la cadena entre vinyetes. */
+  .pj-story__item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: -1.05em;
+    width: 0.7em;
+    height: 0.7em;
+    border-block-start: 0.14em solid var(--c-text-muted);
+    border-inline-end: 0.14em solid var(--c-text-muted);
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  [dir='rtl'] .pj-story__item:not(:last-child)::after {
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  .pj-story__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    width: 100%;
+    height: 100%;
+    padding: 0.4em;
+    border: var(--border-strong) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: var(--c-surface);
+    color: var(--c-text);
+    font: inherit;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  button.pj-story__step {
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .pj-story__item[data-status='now'] .pj-story__step {
+    border-width: 0.16em;
+    border-color: var(--c-now);
+    background: var(--c-now-soft);
+  }
+
+  .pj-story__item[data-status='done'] .pj-story__step {
+    background: var(--c-done-bg);
+    color: var(--c-done-text);
+  }
+
+  .pj-story__num {
+    font-size: 0.7em;
+    font-weight: 700;
+    color: var(--c-text-muted);
+  }
+
+  .pj-story__mini-picto {
+    display: block;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+  }
+
+  .pj-story__mini-text {
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
   /* ---------- Panell de control ---------- */
+  .story-text {
+    resize: vertical;
+    min-height: 6rem;
+  }
+
+  .story-suggest summary {
+    min-height: var(--target);
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    cursor: pointer;
+  }
   .story-balance[data-balanced='false'] {
     color: var(--c-warn-text);
     font-weight: 700;
