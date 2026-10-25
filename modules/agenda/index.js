@@ -20,6 +20,17 @@ const configSchema = [
       { value: 'focus', labelKey: 'agenda.config.viewFocus' },
     ],
   },
+  {
+    key: 'timeBar',
+    type: 'select',
+    labelKey: 'agenda.config.timeBar',
+    hintKey: 'agenda.config.timeBarHint',
+    options: [
+      { value: 'none', labelKey: 'agenda.config.timeBarNone' },
+      { value: 'bar', labelKey: 'agenda.config.timeBarBar' },
+      { value: 'minutes', labelKey: 'agenda.config.timeBarMinutes' },
+    ],
+  },
 ];
 
 /** @type {import('../../core/types.js').TeappModule} */
@@ -30,7 +41,7 @@ const agenda = {
   icon: 'list',
   region: 'stage',
   configSchema,
-  defaults: () => ({ view: 'all' }),
+  defaults: () => ({ view: 'all', timeBar: 'none' }),
   initialState: (_config, content) => initialAgenda(content),
   sanitizeState,
   sanitizeContent,

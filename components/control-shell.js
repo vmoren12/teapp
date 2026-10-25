@@ -6,7 +6,6 @@ import { h } from '../core/dom.js';
 import { APP_BUILD, APP_BUILD_DATE, APP_NAME, APP_VERSION } from '../core/config.js';
 import { button } from './button.js';
 import { icon } from './icons.js';
-import { createTabs } from './tabs.js';
 import { mountProjection } from './projection-shell.js';
 import { hideIdleCursor } from './idle-cursor.js';
 import { createLayoutControls } from './layout-controls.js';
@@ -122,6 +121,8 @@ export function mountControlShell(root, deps) {
   const stageInputs = stageModules.map((mod, i) => {
     const input = h('input', { type: 'radio', name: 'stage', value: mod.id });
     input.addEventListener('change', () => input.checked && core('setStage', { id: mod.id }));
+    // Tornar a clicar l'opció que ja es mostra en torna a obrir les opcions.
+    input.addEventListener('click', () => openTool(mod.id));
     return {
       id: mod.id,
       input,
@@ -170,39 +171,78 @@ export function mountControlShell(root, deps) {
     h('div', { class: 'btn-row btn-row--wrap' }, calmBtn, calmLaunchers),
   );
 
-  // Pestanyes amb els controls dels mòduls (tots menys l'agenda).
-  const tabModules = registry.all().filter((m) => m.id !== 'agenda');
-  /** @type {{ id: string, showBtn: HTMLButtonElement | null }[]} */
-  const tabHeaders = [];
-  const tabs = createTabs({
-    label: t('stage.tools'),
-    idPrefix: 'tools',
-    tabs: tabModules.map((mod) => {
-      const body = h('div', { class: 'tool-panel__body' });
-      const showBtn =
-        mod.region === 'stage'
-          ? button({
-              label: t('stage.show'),
-              icon: 'screen',
-              onClick: () => core('setStage', { id: mod.id }),
-            })
-          : null;
-      tabHeaders.push({ id: mod.id, showBtn });
-      const panel = h(
+  // Opcions de les eines (tots els mòduls menys l'agenda, que té la seva columna).
+  // No hi ha una llista de pestanyes sempre visible: les opcions s'obren soles
+  // quan una eina passa a la pantalla (clicant-la a dalt o amb la seva tecla).
+  // Per preparar una eina sense mostrar-la, hi ha un selector discret.
+  const toolModules = registry.all().filter((m) => m.id !== 'agenda');
+  /** @type {{ id: string, panel: HTMLElement, showBtn: HTMLButtonElement | null }[]} */
+  const tools = toolModules.map((mod) => {
+    const body = h('div', { class: 'tool-panel__body' });
+    const showBtn =
+      mod.region === 'stage'
+        ? button({
+            label: t('stage.show'),
+            icon: 'screen',
+            onClick: () => core('setStage', { id: mod.id }),
+          })
+        : null;
+    const titleId = `tool-title-${mod.id}`;
+    const panel = h(
+      'section',
+      { class: 'tool-panel', 'aria-labelledby': titleId, hidden: true, dataset: { tool: mod.id } },
+      h(
         'div',
-        { class: 'tool-panel' },
+        { class: 'tool-panel__head' },
+        h('h3', { class: 'tool-panel__title', id: titleId }, icon(mod.icon), t(mod.nameKey)),
         h(
           'div',
-          { class: 'tool-panel__head' },
-          h('h3', { class: 'tool-panel__title' }, t(mod.nameKey)),
+          { class: 'btn-row' },
           showBtn,
+          button({
+            label: t('tools.close'),
+            icon: 'close',
+            iconOnly: true,
+            variant: 'ghost',
+            onClick: () => openTool(null),
+          }),
         ),
-        body,
-      );
-      controlViews.push({ view: mod.renderControl(body, deps.ctxFor(mod.id)) });
-      return { id: mod.id, label: t(mod.nameKey), icon: mod.icon, panel };
-    }),
+      ),
+      body,
+    );
+    controlViews.push({ view: mod.renderControl(body, deps.ctxFor(mod.id)) });
+    return { id: mod.id, panel, showBtn };
   });
+  const toolSelect = h(
+    'select',
+    { id: 'tool-select', class: 'input tool-picker__select' },
+    h('option', { value: '' }, t('tools.none')),
+    toolModules.map((mod) => h('option', { value: mod.id }, t(mod.nameKey))),
+  );
+  toolSelect.addEventListener('change', () => openTool(toolSelect.value || null));
+  const toolArea = h(
+    'div',
+    { class: 'tool-area' },
+    h(
+      'div',
+      { class: 'tool-picker' },
+      h('label', { for: 'tool-select', class: 'tool-picker__label' }, t('tools.pick')),
+      toolSelect,
+    ),
+    tools.map((tool) => tool.panel),
+  );
+
+  /** Eina amb les opcions obertes (null = cap). */
+  /** @type {string | null} */
+  let openToolId = null;
+  /** @type {string | null} */
+  let lastStage = null;
+  /** @param {string | null} id */
+  function openTool(id) {
+    openToolId = tools.some((tool) => tool.id === id) ? id : null;
+    for (const tool of tools) tool.panel.hidden = tool.id !== openToolId;
+    toolSelect.value = openToolId ?? '';
+  }
 
   const stagePane = h(
     'section',
@@ -216,7 +256,7 @@ export function mountControlShell(root, deps) {
     previewWrap,
     stageSwitch,
     layoutControls.panel,
-    tabs.el,
+    toolArea,
   );
 
   const main = h('main', { id: 'main', class: 'workspace' }, agendaPane, stagePane);
@@ -338,7 +378,13 @@ export function mountControlShell(root, deps) {
       calmBtn.setAttribute('aria-pressed', String(state.live.calm));
       for (const launcher of calmLaunchers) launcher.hidden = !state.live.calm;
       layoutControls.update(state);
-      for (const { id, showBtn } of tabHeaders) {
+      // Quan canvia el que es mostra, s'obren les opcions d'aquella eina
+      // (l'agenda ja és a la columna de l'esquerra: llavors no se n'obre cap).
+      if (state.live.stage !== lastStage) {
+        lastStage = state.live.stage;
+        openTool(state.live.stage);
+      }
+      for (const { id, showBtn } of tools) {
         if (!showBtn) continue;
         const showing = state.live.stage === id && !state.live.calm;
         showBtn.disabled = showing;

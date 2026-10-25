@@ -1,7 +1,10 @@
 // @ts-check
 // Agenda a la projecció: seqüència d'activitats amb estat fet / ara / després.
-// Decisió pedagògica: no es mostren durades ni hores. L'alumnat necessita
-// saber QUÈ ve després, no un horari que pot generar ansietat si es desquadra.
+// Decisió pedagògica: per defecte no es mostren durades ni hores. L'alumnat
+// necessita saber QUÈ ve després, no un horari que pot generar ansietat si es
+// desquadra. Si el docent ho tria, sota cada pictograma hi ha una barra amb el
+// temps de l'activitat (i, a l'actual, la del temporitzador si en porta un de
+// propi): una barra que s'esgota, i els minuts només si es demanen.
 //
 // Les targetes van en una sola fila que es pot desplaçar amb el dit, el ratolí
 // (arrossegant o amb la roda) i el teclat, per veure tota la seqüència del dia.
@@ -14,11 +17,15 @@ import { h } from '../../core/dom.js';
 import { icon } from '../../components/icons.js';
 import { pictoElement } from '../../components/tea-picto.js';
 import { getAgenda, isFinished, statusOf } from './selectors.js';
+import { timeRows } from './time.js';
 import { prefersReducedMotion } from '../../core/appearance.js';
+import { isLinked, timerView } from '../timer/logic.js';
 
 /** @typedef {import('../../core/types.js').ModuleContext} ModuleContext */
 /** @typedef {import('../../core/types.js').Activity} Activity */
 /** @typedef {import('./selectors.js').ActivityStatus} ActivityStatus */
+/** @typedef {import('./logic.js').AgendaState} AgendaState */
+/** @typedef {import('../timer/logic.js').TimerView} TimerView */
 
 /** Temps sense tocar l'agenda abans que torni a centrar-se a l'activitat actual. */
 export const RECENTER_MS = 15_000;
@@ -57,6 +64,7 @@ function card(a, status, t) {
       a.picto ? pictoElement(a.picto, { decorative: true }) : null,
     ),
     h('p', { class: 'pj-card__label' }, a.label),
+    h('div', { class: 'pj-card__time' }),
   );
 }
 
@@ -103,7 +111,7 @@ export function renderAgendaProjection(el, ctx) {
   );
   el.append(strip, empty, finished);
 
-  /** @type {Map<string, { el: HTMLElement, key: string }>} */
+  /** @type {Map<string, { el: HTMLElement, key: string, time: HTMLElement }>} */
   const cards = new Map();
   /** @type {unknown} */
   let lastAgenda = null;
@@ -113,6 +121,55 @@ export function renderAgendaProjection(el, ctx) {
   let currentId = null;
   /** @type {ReturnType<typeof setTimeout> | undefined} */
   let idleTimer;
+  /** @type {AgendaState | null} */
+  let agenda = null;
+  let timeBar = 'none';
+  /** Temporitzador amb temps propi (no lligat a l'agenda). @type {TimerView | null} */
+  let ownTimer = null;
+  let timerLabel = '';
+  let lastTimerKey = '';
+
+  /** Dibuixa les barres de temps (el DOM només canvia si canvia el text). @param {number} now */
+  const paintTimes = (now) => {
+    const s = agenda;
+    if (!s || timeBar === 'none') return;
+    s.activities.forEach((a, index) => {
+      const entry = cards.get(a.id);
+      if (!entry) return;
+      const rows = timeRows({
+        agenda: s,
+        index,
+        timer: ownTimer,
+        timerLabel,
+        minutes: timeBar === 'minutes',
+        t,
+        now,
+      });
+      const key = rows.map((r) => `${r.kind}:${r.paused}:${r.text}`).join('|');
+      if (entry.time.dataset.key !== key) {
+        entry.time.dataset.key = key;
+        entry.time.replaceChildren(
+          ...rows.map((r) =>
+            h(
+              'div',
+              { class: 'pj-time', dataset: { kind: r.kind, paused: String(r.paused) } },
+              r.kind === 'timer' ? icon('timer') : null,
+              h(
+                'span',
+                { class: 'pj-time__track', 'aria-hidden': 'true' },
+                h('span', { class: 'pj-time__fill' }),
+              ),
+              r.text ? h('span', { class: 'pj-time__text' }, r.text) : null,
+            ),
+          ),
+        );
+      }
+      rows.forEach((r, i) => {
+        const row = /** @type {HTMLElement | undefined} */ (entry.time.children[i]);
+        row?.style.setProperty('--progress', r.progress.toFixed(4));
+      });
+    });
+  };
 
   // --- Desplaçament ---------------------------------------------------------------
   // Sense scroll-snap: el navegador «estirava» la fila cap a la targeta més
@@ -294,11 +351,25 @@ export function renderAgendaProjection(el, ctx) {
   return {
     update(state) {
       const s = getAgenda(state.live);
-      const view = state.live.config.agenda?.view ?? 'all';
-      if (s === lastAgenda && view === lastView) return;
+      const config = state.live.config.agenda ?? {};
+      const view = config.view ?? 'all';
+      // Barres de temps: les de l'agenda i, si en porta de propi, el temporitzador.
+      timeBar = config.timeBar === 'bar' || config.timeBar === 'minutes' ? config.timeBar : 'none';
+      el.dataset.time = timeBar;
+      const timer = state.live.modules.timer;
+      ownTimer = timer && !isLinked(timer) ? timerView(timer, state.live) : null;
+      timerLabel = timer?.label ?? '';
+      const timerKey = JSON.stringify([timeBar, ownTimer, timerLabel]);
+      const timesChanged = timerKey !== lastTimerKey;
+      lastTimerKey = timerKey;
+      if (s === lastAgenda && view === lastView) {
+        if (timesChanged) paintTimes(ctx.now());
+        return;
+      }
       const viewChanged = view !== lastView;
       lastAgenda = s;
       lastView = view;
+      agenda = s;
       if (!s) return;
 
       el.dataset.view = String(view);
@@ -315,7 +386,8 @@ export function renderAgendaProjection(el, ctx) {
         if (!entry || entry.key !== key) {
           const next = card(a, status, t);
           entry?.el.replaceWith(next);
-          entry = { el: next, key };
+          const time = /** @type {HTMLElement} */ (next.querySelector('.pj-card__time'));
+          entry = { el: next, key, time };
           cards.set(a.id, entry);
         }
         seen.add(a.id);
@@ -328,6 +400,7 @@ export function renderAgendaProjection(el, ctx) {
           cards.delete(id);
         }
       }
+      paintTimes(ctx.now());
 
       // Quan l'activitat canvia (o la vista), es torna a centrar a l'actual.
       const nextId = s.activities[s.currentIndex]?.id ?? null;
@@ -343,6 +416,7 @@ export function renderAgendaProjection(el, ctx) {
         updateEdges();
       }
     },
+    tick: paintTimes,
     destroy() {
       clearTimeout(idleTimer);
       stopAnimation();

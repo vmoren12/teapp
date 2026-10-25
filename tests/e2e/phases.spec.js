@@ -90,6 +90,7 @@ test('l’alçada de les franges es canvia amb els controls i amb els tiradors',
 test('el temporitzador lligat segueix els canvis de durada de la franja', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('.agenda-row')).toHaveCount(5);
+  await page.getByLabel('Opcions de').selectOption({ label: 'Temporitzador' });
   await page.getByRole('button', { name: "Lliga'l a l'activitat actual" }).click();
   await expect(page.locator('.timer-link')).toContainText('Lligat a: Entrada i salutació');
   await expect(page.locator('.timer-readout__clock')).toHaveText('05:00');
@@ -104,7 +105,7 @@ test('el temporitzador lligat segueix els canvis de durada de la franja', async 
 
 test('amb les instruccions a l’escenari, les fletxes passen els passos', async ({ context }) => {
   const { control, projection } = await openBoth(context);
-  await control.getByRole('tab', { name: 'Instruccions' }).click();
+  await control.getByLabel('Opcions de').selectOption({ label: 'Instruccions' });
   for (const text of ['Obre el llibre', 'Llegeix', 'Respon']) {
     await control.getByRole('button', { name: 'Afegeix un pas' }).click();
     await control.keyboard.type(text);
@@ -124,7 +125,7 @@ test('amb les instruccions a l’escenari, les fletxes passen els passos', async
 
 test('els noms dels torns no s’exporten si no es marca la casella', async ({ page }) => {
   await page.goto('./');
-  await page.getByRole('tab', { name: 'Torns' }).click();
+  await page.getByLabel('Opcions de').selectOption({ label: 'Torns' });
   await page.getByRole('radio', { name: 'Noms o grups' }).check({ force: true });
   await page.getByLabel('Noms, àlies o grups (un per línia)').fill('Anna\nPau');
   await page.getByRole('button', { name: 'Plantilles' }).click();
@@ -171,7 +172,7 @@ test('els mòduls nous no tenen errors d’accessibilitat (panell i projecció)'
     ["Tauler d'elecció", '0', 'Fes-les servir'],
   ];
   for (const [tab, key, fill] of modules) {
-    await control.getByRole('tab', { name: tab }).click();
+    await control.getByLabel('Opcions de').selectOption({ label: tab });
     if (fill) await control.getByRole('button', { name: fill }).click();
     await projection.keyboard.press(key);
     await expect(projection.locator('.pj-slot:not([hidden])')).toHaveCount(1);
@@ -208,7 +209,7 @@ test('històries: el text es converteix en vinyetes i la seqüència es controla
   context,
 }) => {
   const { control, projection } = await openBoth(context);
-  await control.getByRole('tab', { name: 'Històries socials' }).click();
+  await control.getByLabel('Opcions de').selectOption({ label: 'Històries socials' });
   await control.getByText('Escriu la història i et suggerim les vinyetes').click();
   await control
     .getByLabel('Text de la història')
@@ -219,7 +220,7 @@ test('històries: el text es converteix en vinyetes i la seqüència es controla
     'Potser ens sembla estrany.',
   );
 
-  await control.locator('.tabs__panel:not([hidden]) .pane__config summary').click();
+  await control.locator('.tool-panel:not([hidden]) .pane__config summary').click();
   await control.getByRole('radio', { name: 'Seqüència sencera' }).check({ force: true });
   await projection.keyboard.press('8');
   const steps = projection.locator('.pj-story__step');
@@ -231,5 +232,81 @@ test('històries: el text es converteix en vinyetes i la seqüència es controla
     'Podem preguntar dubtes.',
   );
   await expect(control.locator('.callout').filter({ hasText: 'Vinyeta 3 de 3' })).toBeVisible();
+  await expectNoViolations(projection);
+});
+
+test('les opcions d’una eina s’obren soles en mostrar-la, i només aquesta', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('.agenda-row')).toHaveCount(5);
+  const open = page.locator('.tool-panel:not([hidden])');
+  // Amb l'agenda a la pantalla no hi ha cap llista d'eines oberta.
+  await expect(open).toHaveCount(0);
+  await expect(page.getByRole('tab')).toHaveCount(0);
+
+  await page.locator('.stage-option', { hasText: 'Primer → Després' }).click();
+  await expect(open).toHaveCount(1);
+  await expect(page.getByRole('region', { name: 'Primer → Després' })).toBeVisible();
+
+  // Preparar una altra eina sense mostrar-la.
+  await page.getByLabel('Opcions de').selectOption({ label: 'Avisos de transició' });
+  await expect(page.getByRole('region', { name: 'Avisos de transició' })).toBeVisible();
+  await expect(open).toHaveCount(1);
+  await expect(page.getByRole('radio', { name: 'Primer → Després' })).toBeChecked();
+
+  await page.getByRole('button', { name: 'Tanca les opcions' }).click();
+  await expect(open).toHaveCount(0);
+  // Tornar a clicar el que ja es mostra en torna a obrir les opcions.
+  await page.locator('.stage-option', { hasText: 'Primer → Després' }).click();
+  await expect(page.getByRole('region', { name: 'Primer → Després' })).toBeVisible();
+  await expectNoViolations(page);
+});
+
+test('agenda: el text es converteix en activitats amb pictograma i durada', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('.agenda-row')).toHaveCount(5);
+  await page.getByText("Escriu l'agenda i et suggerim els pictogrames").click();
+  await page
+    .getByLabel("Activitats de l'agenda")
+    .fill('Entrada 5 min, explicació del professor 15 min i després pati');
+  await page.getByLabel('Substitueix les activitats actuals').check();
+  await page.getByRole('button', { name: 'Crea les activitats' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Substituir les activitats?' });
+  await dialog.getByRole('button', { name: 'Substitueix' }).click();
+
+  await expect(page.locator('.agenda-row')).toHaveCount(3);
+  await expect(page.getByLabel("Nom de l'activitat 2")).toHaveValue('Explicació del professor');
+  await expect(page.getByLabel('Durada en minuts de «Explicació del professor»')).toHaveValue('15');
+  await expect(page.getByLabel('Durada en minuts de «Pati»')).toHaveValue('10');
+  // Pictogrames inclosos suggerits, sense connexió.
+  await expect(page.locator('.agenda-row').nth(1).locator('tea-picto')).toHaveCount(1);
+  await expect(page.locator('.agenda-row').nth(2).locator('tea-picto')).toHaveCount(1);
+  await expect(page.getByText("S'han afegit 3 activitats a l'agenda.").first()).toBeVisible();
+  await expectNoViolations(page);
+});
+
+test('agenda: barra de temps sota els pictogrames, amb el temporitzador propi', async ({
+  context,
+}) => {
+  const { control, projection } = await openBoth(context);
+  await expect(projection.locator('.pj-time')).toHaveCount(0);
+  await control.locator('.pane--agenda .pane__config summary').click();
+  await control.getByRole('radio', { name: 'Barra i minuts' }).check({ force: true });
+  await control.getByRole('button', { name: /Comença/ }).click();
+
+  const now = projection.locator('.pj-card[data-status="now"]');
+  await expect(now.locator('.pj-time')).toHaveCount(1);
+  await expect(now.locator('.pj-time__text')).toHaveText('Queden 5 min');
+  await expect(projection.locator('.pj-card[data-status="next"] .pj-time__text')).toHaveText(
+    '15 min',
+  );
+
+  // Un temporitzador amb temps propi en marxa surt a sota de l'activitat actual.
+  await control.getByLabel('Opcions de').selectOption({ label: 'Temporitzador' });
+  await control.getByRole('button', { name: '3 min' }).click();
+  await control.getByRole('button', { name: /^Inicia/ }).click();
+  await expect(now.locator('.pj-time[data-kind="timer"]')).toHaveCount(1);
+  await expect(now.locator('.pj-time[data-kind="timer"] .pj-time__text')).toHaveText(
+    'Queden 3 min',
+  );
   await expectNoViolations(projection);
 });

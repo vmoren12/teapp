@@ -41,7 +41,6 @@
   "stage": {
     "title": "On screen",
     "choose": "What the projection shows",
-    "tools": "Tools",
     "show": "Show on screen",
     "showing": "Showing now"
   },
@@ -122,10 +121,46 @@
       "view": "What the projection shows",
       "viewHint": "“Now and next” shows bigger cards: about three fit, and you can scroll the row to see the rest.",
       "viewAll": "Whole day",
-      "viewFocus": "Now and next"
+      "viewFocus": "Now and next",
+      "timeBar": "Time under the pictograms",
+      "timeBarHint": "A bar that empties with each activity’s time. On the current one, also the timer if it has its own time.",
+      "timeBarNone": "Not shown",
+      "timeBarBar": "Bar only",
+      "timeBarMinutes": "Bar and minutes"
     },
     "dragHint": "Drag to reorder (or use “Move up” and “Move down”)",
-    "scrollLabel": "Today's activities. Use the arrow keys to scroll."
+    "scrollLabel": "Today's activities. Use the arrow keys to scroll.",
+    "time": {
+      "duration": {
+        "one": "{count} min",
+        "other": "{count} min"
+      }
+    },
+    "suggest": {
+      "title": "Write the agenda and we will suggest the pictograms",
+      "label": "Agenda activities",
+      "placeholder": "e.g. Arrival and greeting 5 min, explanation 15 min, group work and then break. Tidy up.",
+      "hint": "Separate activities with commas, full stops or line breaks. If you write “15 min”, that will be the duration (otherwise 10 min). You can change everything afterwards.",
+      "online": "Search ARASAAC for the missing pictograms",
+      "onlineHint": "Only one keyword per activity is sent. If you leave it unticked, everything happens on this device.",
+      "replace": "Replace the current activities",
+      "run": "Create the activities",
+      "empty": "Write at least one activity.",
+      "done": {
+        "one": "{count} activity added to the agenda.",
+        "other": "{count} activities added to the agenda."
+      },
+      "tooLong": "The agenda is full: only {max} activities fit.",
+      "full": "The agenda already has {max} activities. Delete some or tick “Replace”.",
+      "replaceTitle": "Replace the activities?",
+      "replaceConfirm": {
+        "one": "The current activity will be deleted and the agenda will start again.",
+        "other": "The {count} current activities will be deleted and the agenda will start again."
+      },
+      "replaceAction": "Replace",
+      "connectors": "first, first of all, then, and then, after that, and after that, next, and next, finally, and finally, at the end, to finish, and, and to finish",
+      "separators": "and then, then, and after that, after that, and next, and finally, and to finish"
+    }
   },
   "timer": {
     "name": "Timer",
@@ -862,5 +897,10 @@
   },
   "footer": {
     "version": "{app} {version} · build {build} from {date}"
+  },
+  "tools": {
+    "pick": "Options for",
+    "none": "No tool (choose one above)",
+    "close": "Close the options"
   }
 }

@@ -11,6 +11,7 @@ import { pictoElement } from '../../components/tea-picto.js';
 import { confirmDialog } from '../../components/dialog.js';
 import { createConfigForm } from '../../components/config-form.js';
 import { MAX_ACTIVITIES, MAX_DURATION, MIN_DURATION } from './logic.js';
+import { createAgendaSuggestPanel } from './suggest-panel.js';
 import {
   currentActivity,
   getAgenda,
@@ -141,6 +142,7 @@ export function renderAgendaControl(el, ctx, schema) {
     list,
     empty,
     h('div', { class: 'btn-row' }, addBtn, changeBtn),
+    createAgendaSuggestPanel(ctx),
     h(
       'details',
       { class: 'pane__config' },

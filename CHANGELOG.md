@@ -2,6 +2,17 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.4.0] - 2026-10-25
+
+### Afegit
+
+- **Agenda:** opció «Temps sota els pictogrames» (a «Opcions de visualització»). Sota cada pictograma hi ha una barra amb el temps de l'activitat, i si es vol també els minuts: l'actual s'esgota, les fetes queden buides i les que vénen, plenes. A l'actual hi surt també el temporitzador si en porta un de propi començat. Per defecte no es mostra.
+- **Agenda:** «Escriu l'agenda» crea totes les activitats de cop a partir d'un text («Entrada 5 min, explicació 15 min i després pati»), amb un pictograma suggerit per a cadascuna i la durada si s'escriu. Es poden afegir al final o substituir les actuals. Com a les històries, la cerca a ARASAAC és opcional.
+
+### Canviat
+
+- **Panell:** ja no hi ha la llista de pestanyes de totes les eines sempre visible. Les opcions d'una eina s'obren soles quan es mostra a la pantalla (clicant-la o amb la seva tecla) i es tanquen amb l'agenda. Per preparar-ne una sense mostrar-la hi ha el selector discret «Opcions de».
+
 ## [0.3.0] - 2026-10-25
 
 ### Afegit

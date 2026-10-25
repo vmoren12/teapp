@@ -1,4 +1,18 @@
 @layer modules {
+  /* «Escriu l'agenda» (panell del docent). */
+  .agenda-text {
+    resize: vertical;
+    min-height: 5rem;
+  }
+
+  .agenda-suggest summary {
+    min-height: var(--target);
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
   /* Una sola fila desplaçable. Les mides es mesuren respecte de l'escenari
      (cqh/cqw), així les targetes aprofiten l'espai que deixen les franges. */
   .pj-agenda {
@@ -176,6 +190,77 @@
     font-weight: 700;
     overflow-wrap: anywhere;
     hyphens: auto;
+  }
+
+  /* Barres de temps sota el pictograma (només si el docent les activa). La
+     barra s'esgota sense parpelleigs; la del temporitzador porta la seva icona. */
+  .pj-card__time {
+    display: none;
+    flex-direction: column;
+    gap: 0.25em;
+    width: 100%;
+    margin-top: auto;
+    font-size: 0.6em;
+  }
+
+  .pj-agenda:is([data-time='bar'], [data-time='minutes']) .pj-card__time {
+    display: flex;
+  }
+
+  .pj-agenda:is([data-time='bar'], [data-time='minutes']) {
+    --picto-h: min(calc(var(--card-w) * 0.55), 34cqh);
+  }
+
+  .pj-time {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em 0.35em;
+  }
+
+  .pj-time .icon {
+    flex: none;
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .pj-time__track {
+    flex: 1 1 100%;
+    height: 1em;
+    overflow: hidden;
+    border: 0.1em solid var(--c-border-strong);
+    border-radius: var(--radius-full);
+    background: var(--c-timer-track);
+  }
+
+  .pj-time[data-kind='timer'] .pj-time__track {
+    flex-basis: 0;
+    height: 0.8em;
+  }
+
+  .pj-time__fill {
+    display: block;
+    width: calc(var(--progress, 1) * 100%);
+    height: 100%;
+    background: var(--c-timer);
+  }
+
+  .pj-time[data-paused='true'] .pj-time__fill {
+    opacity: 0.55;
+  }
+
+  .pj-time__text {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pj-time[data-kind='timer'] .pj-time__text {
+    flex: 1 1 100%;
+  }
+
+  .pj-card[data-status='done'] .pj-time__track {
+    opacity: 0.5;
   }
 
   /* Vista «ara i després»: targetes grans (en caben unes tres) i l'actual,

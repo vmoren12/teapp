@@ -135,6 +135,18 @@ export const agendaActions = {
     if (!activity) return s;
     return insert(s, activity, Number.isInteger(p?.at) ? p.at : s.activities.length);
   },
+  /**
+   * Afegeix diverses activitats de cop al final («Escriu l'agenda»). Amb
+   * `replace`, substitueixen les actuals i la sessió torna a començar.
+   */
+  addMany: (/** @type {AgendaState} */ s, p) => {
+    const incoming = sanitizeActivities(p?.activities);
+    if (incoming.length === 0) return s;
+    if (p?.replace === true) return initialAgenda({ activities: incoming });
+    let out = s;
+    for (const activity of incoming) out = insert(out, activity, out.activities.length);
+    return out;
+  },
   /** Afegeix una targeta de canvi just després de l'activitat actual. */
   insertChange: (/** @type {AgendaState} */ s, p) => {
     const activity = sanitizeActivity({ ...p?.activity, kind: 'change' });

@@ -64,15 +64,13 @@ test('es pot fer servir només amb el teclat', async ({ page }) => {
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
 
-  // Navegar per les pestanyes amb les fletxes.
-  const tab = page.getByRole('tab', { name: 'Temporitzador' });
-  await tab.focus();
-  await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('tab', { name: 'Primer → Després' })).toBeFocused();
-  await expect(page.getByRole('tab', { name: 'Primer → Després' })).toHaveAttribute(
-    'aria-selected',
-    'true',
-  );
+  // Les opcions d'una eina s'obren soles quan es mostra (aquí, amb la tecla 2).
+  await expect(page.locator('.tool-panel:not([hidden])')).toHaveCount(0);
+  await page.keyboard.press('2');
+  await expect(page.getByRole('region', { name: 'Temporitzador' })).toBeVisible();
+  // Amb l'agenda (que té la seva columna) no se n'obre cap.
+  await page.keyboard.press('1');
+  await expect(page.locator('.tool-panel:not([hidden])')).toHaveCount(0);
 
   // Les fletxes no avancen l'agenda mentre s'escriu en un camp.
   await page.getByLabel("Nom de l'activitat 1").focus();

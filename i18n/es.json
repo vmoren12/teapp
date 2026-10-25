@@ -41,7 +41,6 @@
   "stage": {
     "title": "En pantalla",
     "choose": "Qué se muestra en la proyección",
-    "tools": "Herramientas",
     "show": "Mostrar en pantalla",
     "showing": "Se muestra ahora"
   },
@@ -122,10 +121,46 @@
       "view": "Qué se ve en la proyección",
       "viewHint": "«Ahora y después» muestra tarjetas más grandes: se ven unas tres, y las demás se pueden ver desplazando la fila.",
       "viewAll": "Todo el día",
-      "viewFocus": "Ahora y después"
+      "viewFocus": "Ahora y después",
+      "timeBar": "Tiempo bajo los pictogramas",
+      "timeBarHint": "Una barra que se vacía con el tiempo de cada actividad. En la actual, también el temporizador si lleva uno propio.",
+      "timeBarNone": "No se muestra",
+      "timeBarBar": "Solo la barra",
+      "timeBarMinutes": "Barra y minutos"
     },
     "dragHint": "Arrastra para cambiar el orden (o usa «Subir» y «Bajar»)",
-    "scrollLabel": "Actividades del día. Usa las flechas para desplazarte."
+    "scrollLabel": "Actividades del día. Usa las flechas para desplazarte.",
+    "time": {
+      "duration": {
+        "one": "{count} min",
+        "other": "{count} min"
+      }
+    },
+    "suggest": {
+      "title": "Escribe la agenda y te sugerimos los pictogramas",
+      "label": "Actividades de la agenda",
+      "placeholder": "p. ej. Entrada y saludo 5 min, explicación 15 min, trabajo en grupo y después patio. Recoger.",
+      "hint": "Separa las actividades con comas, puntos o saltos de línea. Si escribes «15 min», será la duración (si no, 10 min). Después puedes cambiarlo todo.",
+      "online": "Busca en ARASAAC los pictogramas que faltan",
+      "onlineHint": "Solo se envía una palabra clave por actividad. Si no lo marcas, todo se hace en este dispositivo.",
+      "replace": "Sustituye las actividades actuales",
+      "run": "Crea las actividades",
+      "empty": "Escribe al menos una actividad.",
+      "done": {
+        "one": "Se ha añadido {count} actividad a la agenda.",
+        "other": "Se han añadido {count} actividades a la agenda."
+      },
+      "tooLong": "La agenda está llena: solo caben {max} actividades.",
+      "full": "La agenda ya tiene {max} actividades. Borra alguna o marca «Sustituye».",
+      "replaceTitle": "¿Sustituir las actividades?",
+      "replaceConfirm": {
+        "one": "Se borrará la actividad actual y la agenda volverá a empezar.",
+        "other": "Se borrarán las {count} actividades actuales y la agenda volverá a empezar."
+      },
+      "replaceAction": "Sustituye",
+      "connectors": "primero, lo primero, después, y después, luego, y luego, a continuación, y a continuación, entonces, finalmente, y finalmente, al final, para acabar, para terminar, y, y para acabar",
+      "separators": "y después, después, y luego, luego, y a continuación, a continuación, y finalmente, y para acabar"
+    }
   },
   "timer": {
     "name": "Temporizador",
@@ -862,5 +897,10 @@
   },
   "footer": {
     "version": "{app} {version} · compilación {build} del {date}"
+  },
+  "tools": {
+    "pick": "Opciones de",
+    "none": "Ninguna herramienta (elígela arriba)",
+    "close": "Cierra las opciones"
   }
 }

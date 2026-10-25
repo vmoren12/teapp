@@ -9,9 +9,9 @@
 
 import { h } from '../../core/dom.js';
 import { button } from '../../components/button.js';
-import { searchArasaac } from '../../pictograms/arasaac.js';
+import { createPictoSuggester } from '../shared/suggest-pictos.js';
 import { MAX_PANELS, MAX_TEXT } from './logic.js';
-import { classifySentence, keyword, parseList, pickPicto, splitSentences } from './suggest.js';
+import { classifySentence, parseList, splitSentences } from './suggest.js';
 
 /**
  * @param {import('../../core/types.js').ModuleContext} ctx
@@ -40,19 +40,6 @@ export function createSuggestPanel(ctx) {
     affirmative: parseList(t('story.suggest.affirmative')),
   });
 
-  /** Pictogrames inclosos amb el seu nom i els sinònims de l'idioma. */
-  const candidates = () =>
-    ctx.pictos.starterItems().map(({ key }) => {
-      const synonyms = t(`story.suggest.synonyms.${key}`);
-      return {
-        key,
-        terms: [
-          t(`starter.${key}`),
-          ...(synonyms.startsWith('story.') ? [] : synonyms.split(',')),
-        ].filter(Boolean),
-      };
-    });
-
   const run = button({
     label: t('story.suggest.run'),
     icon: 'story',
@@ -66,29 +53,12 @@ export function createSuggestPanel(ctx) {
       }
       run.disabled = true;
       const lex = lexicon();
-      const cands = candidates();
-      const stopwords = parseList(t('story.suggest.stopwords'));
-      const locale = document.documentElement.lang || 'ca';
+      const suggest = createPictoSuggester(ctx, { online: online.checked });
       const used = sentences.slice(0, MAX_PANELS);
       const panels = [];
       for (const sentence of used) {
         const label = sentence.slice(0, MAX_TEXT);
-        const starterKey = pickPicto(sentence, cands);
-        const starterId = starterKey ? ctx.pictos.starterId(starterKey) : null;
-        /** @type {import('../../core/types.js').PictoRef | null} */
-        let picto = starterId ? { source: 'arasaac', id: starterId, alt: label } : null;
-        if (!picto && online.checked) {
-          const word = keyword(sentence, stopwords);
-          try {
-            const [found] = word ? await searchArasaac(word, locale, { limit: 1 }) : [];
-            if (found) {
-              await ctx.pictos.saveArasaac(found.id, found.label);
-              picto = { source: 'arasaac', id: found.id, alt: label };
-            }
-          } catch {
-            // Sense connexió: la vinyeta queda sense pictograma.
-          }
-        }
+        const picto = await suggest(sentence, label);
         panels.push({ id: ui.newId(), label, picto, kind: classifySentence(sentence, lex) });
       }
       const title = used[0].replace(/[.!?;…]+$/, '').slice(0, 60);

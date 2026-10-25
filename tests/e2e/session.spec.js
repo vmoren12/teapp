@@ -59,6 +59,8 @@ test('desar com a plantilla nova i recuperar-la després de recarregar', async (
 });
 
 test('el temporitzador es pot iniciar i pausar', async ({ page }) => {
+  // En mostrar-lo a la pantalla, se n'obren les opcions.
+  await page.locator('.stage-option', { hasText: 'Temporitzador' }).click();
   await page.getByRole('button', { name: '3 min' }).click();
   await expect(page.locator('.timer-readout__clock')).toHaveText('03:00');
   await page.getByRole('button', { name: /^Inicia/ }).click();

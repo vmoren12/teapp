@@ -41,7 +41,6 @@
   "stage": {
     "title": "A la pantalla",
     "choose": "Què es mostra a la projecció",
-    "tools": "Eines",
     "show": "Mostra-ho a la pantalla",
     "showing": "Es mostra ara"
   },
@@ -122,10 +121,46 @@
       "view": "Què es veu a la projecció",
       "viewHint": "«Ara i després» mostra targetes més grans: se'n veuen unes tres, i les altres es poden veure desplaçant la fila.",
       "viewAll": "Tot el dia",
-      "viewFocus": "Ara i després"
+      "viewFocus": "Ara i després",
+      "timeBar": "Temps sota els pictogrames",
+      "timeBarHint": "Una barra que s'esgota amb el temps de cada activitat. A l'actual, també el temporitzador si en porta un de propi.",
+      "timeBarNone": "No es mostra",
+      "timeBarBar": "Només la barra",
+      "timeBarMinutes": "Barra i minuts"
     },
     "dragHint": "Arrossega per canviar l'ordre (o fes servir «Mou amunt» i «Mou avall»)",
-    "scrollLabel": "Activitats del dia. Fes servir les fletxes per desplaçar-te."
+    "scrollLabel": "Activitats del dia. Fes servir les fletxes per desplaçar-te.",
+    "time": {
+      "duration": {
+        "one": "{count} min",
+        "other": "{count} min"
+      }
+    },
+    "suggest": {
+      "title": "Escriu l'agenda i et suggerim els pictogrames",
+      "label": "Activitats de l'agenda",
+      "placeholder": "p. ex. Entrada i salutació 5 min, explicació 15 min, treball en grup i després pati. Recollir.",
+      "hint": "Separa les activitats amb comes, punts o salts de línia. Si escrius «15 min», serà la durada (si no, 10 min). Després ho pots canviar tot.",
+      "online": "Busca a ARASAAC els pictogrames que falten",
+      "onlineHint": "S'hi envia només una paraula clau per activitat. Si no ho marques, tot es fa en aquest dispositiu.",
+      "replace": "Substitueix les activitats actuals",
+      "run": "Crea les activitats",
+      "empty": "Escriu almenys una activitat.",
+      "done": {
+        "one": "S'ha afegit {count} activitat a l'agenda.",
+        "other": "S'han afegit {count} activitats a l'agenda."
+      },
+      "tooLong": "L'agenda és plena: només hi caben {max} activitats.",
+      "full": "L'agenda ja té {max} activitats. Esborra'n alguna o marca «Substitueix».",
+      "replaceTitle": "Substituir les activitats?",
+      "replaceConfirm": {
+        "one": "Se n'esborrarà l'activitat actual i l'agenda tornarà a començar.",
+        "other": "Se n'esborraran les {count} activitats actuals i l'agenda tornarà a començar."
+      },
+      "replaceAction": "Substitueix",
+      "connectors": "primer, primer de tot, després, i després, a continuació, i a continuació, llavors, i llavors, finalment, i finalment, al final, per acabar, i, i per acabar",
+      "separators": "i després, després, i a continuació, a continuació, i llavors, i finalment, i per acabar"
+    }
   },
   "timer": {
     "name": "Temporitzador",
@@ -862,5 +897,10 @@
   },
   "footer": {
     "version": "{app} {version} · compilació {build} del {date}"
+  },
+  "tools": {
+    "pick": "Opcions de",
+    "none": "Cap eina (tria-la a dalt)",
+    "close": "Tanca les opcions"
   }
 }
