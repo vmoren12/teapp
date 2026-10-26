@@ -279,7 +279,7 @@ Ja està: tindrà les seves opcions al panell, tecla numèrica si és d'escenari
 ## Decisions pedagògiques
 
 - **Una idea per pantalla.** L'escenari mostra un sol mòdul alhora. _Ara → Després_ és sempre a dalt i els avisos sempre a baix. L'alumnat TEA es guia per patrons espacials: si les coses canvien de lloc, augmenta la càrrega cognitiva.
-- **Avisos graduals, mai sobtats.** Els avisos de transició avancen per graons (5 → 2 → 1) i diuen el llindar («queden 5 minuts»), no un compte enrere. Es mostren a la franja inferior, sense finestres emergents ni parpellejos. És el que faria el docent de viva veu.
+- **Avisos graduals, mai sobtats.** Els avisos de transició apareixen i sonen per graons (5 → 2 → 1), com ho faria el docent de viva veu. Un cop a la pantalla, compten els minuts que queden d'un en un («Queden 5», 4, 3…), sense segons. Es mostren a la franja inferior, sense finestres emergents ni parpellejos.
 - **La targeta de canvi** es distingeix per la forma (vora discontínua), una icona i el text «Canvi», no només pel color. Anticipar els imprevistos redueix l'ansietat per incertesa.
 - **Minuts i no segons.** Per defecte, el temporitzador mostra minuts. Veure córrer els segons pot generar pressió. En acabar no hi ha parpelleig: el disc queda buit i apareix un missatge.
 - **Sense hores ni durades a la projecció.** L'alumnat necessita saber _què_ ve després, no un horari que pot generar angoixa si es desquadra.

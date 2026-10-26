@@ -192,20 +192,39 @@
 }
 
 .agenda-row__main {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  position: relative;
   min-width: 0;
 }
 
+/* «Ara», «Fet» o «Canvi»: etiqueta damunt de la vora del camp del nom. No ocupa
+   espai a la fila, així el camp queda a la mateixa altura a totes les files. */
 .agenda-row__badge {
+  position: absolute;
+  top: 0;
+  inset-inline-end: var(--space-2);
+  max-width: calc(100% - 2 * var(--space-2));
+  overflow: hidden;
+  padding: 0 0.45rem;
+  border-radius: var(--radius-full);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
   font-size: var(--fs-xs);
   font-weight: 700;
-  color: var(--c-accent);
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.agenda-row[data-status='done'] .agenda-row__badge {
+  background: var(--c-muted-bg);
+  color: var(--c-done-text);
 }
 
 .agenda-row[data-kind='change'] .agenda-row__badge {
-  color: var(--c-change);
+  background: var(--c-change);
+  color: var(--c-on-change);
 }
 
 .agenda-row__dur {

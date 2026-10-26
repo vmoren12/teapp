@@ -16,10 +16,10 @@ describe('alçada de les franges', () => {
     expect(liveLayout(appData().live)).toEqual(defaultLayout());
   });
 
-  it('valida els valors i no permet amagar la franja inferior', () => {
+  it('valida els valors i permet amagar totes dues franges', () => {
     expect(sanitizeLayout({ header: 'hidden', footer: 'hidden' })).toEqual({
       header: 'hidden',
-      footer: 'medium',
+      footer: 'hidden',
     });
     expect(sanitizeLayout({ header: 'enorme', footer: 'large' })).toEqual({
       header: 'medium',
@@ -72,7 +72,7 @@ describe('alçada de les franges', () => {
 
   it('es valida en importar una plantilla', () => {
     const tpl = sanitizeTemplate(
-      { id: 't', name: 'T', config: { layout: { header: 'large', footer: 'hidden' } } },
+      { id: 't', name: 'T', config: { layout: { header: 'large', footer: 'nope' } } },
       registry,
     );
     expect(tpl?.config.layout).toEqual({ header: 'large', footer: 'medium' });

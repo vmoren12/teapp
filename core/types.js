@@ -21,7 +21,7 @@
  * Alçada de les franges superior i inferior de la projecció.
  * @typedef {Object} Layout
  * @property {'hidden' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} header
- * @property {'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} footer
+ * @property {'hidden' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} footer
  */
 
 /**

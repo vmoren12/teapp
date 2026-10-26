@@ -55,7 +55,8 @@
   border-bottom: var(--border-strong) solid var(--c-border);
 }
 
-.projection[data-header='hidden'] .pj-header {
+.projection[data-header='hidden'] .pj-header,
+.projection[data-footer='hidden'] .pj-footer {
   visibility: hidden;
   border: 0;
 }

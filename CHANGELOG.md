@@ -2,6 +2,20 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.6.0] - 2026-10-27
+
+### Afegit
+
+- **A la pantalla:** la franja inferior (avisos) també es pot amagar, com la superior: a «Mida de les franges de la pantalla», mida «Amagada». Llavors l'escenari ocupa tot l'espai i els avisos de transició no es veuen.
+
+### Canviat
+
+- **Avisos de transició:** un cop apareix l'avís a la franja inferior, compta els minuts que queden d'un en un («Queden 5 minuts», 4, 3, 2, 1). El so continua sonant només als llindars triats.
+
+### Corregit
+
+- **Agenda (panell):** l'etiqueta «Ara», «Fet» o «Canvi» ja no fa pujar el camp del nom: ara és una etiqueta petita damunt de la vora del camp i totes les files queden alineades.
+
 ## [0.5.2] - 2026-10-26
 
 ### Corregit

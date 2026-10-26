@@ -491,7 +491,7 @@
   },
   "layout": {
     "title": "Mida de les franges de la pantalla",
-    "hint": "Fes més petita la franja «Ara → Després» o la dels avisos perquè l'escenari (p. ex. el temporitzador) es vegi més gran. També pots arrossegar els tiradors de la vista prèvia o moure'ls amb les fletxes.",
+    "hint": "Fes més petita la franja «Ara → Després» o la dels avisos perquè l'escenari (p. ex. el temporitzador) es vegi més gran. També pots arrossegar els tiradors de la vista prèvia o moure'ls amb les fletxes. Totes dues es poden amagar; si amagues la inferior, no es veuen els avisos de transició.",
     "header": "Franja superior (Ara → Després)",
     "footer": "Franja inferior (avisos)",
     "reset": "Restableix",

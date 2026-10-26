@@ -1,8 +1,9 @@
 // @ts-check
 // Càlcul dels avisos de transició a partir de l'agenda.
-// Decisió pedagògica: l'avís diu el llindar («queden 5 minuts») i no un compte
-// enrere exacte, i avança per graons (5 → 2 → 1). És el que faria el docent de
-// viva veu i dona previsibilitat sense pressió constant.
+// Decisió pedagògica: l'avís apareix (i sona) en arribar a cada llindar (5 → 2 → 1),
+// com ho faria el docent de viva veu. Un cop és a la pantalla, el text compta els
+// minuts que queden d'un en un («Queden 5», 4, 3…), sense segons: dona
+// previsibilitat sense pressió constant.
 
 import { currentActivity, nextActivity, remainingMs } from '../agenda/selectors.js';
 
@@ -13,6 +14,7 @@ import { currentActivity, nextActivity, remainingMs } from '../agenda/selectors.
  * @typedef {Object} Warning
  * @property {'warn' | 'due'} kind   'warn' = queden X minuts; 'due' = és l'hora de canviar.
  * @property {number} minutes        Llindar actual (0 si 'due').
+ * @property {number} left           Minuts que queden, arrodonits cap amunt (0 si 'due').
  * @property {number[]} steps        Llindars configurats, de més gran a més petit.
  * @property {number} reached        Quants llindars s'han superat.
  * @property {Activity | null} next  Activitat que ve després.
@@ -32,10 +34,17 @@ export function computeWarning(agenda, config, now) {
     .filter((n) => typeof n === 'number' && n > 0)
     .sort((a, b) => b - a);
   const next = nextActivity(agenda);
-  if (left <= 0) return { kind: 'due', minutes: 0, steps, reached: steps.length, next };
+  if (left <= 0) return { kind: 'due', minutes: 0, left: 0, steps, reached: steps.length, next };
   const passed = steps.filter((m) => left <= m * 60_000);
   if (passed.length === 0) return null;
-  return { kind: 'warn', minutes: Math.min(...passed), steps, reached: passed.length, next };
+  return {
+    kind: 'warn',
+    minutes: Math.min(...passed),
+    left: Math.ceil(left / 60_000),
+    steps,
+    reached: passed.length,
+    next,
+  };
 }
 
 /**

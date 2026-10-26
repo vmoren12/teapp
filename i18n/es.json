@@ -491,7 +491,7 @@
   },
   "layout": {
     "title": "Tamaño de las franjas de la pantalla",
-    "hint": "Haz más pequeña la franja «Ahora → Después» o la de los avisos para que el escenario (p. ej. el temporizador) se vea más grande. También puedes arrastrar los tiradores de la vista previa o moverlos con las flechas.",
+    "hint": "Haz más pequeña la franja «Ahora → Después» o la de los avisos para que el escenario (p. ej. el temporizador) se vea más grande. También puedes arrastrar los tiradores de la vista previa o moverlos con las flechas. Las dos se pueden ocultar; si ocultas la inferior, no se ven los avisos de transición.",
     "header": "Franja superior (Ahora → Después)",
     "footer": "Franja inferior (avisos)",
     "reset": "Restablecer",

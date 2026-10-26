@@ -52,7 +52,7 @@ export function renderTransitionsControl(el, ctx, schema) {
       ? t('transitions.none')
       : warning.kind === 'due'
         ? t('transitions.due')
-        : t('transitions.left', { count: warning.minutes });
+        : t('transitions.left', { count: warning.left });
     if (text !== lastText) {
       lastText = text;
       status.textContent = `${t('transitions.statusLabel')}: ${text}`;

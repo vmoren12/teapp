@@ -40,6 +40,19 @@ describe('avisos de transició', () => {
     });
   });
 
+  it('un cop avisa, compta els minuts que queden d’un en un', () => {
+    const s = running();
+    const left = (/** @type {number} */ t) => computeWarning(s, config, t)?.left;
+    expect(left(5 * MIN)).toBe(5);
+    expect(left(5 * MIN + 1)).toBe(5);
+    expect(left(6 * MIN + 1)).toBe(4);
+    expect(left(7 * MIN)).toBe(3);
+    expect(left(7 * MIN + 1)).toBe(3);
+    expect(left(8 * MIN + 1)).toBe(2);
+    expect(left(9 * MIN + 30_000)).toBe(1);
+    expect(computeWarning(s, config, 6 * MIN + 1)).toMatchObject({ minutes: 5, reached: 1 });
+  });
+
   it('indica que és l’hora de canviar i quina activitat ve', () => {
     const w = computeWarning(running(), config, 10 * MIN);
     expect(w?.kind).toBe('due');

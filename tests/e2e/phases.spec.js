@@ -72,11 +72,12 @@ test('l’alçada de les franges es canvia amb els controls i amb els tiradors',
   await control.keyboard.press('Home');
   await expect(root).toHaveAttribute('data-header', 'hidden');
 
-  // La franja inferior no es pot amagar (atribució i avisos).
+  // La franja inferior també es pot amagar (llavors no es veuen els avisos).
   const footer = control.getByRole('slider', { name: 'Alçada de la franja inferior' });
   await footer.focus();
   await control.keyboard.press('Home');
-  await expect(root).toHaveAttribute('data-footer', 'small');
+  await expect(root).toHaveAttribute('data-footer', 'hidden');
+  await expect(projection.locator('.pj-footer')).toBeHidden();
   // L'atribució d'ARASAAC no surt a la projecció, sinó al peu del panell.
   await expect(projection.getByText(/ARASAAC/)).toHaveCount(0);
   await expect(control.getByRole('contentinfo')).toContainText('ARASAAC');

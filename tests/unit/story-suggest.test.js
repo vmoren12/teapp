@@ -98,7 +98,7 @@ describe('franges més grans', () => {
   it('admet passos molt més alts', () => {
     expect(HEADER_SIZES.at(-1)).toBe('huge');
     expect(HEADER_EM.huge).toBeGreaterThan(4 * HEADER_EM.medium);
-    expect(FOOTER_SIZES).not.toContain('hidden');
+    expect(FOOTER_SIZES[0]).toBe('hidden');
     expect(sanitizeLayout({ header: 'huge', footer: 'xxlarge' })).toEqual({
       header: 'huge',
       footer: 'xxlarge',

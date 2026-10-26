@@ -26,7 +26,7 @@ export function renderTransitionsProjection(el, ctx) {
     const agenda = getAgenda(shared.live);
     const warning = computeWarning(agenda, shared.live.config.transitions ?? {}, now);
     const next = warning?.next;
-    const key = `${warningKey(agenda, warning)}:${next?.label}:${next?.picto?.id}`;
+    const key = `${warningKey(agenda, warning)}:${warning?.left}:${next?.label}:${next?.picto?.id}`;
     if (key === lastKey) return;
     lastKey = key;
 
@@ -40,7 +40,7 @@ export function renderTransitionsProjection(el, ctx) {
     const text =
       warning.kind === 'due'
         ? t('transitions.due')
-        : t('transitions.left', { count: warning.minutes });
+        : t('transitions.left', { count: warning.left });
     el.replaceChildren();
     append(el, [
       h(

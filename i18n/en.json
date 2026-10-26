@@ -491,7 +491,7 @@
   },
   "layout": {
     "title": "Size of the screen bands",
-    "hint": "Make the “Now → Next” band or the notices band smaller so the stage (e.g. the timer) looks bigger. You can also drag the handles on the preview or move them with the arrow keys.",
+    "hint": "Make the “Now → Next” band or the notices band smaller so the stage (e.g. the timer) looks bigger. You can also drag the handles on the preview or move them with the arrow keys. Both can be hidden; if you hide the bottom one, transition notices are not shown.",
     "header": "Top band (Now → Next)",
     "footer": "Bottom band (notices)",
     "reset": "Reset",

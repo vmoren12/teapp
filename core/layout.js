@@ -23,8 +23,9 @@ export const HEADER_SIZES = /** @type {const} */ ([
   'xxlarge',
   'huge',
 ]);
-// La franja inferior no es pot amagar: hi ha d'haver lloc per als avisos de transició.
+// La franja inferior també es pot amagar; llavors els avisos de transició no es veuen.
 export const FOOTER_SIZES = /** @type {const} */ ([
+  'hidden',
   'small',
   'medium',
   'large',
@@ -48,6 +49,7 @@ export const HEADER_EM = {
   huge: 9.5,
 };
 export const FOOTER_EM = {
+  hidden: 0,
   small: 2.4,
   medium: 3.2,
   large: 4.6,
