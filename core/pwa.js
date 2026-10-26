@@ -35,6 +35,9 @@ export function registerServiceWorker({ onUpdateReady, isSafe, beforeReload } = 
       // updateViaCache 'none': el navegador no fa servir la còpia de sw.js de la
       // memòria cau HTTP (GitHub Pages la guarda 10 min) i detecta abans les versions noves.
       const reg = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+      // Després d'una recàrrega forçada (Ctrl+Maj+R) la pàgina no està controlada
+      // però ja hi ha una versió activa: el proper canvi també és una versió nova.
+      if (reg.active) hadController = true;
       // L'app pot quedar oberta tot el dia: comprovem si hi ha versió nova en
       // tornar a la pestanya i cada 30 minuts.
       const check = () => reg.update().catch(() => {});
@@ -76,6 +79,10 @@ export function reloadWhenSafe(isSafe, reload, intervalMs = 3000) {
 export function reloadProjectionOnUpdate() {
   if (!import.meta.env.PROD || !('serviceWorker' in navigator)) return;
   let hadController = navigator.serviceWorker.controller !== null;
+  // Com al panell: després d'una recàrrega forçada ja hi ha una versió activa.
+  navigator.serviceWorker.getRegistration().then((reg) => {
+    if (reg?.active) hadController = true;
+  });
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (hadController)
       reloadWhenSafe(

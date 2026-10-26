@@ -2,6 +2,12 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.5.2] - 2026-10-26
+
+### Corregit
+
+- **Actualitzacions:** si l'app s'havia obert amb una recàrrega forçada (Ctrl+Maj+R), la versió nova següent no es detectava i la pàgina no es recarregava sola. Ara sí, també a la finestra de projecció.
+
 ## [0.5.1] - 2026-10-26
 
 ### Corregit
