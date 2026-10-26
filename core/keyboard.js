@@ -36,6 +36,12 @@ const CORE_SHORTCUTS = [
   { keys: ['Escape'], descKey: 'keys.exit', command: 'exit', scope: 'control' },
 ];
 
+/**
+ * Accions del nucli que també es poden fer des dels controls de la finestra de
+ * projecció (triar la vista i editar l'alternança), a més de les de les dreceres.
+ */
+const REMOTE_CORE_ACTIONS = ['setStage', 'setRotation', 'toggleRotation', 'setRotationItem'];
+
 /** Tecles per posar cada mòdul a l'escenari (el desè fa servir el 0). */
 export const STAGE_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
@@ -78,13 +84,14 @@ export function buildShortcuts(registry) {
 
 /**
  * Accions que es poden rebre des d'una altra finestra (o un futur mòbil):
- * només les associades a dreceres i les que un mòdul declara a `remoteActions`
- * (p. ex. tocar una vinyeta). Mai editar plantilles ni dades.
+ * les associades a dreceres, les que un mòdul declara a `remoteActions` (p. ex.
+ * tocar una vinyeta) i triar la vista o l'alternança. Mai editar plantilles ni dades.
  * @param {Shortcut[]} shortcuts
  * @param {Action} action
  * @param {import('./registry.js').Registry} [registry]
  */
 export function isRemoteAllowed(shortcuts, action, registry) {
+  if (action.module === 'core' && REMOTE_CORE_ACTIONS.includes(action.type)) return true;
   if (
     action.module !== 'core' &&
     registry?.get(action.module)?.remoteActions?.includes(action.type)

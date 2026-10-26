@@ -18,7 +18,9 @@ import { mountProjection } from './projection-shell.js';
 import { hideIdleCursor } from './idle-cursor.js';
 import { createLayoutControls } from './layout-controls.js';
 import { createClassControls } from './class-controls.js';
+import { createRotationPanel } from './rotation-controls.js';
 import { STAGE_KEYS } from '../core/keyboard.js';
+import { isRotating, liveRotation } from '../core/rotation.js';
 
 /** @typedef {import('../core/types.js').SharedState} SharedState */
 /** @typedef {import('../core/types.js').ModuleContext} ModuleContext */
@@ -119,6 +121,7 @@ export function mountControlShell(root, deps) {
     projectionRoot: () => previewView.root,
   });
   const previewWrap = h('div', { class: 'preview-wrap' }, preview, layoutControls.handles);
+  const rotationControls = createRotationPanel({ t, registry, core });
 
   const stageModules = registry.stage();
   const stageInputs = stageModules.map((mod, i) => {
@@ -258,6 +261,7 @@ export function mountControlShell(root, deps) {
     ),
     previewWrap,
     stageSwitch,
+    rotationControls.panel,
     layoutControls.panel,
     toolArea,
   );
@@ -387,11 +391,16 @@ export function mountControlShell(root, deps) {
       calmBtn.setAttribute('aria-pressed', String(state.live.calm));
       for (const launcher of calmLaunchers) launcher.hidden = !state.live.calm;
       layoutControls.update(state);
+      rotationControls.update(state);
       // Quan canvia el que es mostra, s'obren les opcions d'aquella eina
       // (l'agenda ja és a la columna de l'esquerra: llavors no se n'obre cap).
+      // Mentre les vistes s'alternen soles, no: les opcions saltarien cada poc.
       if (state.live.stage !== lastStage) {
         lastStage = state.live.stage;
-        openTool(state.live.stage);
+        const rotation = liveRotation(state.live);
+        const rotated =
+          isRotating(rotation) && rotation.items.some((i) => i.id === state.live.stage);
+        if (!rotated) openTool(state.live.stage);
       }
       for (const { id, showBtn } of tools) {
         if (!showBtn) continue;

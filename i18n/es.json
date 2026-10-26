@@ -48,6 +48,27 @@
     "toggle": "Pantalla de calma",
     "message": "Momento de calma"
   },
+  "rotation": {
+    "title": "Alterna las vistas",
+    "hint": "El escenario pasa solo de una vista a la siguiente, cada una el tiempo que elijas (por defecto 30 segundos), en la proyección y en el modo clase. También se puede editar desde el desplegable de vistas del modo clase y de la proyección. Si eliges a mano una vista que no está en la lista o pones la pantalla de calma, se detiene hasta que vuelvas a mostrar una de la lista.",
+    "enabled": "Alternar las vistas automáticamente",
+    "views": "Vistas que se alternan y cuánto tiempo se muestra cada una",
+    "toggle": "Alterna las vistas",
+    "include": "Alternar «{name}»",
+    "duration": "Tiempo de «{name}»",
+    "unit": "Unidad de tiempo de «{name}»",
+    "seconds": "segundos",
+    "minutes": "minutos",
+    "short": {
+      "s": "{count} s",
+      "min": "{count} min"
+    },
+    "needTwo": "Elige al menos dos vistas para que se alternen.",
+    "on": {
+      "one": "Se alterna {count} vista.",
+      "other": "Se alternan {count} vistas."
+    }
+  },
   "classMode": {
     "hint": "Modo clase · Esc para salir · flechas para avanzar",
     "views": "Elige qué se muestra",

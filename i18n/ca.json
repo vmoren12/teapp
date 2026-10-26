@@ -48,6 +48,27 @@
     "toggle": "Pantalla de calma",
     "message": "Moment de calma"
   },
+  "rotation": {
+    "title": "Alterna les vistes",
+    "hint": "L'escenari passa sol d'una vista a la següent, cadascuna el temps que triïs (per defecte 30 segons), a la projecció i al mode classe. També es pot editar des del desplegable de vistes del mode classe i de la projecció. Si tries a mà una vista que no és a la llista o poses la pantalla de calma, s'atura fins que tornis a mostrar-ne una de la llista.",
+    "enabled": "Alterna les vistes automàticament",
+    "views": "Vistes que s'alternen i quant de temps es mostra cadascuna",
+    "toggle": "Alterna les vistes",
+    "include": "Alterna «{name}»",
+    "duration": "Temps de «{name}»",
+    "unit": "Unitat de temps de «{name}»",
+    "seconds": "segons",
+    "minutes": "minuts",
+    "short": {
+      "s": "{count} s",
+      "min": "{count} min"
+    },
+    "needTwo": "Tria almenys dues vistes perquè s'alternin.",
+    "on": {
+      "one": "S'alterna {count} vista.",
+      "other": "S'alternen {count} vistes."
+    }
+  },
   "classMode": {
     "hint": "Mode classe · Esc per sortir · fletxes per avançar",
     "views": "Tria què es mostra",

@@ -61,7 +61,8 @@
  * @property {string} stage               Id del mòdul que ocupa l'escenari de la projecció.
  * @property {boolean} calm               Pantalla de calma activa.
  * @property {Record<string, Record<string, unknown>>} config  Configuració de cada mòdul i, a
- *   `config.layout`, l'alçada de les franges (vegeu core/layout.js).
+ *   `config.layout`, l'alçada de les franges (vegeu core/layout.js), i a `config.rotation`,
+ *   l'alternança de vistes (vegeu core/rotation.js).
  * @property {Record<string, any>} modules  Estat en directe de cada mòdul (el defineix cada mòdul).
  */
 

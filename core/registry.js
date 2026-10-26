@@ -3,6 +3,7 @@
 // des de modules/index.js i en comprova el contracte en arrencar.
 
 import { LAYOUT_KEY } from './layout.js';
+import { ROTATION_KEY } from './rotation.js';
 
 /** @typedef {import('./types.js').TeappModule} TeappModule */
 
@@ -44,7 +45,7 @@ export function assertModule(candidate) {
   if (!/^[a-z][a-zA-Z0-9]*$/.test(String(mod.id))) {
     throw new Error(`Mòdul «${name}»: l'id ha de ser camelCase`);
   }
-  if (mod.id === 'core' || mod.id === LAYOUT_KEY) {
+  if (mod.id === 'core' || mod.id === LAYOUT_KEY || mod.id === ROTATION_KEY) {
     throw new Error(`Mòdul «${name}»: aquest id està reservat`);
   }
   if (mod.region !== 'stage' && mod.region !== 'footer') {

@@ -20,6 +20,7 @@ import { applyAppearance } from './appearance.js';
 import { share } from './share.js';
 import { h } from './dom.js';
 import { mountProjection } from '../components/projection-shell.js';
+import { createClassControls } from '../components/class-controls.js';
 import { hideIdleCursor } from '../components/idle-cursor.js';
 import { reloadProjectionOnUpdate } from './pwa.js';
 
@@ -40,6 +41,8 @@ async function boot() {
   let state = null;
   /** @type {ReturnType<typeof mountProjection> | null} */
   let shell = null;
+  /** @type {ReturnType<typeof createClassControls> | null} */
+  let controls = null;
 
   const showWaiting = () => {
     document.title = t('projection.title');
@@ -74,12 +77,14 @@ async function boot() {
       await setLocale(next.settings.locale);
       shell?.destroy();
       shell = null;
+      controls?.destroy();
+      controls = null;
     }
     state = next;
     applyAppearance(state.settings);
     if (!shell) {
       document.title = t('projection.title');
-      const screen = h('div', { class: 'projection-root' });
+      const screen = h('div', { class: 'projection-root', tabindex: -1 });
       root.replaceChildren(screen);
       shell = mountProjection(screen, {
         registry,
@@ -96,8 +101,20 @@ async function boot() {
           ui: null,
         }),
       });
+      // Els mateixos controls discrets que al mode classe: triar la vista,
+      // editar l'alternança i passar l'activitat. Les ordres van al panell.
+      controls = createClassControls({
+        t,
+        registry,
+        dispatch: (action) => replica.sendCommand(action),
+        shortcuts,
+        getShared: () => /** @type {SharedState} */ (state),
+        focusHome: () => screen.focus({ preventScroll: true }),
+      });
+      screen.append(controls.el);
     }
     shell.update(state);
+    controls?.update(state);
   }
 
   startTicker((time) => shell?.tick(time));
@@ -116,7 +133,11 @@ async function boot() {
       if (command === 'fullscreen') toggleFullscreen();
     },
   });
-  root.addEventListener('dblclick', toggleFullscreen);
+  root.addEventListener('dblclick', (event) => {
+    // Doble clic als controls (p. ex. tocar dues vegades un botó) no canvia la pantalla completa.
+    if (event.target instanceof Element && event.target.closest('.class-controls')) return;
+    toggleFullscreen();
+  });
   hideIdleCursor(document.body);
   reloadProjectionOnUpdate();
   window.addEventListener('pagehide', () => replica.stop());

@@ -4,6 +4,7 @@
 // pot recuperar. Mai no confiem en dades externes sense passar per aquí.
 
 import { defaultLayout, LAYOUT_KEY, sanitizeLayout } from '../layout.js';
+import { ROTATION_KEY, sanitizeRotation } from '../rotation.js';
 
 /** @typedef {import('../types.js').Settings} Settings */
 /** @typedef {import('../types.js').PictoRef} PictoRef */
@@ -169,6 +170,10 @@ export function sanitizeTemplate(input, registry) {
   };
   if (config[LAYOUT_KEY] !== undefined)
     template.config[LAYOUT_KEY] = sanitizeLayout(config[LAYOUT_KEY]);
+  if (config[ROTATION_KEY] !== undefined) {
+    const ids = registry.stage().map((mod) => mod.id);
+    template.config[ROTATION_KEY] = sanitizeRotation(config[ROTATION_KEY], ids);
+  }
   for (const mod of registry.all()) {
     if (config[mod.id] !== undefined) {
       template.config[mod.id] = sanitizeConfig(mod.configSchema, config[mod.id], mod.defaults());

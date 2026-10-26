@@ -3,9 +3,17 @@
 // són objectes JSON serialitzables: per això poden arribar del teclat, de la
 // finestra de projecció o, en el futur, d'un mòbil, sense cap canvi aquí.
 
-import { createLive, templateFromLive } from './session.js';
+import { createLive, stageIds, templateFromLive } from './session.js';
 import { cleanText, isObject, sanitizeConfig, sanitizeSettings } from './schema/validate.js';
 import { LAYOUT_KEY, liveLayout, sanitizeLayout } from './layout.js';
+import {
+  defaultItem,
+  isRotating,
+  liveRotation,
+  ROTATION_KEY,
+  ROTATION_UNITS,
+  sanitizeRotation,
+} from './rotation.js';
 
 /** @typedef {import('./types.js').AppData} AppData */
 /** @typedef {import('./types.js').Action} Action */
@@ -19,6 +27,25 @@ import { LAYOUT_KEY, liveLayout, sanitizeLayout } from './layout.js';
  */
 function withLive(state, patch) {
   return { ...state, live: { ...state.live, ...patch } };
+}
+
+/**
+ * Desa l'alternança. Quan comença a alternar i el que es mostra no és a la
+ * llista, es passa a la primera vista de la llista.
+ * @param {AppData} state
+ * @param {unknown} input
+ * @param {Registry} registry
+ * @returns {AppData}
+ */
+function withRotation(state, input, registry) {
+  const before = liveRotation(state.live);
+  const rotation = sanitizeRotation(input, stageIds(registry));
+  if (JSON.stringify(rotation) === JSON.stringify(before)) return state;
+  const config = { ...state.live.config, [ROTATION_KEY]: rotation };
+  const starts = isRotating(rotation) && !isRotating(before);
+  const listed = rotation.items.some((i) => i.id === state.live.stage);
+  const stage = starts && !listed && !state.live.calm ? rotation.items[0].id : state.live.stage;
+  return withLive(state, { config, stage });
 }
 
 /**
@@ -57,6 +84,29 @@ export function reduceCore(state, action, { now, registry }) {
       const layout = sanitizeLayout({ ...current, ...(isObject(p.patch) ? p.patch : {}) }, current);
       if (layout.header === current.header && layout.footer === current.footer) return state;
       return withLive(state, { config: { ...state.live.config, [LAYOUT_KEY]: layout } });
+    }
+    case 'setRotation':
+      return withRotation(
+        state,
+        { ...liveRotation(state.live), ...(isObject(p.patch) ? p.patch : {}) },
+        registry,
+      );
+    case 'toggleRotation': {
+      const rotation = liveRotation(state.live);
+      return withRotation(state, { ...rotation, enabled: !rotation.enabled }, registry);
+    }
+    case 'setRotationItem': {
+      // Afegeix, treu o canvia la durada d'una vista de l'alternança.
+      const rotation = liveRotation(state.live);
+      if (typeof p.id !== 'string') return state;
+      const current = rotation.items.find((i) => i.id === p.id);
+      const others = rotation.items.filter((i) => i.id !== p.id);
+      const include = typeof p.include === 'boolean' ? p.include : current !== undefined;
+      if (!include) return withRotation(state, { ...rotation, items: others }, registry);
+      const item = { ...(current ?? defaultItem(p.id)) };
+      if (p.amount !== undefined) item.amount = Number(p.amount);
+      if (ROTATION_UNITS.includes(/** @type {any} */ (p.unit))) item.unit = p.unit;
+      return withRotation(state, { ...rotation, items: [...others, item] }, registry);
     }
     case 'resetLayout':
       return withLive(state, {

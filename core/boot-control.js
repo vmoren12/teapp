@@ -18,6 +18,7 @@ import { startHost } from './sync/sync.js';
 import { DATA_KEY, SYNC_CHANNEL } from './config.js';
 import { newId } from './id.js';
 import { now, startTicker } from './clock.js';
+import { rotationStep } from './rotation.js';
 import { applyAppearance } from './appearance.js';
 import { playChime, unlockAudio } from './sound.js';
 import { isObject } from './schema/validate.js';
@@ -178,11 +179,15 @@ async function boot() {
   });
   shell.update(shared());
 
-  // Cada mig segon: vistes (temps restant) i avisos sonors dels mòduls.
+  // Cada mig segon: vistes (temps restant), avisos sonors dels mòduls i
+  // alternança de vistes (el panell és qui canvia l'escenari).
   /** @type {Map<string, Record<string, any>>} */
   const memos = new Map();
+  const rotationMemo = {};
   startTicker((time) => {
     shell.tick(time);
+    const nextStage = rotationStep(store.getState().live, rotationMemo, time);
+    if (nextStage) dispatch({ module: 'core', type: 'setStage', payload: { id: nextStage } });
     const state = shared();
     for (const mod of registry.all()) {
       if (!mod.onTick) continue;

@@ -559,8 +559,8 @@
   opacity: 1;
 }
 
-.class-mode.is-idle .class-controls:not([data-open]) .class-controls__views,
-.class-mode.is-idle .class-controls__nav {
+.is-idle .class-controls:not([data-open]) .class-controls__views,
+.is-idle .class-controls__nav {
   opacity: 0;
 }
 
@@ -593,6 +593,8 @@
   display: flex;
   flex-direction: column;
   min-width: 14rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
   padding: var(--space-1);
   border: var(--border) solid var(--c-border-strong);
   border-radius: var(--radius-m);
@@ -607,6 +609,97 @@
 .class-controls__option[aria-pressed='true'] {
   background: var(--c-accent-soft);
   color: var(--c-text);
+}
+
+/* Cada vista: mostrar-la, incloure-la a l'alternança i quant de temps. */
+.class-controls__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 6.5rem;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.class-controls__include[aria-pressed='true'] {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.class-controls__duration {
+  min-height: 2.25rem;
+  padding-block: 0;
+  padding-inline: var(--space-2);
+  font-size: var(--fs-s);
+}
+
+.class-controls__duration:disabled {
+  opacity: 0.4;
+}
+
+.class-controls__rotate {
+  margin-block-end: var(--space-1);
+  border-block-end: var(--border) solid var(--c-border);
+  border-radius: var(--radius-s) var(--radius-s) 0 0;
+}
+
+.class-controls__rotate[aria-pressed='true'] {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.class-controls__hint {
+  padding: 0 var(--space-2) var(--space-1);
+  font-size: var(--fs-s);
+  color: var(--c-text-muted);
+}
+
+/* Indicador discret, al botó del desplegable, que les vistes s'alternen soles. */
+.class-controls__rotating {
+  display: none;
+}
+
+.class-controls[data-rotating='true'] .class-controls__rotating {
+  display: inline-flex;
+  color: var(--c-accent);
+}
+
+/* Finestra de projecció: els controls hi van al damunt, com al mode classe. */
+.projection-root {
+  position: relative;
+}
+
+/* Panell: «Alterna les vistes». */
+.rotation-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rotation-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+}
+
+.rotation-row .field--check {
+  flex: 1 1 10rem;
+}
+
+.rotation-row__duration {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.rotation-row__amount {
+  width: 5.5rem;
+}
+
+.rotation-row__unit {
+  width: auto;
 }
 
 [dir='rtl'] .class-controls__nav .icon {

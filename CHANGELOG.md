@@ -2,6 +2,13 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.8.0] - 2026-10-27
+
+### Afegit
+
+- **Alternar vistes:** l'escenari pot passar sol d'una vista a la següent (agenda, temporitzador, Primer → Després…), tantes com es vulguin. Cada vista té el seu temps, en segons o minuts (per defecte 30 segons). Es configura a «A la pantalla» → «Alterna les vistes» i es desa amb la sessió i les plantilles. S'atura amb la pantalla de calma o si es tria a mà una vista que no és a la llista. Mentre les vistes s'alternen, les opcions de les eines del panell no s'obren soles a cada canvi.
+- **Mode classe i projecció:** al desplegable de vistes hi ha un botó ràpid «Alterna les vistes» i, a cada vista, un botó per incloure-la o treure-la de l'alternança i un selector de temps (15 s, 30 s, 45 s, 1, 2, 5 o 10 min). La finestra de projecció també té ara aquests controls discrets (i «anterior / següent»): apareixen en moure el ratolí i s'amaguen quan està quiet.
+
 ## [0.7.0] - 2026-10-27
 
 ### Canviat

@@ -48,6 +48,27 @@
     "toggle": "Calm screen",
     "message": "Calm time"
   },
+  "rotation": {
+    "title": "Rotate views",
+    "hint": "The stage moves on to the next view by itself, each one for the time you choose (30 seconds by default), on the projection and in class mode. You can also edit it from the views menu in class mode and on the projection. If you pick a view that is not on the list by hand, or turn on the calm screen, it stops until you show one from the list again.",
+    "enabled": "Rotate views automatically",
+    "views": "Views that rotate and how long each one is shown",
+    "toggle": "Rotate views",
+    "include": "Rotate “{name}”",
+    "duration": "Time for “{name}”",
+    "unit": "Time unit for “{name}”",
+    "seconds": "seconds",
+    "minutes": "minutes",
+    "short": {
+      "s": "{count} s",
+      "min": "{count} min"
+    },
+    "needTwo": "Choose at least two views to rotate.",
+    "on": {
+      "one": "{count} view rotates.",
+      "other": "{count} views rotate."
+    }
+  },
   "classMode": {
     "hint": "Class mode · Esc to exit · arrows to move on",
     "views": "Choose what is shown",

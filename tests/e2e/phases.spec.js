@@ -197,8 +197,16 @@ test('mode classe: desplegable de vistes i botó «següent» discrets', async (
   await expect(overlay.locator('.pj-card[data-status="now"]')).toContainText('Treball individual');
 
   await overlay.getByRole('button', { name: /Tria què es mostra/ }).click();
-  await overlay.getByRole('button', { name: 'Temporitzador' }).click();
+  await overlay.getByRole('button', { name: 'Temporitzador', exact: true }).click();
   await expect(overlay.locator('.pj-slot--timer')).toBeVisible();
+  // Edició ràpida de l'alternança des del desplegable.
+  await overlay.getByRole('button', { name: /Tria què es mostra/ }).click();
+  const include = overlay.getByRole('button', { name: 'Alterna «Agenda»' });
+  await include.click();
+  await expect(include).toHaveAttribute('aria-pressed', 'true');
+  await overlay.getByLabel('Temps de «Agenda»').selectOption({ label: '1 min' });
+  await expect(overlay.getByLabel('Temps de «Agenda»')).toHaveValue('1:min');
+  await page.keyboard.press('Escape');
   // Esc tanca el desplegable sense sortir del mode classe.
   await overlay.getByRole('button', { name: /Tria què es mostra/ }).click();
   await page.keyboard.press('Escape');

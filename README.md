@@ -64,9 +64,11 @@ També inclou:
 3. Carrega una plantilla o escriu l'agenda. Prem **Comença** i avança amb `→` o amb el comandament de presentació.
 4. Pots editar-ho tot en directe: la projecció s'actualitza al moment. El panell mostra una vista prèvia exacta del que es veu a la pissarra.
 
-**Amb una sola pantalla:** prem **Mode classe** (`C`). La projecció ocupa tota la pantalla i les dreceres continuen funcionant. A les cantonades hi ha un desplegable discret per triar què es mostra i els botons «anterior» i «següent». Amb `Esc` tornes al panell per editar.
+**Amb una sola pantalla:** prem **Mode classe** (`C`). La projecció ocupa tota la pantalla i les dreceres continuen funcionant. A les cantonades hi ha un desplegable discret per triar què es mostra i els botons «anterior» i «següent». Amb `Esc` tornes al panell per editar. Aquests mateixos controls apareixen a la finestra de projecció quan s'hi mou el ratolí.
 
-> Consell: no minimitzis la finestra del panell. Els navegadors alenteixen les pestanyes amagades i els avisos sonors podrien arribar tard.
+**Alternar vistes:** a «A la pantalla» → «Alterna les vistes» tries quines vistes es mostren per torns (agenda, temporitzador…) i quant de temps cadascuna, en segons o minuts (per defecte 30 s). També es pot activar i editar ràpidament des del desplegable del mode classe i de la projecció. S'atura amb la pantalla de calma o si tries a mà una vista que no és a la llista.
+
+> Consell: no minimitzis la finestra del panell. Els navegadors alenteixen les pestanyes amagades i els avisos sonors (i l'alternança de vistes) podrien arribar tard.
 
 ## Dreceres de teclat
 

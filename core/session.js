@@ -3,11 +3,15 @@
 
 import { cleanText, isObject, sanitizeConfig } from './schema/validate.js';
 import { LAYOUT_KEY, sanitizeLayout } from './layout.js';
+import { ROTATION_KEY, sanitizeRotation } from './rotation.js';
 
 /** @typedef {import('./types.js').LiveSession} LiveSession */
 /** @typedef {import('./types.js').Template} Template */
 /** @typedef {import('./types.js').TeappModule} TeappModule */
 /** @typedef {import('./registry.js').Registry} Registry */
+
+/** @param {Registry} registry */
+export const stageIds = (registry) => registry.stage().map((mod) => mod.id);
 
 /**
  * Configuració efectiva d'un mòdul: valors per defecte + els de la plantilla.
@@ -39,7 +43,10 @@ export function createLive(registry, template, layout) {
     name: template?.name ?? '',
     stage: registry.stage()[0]?.id ?? '',
     calm: false,
-    config: { [LAYOUT_KEY]: sanitizeLayout(template?.config[LAYOUT_KEY], layout) },
+    config: {
+      [LAYOUT_KEY]: sanitizeLayout(template?.config[LAYOUT_KEY], layout),
+      [ROTATION_KEY]: sanitizeRotation(template?.config[ROTATION_KEY], stageIds(registry)),
+    },
     modules: {},
   };
   for (const mod of registry.all()) {
@@ -69,7 +76,10 @@ export function sanitizeLive(input, registry) {
     name: cleanText(input.name, 80),
     stage: stage ?? '',
     calm: input.calm === true,
-    config: { [LAYOUT_KEY]: sanitizeLayout(config[LAYOUT_KEY]) },
+    config: {
+      [LAYOUT_KEY]: sanitizeLayout(config[LAYOUT_KEY]),
+      [ROTATION_KEY]: sanitizeRotation(config[ROTATION_KEY], stageIds(registry)),
+    },
     modules: {},
   };
   for (const mod of registry.all()) {
