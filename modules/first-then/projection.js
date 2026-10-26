@@ -7,6 +7,7 @@
 import { h } from '../../core/dom.js';
 import { icon } from '../../components/icons.js';
 import { pictoElement } from '../../components/tea-picto.js';
+import { boardOf } from './logic.js';
 
 /** @typedef {import('./logic.js').FirstThenState} FirstThenState */
 /** @typedef {import('./logic.js').Card} Card */
@@ -70,14 +71,20 @@ export function renderFirstThenProjection(el, ctx) {
 
   /** @type {FirstThenState | null} */
   let last = null;
+  /** @type {unknown} */
+  let lastAgenda = null;
   return {
     update(state) {
       const s = state.live.modules.firstThen;
-      if (!s || s === last) return;
+      const agenda = state.live.modules.agenda;
+      if (!s || (s === last && agenda === lastAgenda)) return;
       last = s;
-      first.update(s.first, s.firstDone);
-      then.update(s.then, false);
-      el.dataset.done = String(s.firstDone);
+      lastAgenda = agenda;
+      // Si segueix l'agenda, mostra l'activitat actual i la següent.
+      const board = boardOf(s, state.live);
+      first.update(board.first, board.firstDone);
+      then.update(board.then, false);
+      el.dataset.done = String(board.firstDone);
     },
     destroy() {
       el.replaceChildren();

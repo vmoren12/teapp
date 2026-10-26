@@ -215,7 +215,9 @@
     "markNotDone": "Unmark “First”",
     "advance": "Move on",
     "swap": "Swap",
-    "fromAgenda": "Fill from schedule",
+    "follow": "Follow the schedule",
+    "followingHint": "Following the schedule: shows the current activity and the next one, and updates on its own when you move on. Editing a box stops following it.",
+    "manualHint": "The boxes are edited by hand. Press “Follow the schedule” so they change on their own with the schedule again.",
     "clear": "Clear"
   },
   "transitions": {

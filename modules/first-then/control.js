@@ -5,6 +5,7 @@ import { h } from '../../core/dom.js';
 import { button, setButton } from '../../components/button.js';
 import { icon } from '../../components/icons.js';
 import { pictoElement } from '../../components/tea-picto.js';
+import { boardOf } from './logic.js';
 
 /** @typedef {import('./logic.js').FirstThenState} FirstThenState */
 /** @typedef {import('./logic.js').Card} Card */
@@ -82,25 +83,26 @@ export function renderFirstThenControl(el, ctx) {
     label: t('firstThen.markDone'),
     icon: 'check',
     variant: 'primary',
-    onClick: () => {
-      const s = ctx.getState().live.modules.firstThen;
-      dispatch({ type: 'setDone', payload: { done: !s?.firstDone } });
-    },
+    onClick: () => dispatch({ type: 'setDone', payload: { done: !board?.firstDone } }),
   });
+  // Seguint l'agenda, «Avança» passa a l'activitat següent de l'agenda i el
+  // tauler canvia sol; si no, «Després» passa a «Primer».
   const advanceBtn = button({
     label: t('firstThen.advance'),
     icon: 'next',
-    onClick: () => dispatch({ type: 'advance' }),
+    onClick: () =>
+      board?.follow ? dispatch({ module: 'agenda', type: 'next' }) : dispatch({ type: 'advance' }),
   });
   const swapBtn = button({
     label: t('firstThen.swap'),
     icon: 'swap',
     onClick: () => dispatch({ type: 'swap' }),
   });
-  const fromAgendaBtn = button({
-    label: t('firstThen.fromAgenda'),
+  const followBtn = button({
+    label: t('firstThen.follow'),
     icon: 'list',
-    onClick: () => dispatch({ type: 'fromAgenda' }),
+    className: 'ft-follow',
+    onClick: () => dispatch({ type: 'setFollow', payload: { follow: !board?.follow } }),
   });
   const clearBtn = button({
     label: t('firstThen.clear'),
@@ -108,6 +110,7 @@ export function renderFirstThenControl(el, ctx) {
     variant: 'ghost',
     onClick: () => dispatch({ type: 'clear' }),
   });
+  const hint = h('p', { class: 'field__hint' });
 
   el.append(
     h(
@@ -117,30 +120,32 @@ export function renderFirstThenControl(el, ctx) {
       h('div', { class: 'ft-editors__arrow', 'aria-hidden': 'true' }, icon('arrow')),
       then.el,
     ),
-    h(
-      'div',
-      { class: 'btn-row btn-row--wrap' },
-      doneBtn,
-      advanceBtn,
-      swapBtn,
-      fromAgendaBtn,
-      clearBtn,
-    ),
+    hint,
+    h('div', { class: 'btn-row btn-row--wrap' }, doneBtn, advanceBtn, swapBtn, followBtn, clearBtn),
   );
 
+  /** @type {import('./logic.js').Board | null} */
+  let board = null;
   /** @type {FirstThenState | null} */
   let last = null;
+  /** @type {unknown} */
+  let lastAgenda = null;
   return {
     update(state) {
       const s = state.live.modules.firstThen;
-      if (!s || s === last) return;
+      const agenda = state.live.modules.agenda;
+      if (!s || (s === last && agenda === lastAgenda)) return;
       last = s;
-      first.update(s.first);
-      then.update(s.then);
-      doneBtn.setAttribute('aria-pressed', String(s.firstDone));
+      lastAgenda = agenda;
+      board = boardOf(s, state.live);
+      first.update(board.first);
+      then.update(board.then);
+      doneBtn.setAttribute('aria-pressed', String(board.firstDone));
       setButton(doneBtn, {
-        label: s.firstDone ? t('firstThen.markNotDone') : t('firstThen.markDone'),
+        label: board.firstDone ? t('firstThen.markNotDone') : t('firstThen.markDone'),
       });
+      followBtn.setAttribute('aria-pressed', String(board.follow));
+      hint.textContent = t(board.follow ? 'firstThen.followingHint' : 'firstThen.manualHint');
     },
     destroy() {
       el.replaceChildren();

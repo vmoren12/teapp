@@ -215,7 +215,9 @@
     "markNotDone": "Desmarca «Primer»",
     "advance": "Avança",
     "swap": "Intercanvia",
-    "fromAgenda": "Omple amb l'agenda",
+    "follow": "Segueix l'agenda",
+    "followingHint": "Segueix l'agenda: mostra l'activitat actual i la següent, i canvia sola quan s'avança d'activitat. Si edites una casella, deixa de seguir-la.",
+    "manualHint": "Les caselles s'editen a mà. Prem «Segueix l'agenda» perquè tornin a canviar soles amb l'agenda.",
     "clear": "Buida"
   },
   "transitions": {

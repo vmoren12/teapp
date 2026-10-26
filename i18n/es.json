@@ -215,7 +215,9 @@
     "markNotDone": "Desmarcar «Primero»",
     "advance": "Avanzar",
     "swap": "Intercambiar",
-    "fromAgenda": "Rellenar con la agenda",
+    "follow": "Sigue la agenda",
+    "followingHint": "Sigue la agenda: muestra la actividad actual y la siguiente, y cambia sola al avanzar de actividad. Si editas una casilla, deja de seguirla.",
+    "manualHint": "Las casillas se editan a mano. Pulsa «Sigue la agenda» para que vuelvan a cambiar solas con la agenda.",
     "clear": "Vaciar"
   },
   "transitions": {

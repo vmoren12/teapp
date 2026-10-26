@@ -18,7 +18,7 @@ const firstThen = {
   initialState: (_config, content) => initialFirstThen(content),
   sanitizeState,
   sanitizeContent,
-  toTemplate: (state) => ({ first: state.first, then: state.then }),
+  toTemplate: (state) => ({ first: state.first, then: state.then, follow: state.follow }),
   actions: firstThenActions,
   renderControl: renderFirstThenControl,
   renderProjection: renderFirstThenProjection,

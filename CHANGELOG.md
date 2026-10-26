@@ -2,6 +2,12 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.7.0] - 2026-10-27
+
+### Canviat
+
+- **Primer → Després:** per defecte segueix l'agenda: «Primer» és l'activitat actual i «Després», la següent. Quan s'avança d'activitat, el tauler canvia sol (a la projecció i al panell). «Avança» fa passar l'agenda a l'activitat següent. Si s'edita una casella, s'intercanvien o es buiden, el tauler deixa de seguir l'agenda; el botó «Segueix l'agenda» (abans «Omple amb l'agenda») la torna a seguir. Els taulers omplerts a mà de sessions i plantilles anteriors es conserven tal com eren.
+
 ## [0.6.0] - 2026-10-27
 
 ### Afegit

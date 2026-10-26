@@ -108,4 +108,11 @@
   .ft-editor__title {
     font-size: var(--fs-m);
   }
+
+  /* «Segueix l'agenda» activat: es veu premut (a més d'aria-pressed). */
+  .ft-follow[aria-pressed='true'] {
+    background: var(--c-accent-soft);
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+  }
 }
