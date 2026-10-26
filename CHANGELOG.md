@@ -2,6 +2,16 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.5.1] - 2026-10-26
+
+### Corregit
+
+- **Agenda:** quan una activitat passa a ser l'actual, el text de la targeta ja no es desplaça. La vora destacada de l'«Ara» ja no ocupa espai i, a la vista «Ara i després», totes les targetes fan la mateixa alçada: l'actual és més ampla i amb el pictograma més gran, però l'etiqueta i el nom queden a la mateixa altura que a les altres.
+
+### Canviat
+
+- **Panell:** les seccions que s'obren i es tanquen («Escriu l'agenda i et suggerim els pictogrames», «Opcions de visualització», «Mida de les franges de la pantalla»…) ara semblen botons: tenen vora, canvien de fons en passar-hi per sobre i porten una fletxa que gira quan s'obren.
+
 ## [0.5.0] - 2026-10-26
 
 ### Canviat

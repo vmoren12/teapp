@@ -221,13 +221,6 @@
     min-height: 6rem;
   }
 
-  .story-suggest summary {
-    min-height: var(--target);
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-    cursor: pointer;
-  }
   .story-balance[data-balanced='false'] {
     color: var(--c-warn-text);
     font-weight: 700;

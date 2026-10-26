@@ -5,14 +5,6 @@
     min-height: 5rem;
   }
 
-  .agenda-suggest summary {
-    min-height: var(--target);
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
   /* Una sola fila desplaçable. Les mides es mesuren respecte de l'escenari
      (cqh/cqw), així les targetes aprofiten l'espai que deixen les franges. */
   .pj-agenda {
@@ -117,11 +109,13 @@
   }
 
   /* «Ara»: vora gruixuda amb el color d'accent. No depèn només del color:
-     també porta l'etiqueta «Ara» i és més gran a la vista centrada. */
+     també porta l'etiqueta «Ara» i és més gran a la vista centrada. El gruix
+     extra és una ombra, no una vora: així el contingut de la targeta (el
+     pictograma i el text) no es mou quan una activitat passa a ser l'actual. */
   .pj-card[data-status='now'] {
-    border-width: 0.16em;
     border-color: var(--c-now);
     background: var(--c-now-soft);
+    box-shadow: 0 0 0 0.1em var(--c-now);
   }
 
   .pj-card[data-status='done'] {
@@ -264,23 +258,31 @@
   }
 
   /* Vista «ara i després»: targetes grans (en caben unes tres) i l'actual,
-     més gran encara. Les altres es poden veure desplaçant la fila. */
+     més ampla i amb el pictograma més gran. Les altres es poden veure
+     desplaçant la fila. Totes fan la mateixa alçada i reserven el mateix lloc
+     per al pictograma (a les altres es dibuixa més petit), així l'etiqueta
+     «Ara» i el text queden a la mateixa altura a totes les targetes i no
+     salten quan canvia l'activitat. */
   .pj-agenda[data-view='focus'] {
     --card-w: clamp(7em, calc((100cqw - 3em) / 3.4), 15em);
-    --picto-h: min(calc(var(--card-w) * 0.6), 46cqh);
+    --picto-h: min(calc(var(--card-w) * 0.72), 46cqh);
   }
 
   .pj-agenda[data-view='focus'] .pj-agenda__list {
-    align-items: center;
     gap: 1em;
   }
 
   .pj-agenda[data-view='focus'] .pj-card {
-    flex-grow: 0;
+    flex: 0 0 var(--card-w);
   }
 
   .pj-agenda[data-view='focus'] .pj-card[data-status='now'] {
-    font-size: 1.2em;
+    flex-basis: calc(var(--card-w) * 1.2);
+  }
+
+  .pj-agenda[data-view='focus'] .pj-card:not([data-status='now']) .pj-card__picto > * {
+    transform: scale(0.82);
+    transform-origin: 50% 100%;
   }
 
   :root[data-profile='minimal'] .pj-agenda .pj-agenda__list {
