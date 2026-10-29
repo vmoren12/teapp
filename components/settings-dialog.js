@@ -8,7 +8,7 @@ import { openDialog, confirmDialog } from './dialog.js';
 import { button } from './button.js';
 import { MOTIONS, PROFILES, TEXT_SCALES, UI_SCALES } from '../core/schema/validate.js';
 import { LOCALES } from '../i18n/index.js';
-import { FOOTER_SIZES, HEADER_SIZES } from '../core/layout.js';
+import { CLOCK_POSITIONS, FOOTER_SIZES, HEADER_SIZES } from '../core/layout.js';
 
 /** @typedef {import('../core/types.js').Settings} Settings */
 
@@ -120,15 +120,16 @@ export function openSettingsDialog({
 
       // --- Franges de la projecció per a les sessions noves -----------------------
       /**
-       * @param {'header' | 'footer'} band @param {readonly string[]} values
+       * @param {'header' | 'footer' | 'clock'} band @param {readonly string[]} values
+       * @param {string} [optionsKey]  Prefix de les etiquetes de les opcions.
        */
-      const bandSelect = (band, values) => {
+      const bandSelect = (band, values, optionsKey = 'layout.sizes') => {
         const id = `set-layout-${band}`;
         const select = h(
           'select',
           { id, class: 'input' },
           values.map((v) =>
-            h('option', { value: v, selected: s.layout[band] === v }, t(`layout.sizes.${v}`)),
+            h('option', { value: v, selected: s.layout[band] === v }, t(`${optionsKey}.${v}`)),
           ),
         );
         select.addEventListener('change', () =>
@@ -204,6 +205,7 @@ export function openSettingsDialog({
           h('p', { class: 'field__hint' }, t('settings.layoutDefaultHint')),
           bandSelect('header', HEADER_SIZES),
           bandSelect('footer', FOOTER_SIZES),
+          bandSelect('clock', CLOCK_POSITIONS, 'layout.clocks'),
         ),
         h(
           'section',

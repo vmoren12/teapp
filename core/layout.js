@@ -2,6 +2,8 @@
 // Alçada de les franges de la projecció (Ara → Després a dalt, avisos a baix).
 // L'escenari ocupa l'espai que queda. Les alçades van en passos fixos i en
 // unitats «em» de la projecció, de manera que també creixen amb la mida del text.
+// També s'hi tria on surt el rellotge digital: a la cantonada dreta de la franja
+// superior o de la inferior, o enlloc.
 //
 // Es desa a la sessió (`live.config.layout`), i per tant a les plantilles, i hi
 // ha un valor general a la configuració (`settings.layout`) per a les sessions noves.
@@ -33,6 +35,9 @@ export const FOOTER_SIZES = /** @type {const} */ ([
   'xxlarge',
   'huge',
 ]);
+
+/** On surt el rellotge: enlloc, o a la dreta de la franja superior o de la inferior. */
+export const CLOCK_POSITIONS = /** @type {const} */ (['off', 'header', 'footer']);
 
 /**
  * Alçada de cada pas, en «em» de la projecció. «medium» és la mida de sempre.
@@ -72,10 +77,16 @@ export const LAYOUT_SCHEMA = [
     labelKey: 'layout.footer',
     options: FOOTER_SIZES.map((value) => ({ value, labelKey: `layout.sizes.${value}` })),
   },
+  {
+    key: 'clock',
+    type: 'select',
+    labelKey: 'layout.clock',
+    options: CLOCK_POSITIONS.map((value) => ({ value, labelKey: `layout.clocks.${value}` })),
+  },
 ];
 
 /** @returns {Layout} */
-export const defaultLayout = () => ({ header: 'medium', footer: 'medium' });
+export const defaultLayout = () => ({ header: 'medium', footer: 'medium', clock: 'off' });
 
 /**
  * @param {unknown} input
@@ -89,6 +100,8 @@ export function sanitizeLayout(input, fallback = defaultLayout()) {
   const headers = HEADER_SIZES;
   /** @type {readonly unknown[]} */
   const footers = FOOTER_SIZES;
+  /** @type {readonly unknown[]} */
+  const clocks = CLOCK_POSITIONS;
   return {
     header: headers.includes(source.header)
       ? /** @type {Layout['header']} */ (source.header)
@@ -96,6 +109,10 @@ export function sanitizeLayout(input, fallback = defaultLayout()) {
     footer: footers.includes(source.footer)
       ? /** @type {Layout['footer']} */ (source.footer)
       : fallback.footer,
+    // Les dades d'abans del rellotge no el porten: llavors no surt.
+    clock: clocks.includes(source.clock)
+      ? /** @type {Layout['clock']} */ (source.clock)
+      : (fallback.clock ?? 'off'),
   };
 }
 

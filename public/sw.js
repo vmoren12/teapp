@@ -15,18 +15,55 @@ const VERSION = '__CACHE_VERSION__';
 const SHELL = `teapp-shell-${VERSION}`;
 const PICTOS = 'teapp-pictos';
 const API = 'teapp-api';
+/** @type {[url: string, rev: string][]} Fitxer i empremta del seu contingut. */
 const PRECACHE = self.__PRECACHE_MANIFEST__;
+// Capçalera on desem l'empremta de cada fitxer a la memòria cau.
+const REV_HEADER = 'x-teapp-rev';
+
+/** @param {Response} response @param {string} rev */
+function withRev(response, rev) {
+  const headers = new Headers(response.headers);
+  headers.set(REV_HEADER, rev);
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+// Desa tots els fitxers de la versió nova. Els que no han canviat (mateixa
+// empremta, o fitxers de assets/, que ja porten el hash al nom) es copien de la
+// memòria cau de la versió anterior: només es baixa el que és nou, i
+// l'actualització és molt més ràpida. Si un fitxer no es pot baixar, la
+// instal·lació falla sencera (com amb cache.addAll) i es torna a provar més tard.
+async function precache() {
+  const cache = await caches.open(SHELL);
+  const oldNames = (await caches.keys()).filter(
+    (key) => key.startsWith('teapp-shell-') && key !== SHELL,
+  );
+  const oldCaches = await Promise.all(oldNames.map((name) => caches.open(name)));
+  await Promise.all(
+    PRECACHE.map(async ([url, rev]) => {
+      for (const old of oldCaches) {
+        const hit = await old.match(url);
+        if (hit && (hit.headers.get(REV_HEADER) === rev || url.startsWith('./assets/'))) {
+          await cache.put(url, withRev(hit, rev));
+          return;
+        }
+      }
+      // no-cache: es revalida amb el servidor, mai una còpia vella de la memòria cau HTTP.
+      const response = await fetch(url, { cache: 'no-cache', credentials: 'same-origin' });
+      if (!response.ok) throw new Error(`No s'ha pogut desar ${url} (${response.status})`);
+      await cache.put(url, withRev(response, rev));
+    }),
+  );
+}
 
 // Una versió nova s'activa tan bon punt té tots els seus fitxers desats: així la
 // memòria cau sempre correspon a la darrera versió publicada. La pàgina oberta
 // continua funcionant (ja té el codi carregat) i el panell avisa per recarregar.
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(SHELL)
-      .then((cache) => cache.addAll(PRECACHE))
-      .then(() => self.skipWaiting()),
-  );
+  event.waitUntil(precache().then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {

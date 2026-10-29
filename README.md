@@ -51,6 +51,7 @@ També inclou:
 - **Temporitzador lligat a l'agenda.** «Lliga'l a l'activitat actual» fa que segueixi el temps de la franja (durada, «+5 min», reiniciar) i l'activitat següent. Qualsevol acció manual el deslliga.
 - **Opcions a mà, sense soroll.** Les opcions d'una eina s'obren soles quan es mostra a la pantalla. Per preparar-ne una sense mostrar-la, hi ha el selector «Opcions de».
 - **Mida de les franges.** L'alçada de la franja superior i de la inferior es canvia amb controls lliscants o amb tiradors a la vista prèvia. Es desa a la sessió i a les plantilles.
+- **Rellotge digital.** Opcionalment, l'hora surt a la cantonada dreta de la franja superior o de la inferior (també a pantalla completa). Es desa a la sessió i a les plantilles.
 - **Plantilles** reutilitzables: «Dilluns 1r ESO», «Sessió PFI» i «Tutoria» venen d'exemple. Es poden exportar i importar en JSON.
 - **Pictogrames d'ARASAAC:** 52 de bàsics inclosos (funcionen offline) i cerca en català. També es poden pujar imatges pròpies.
 - **Perfils visuals:** estàndard, alt contrast i mínim, amb mida de text configurable a la projecció i al panell.

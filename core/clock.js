@@ -41,6 +41,15 @@ export function formatClock(ms) {
 }
 
 /**
+ * Hora del dia en format digital de 24 hores (09:05).
+ * @param {number} time  Marca horària (Date.now()).
+ */
+export function formatTimeOfDay(time) {
+  const d = new Date(time);
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+}
+
+/**
  * Minuts restants arrodonits cap amunt (4:01 → 5). És el que diem en veu alta.
  * @param {number} ms
  */

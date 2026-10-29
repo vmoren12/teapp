@@ -165,6 +165,6 @@ describe('sanitizeTemplate i sanitizeAppData', () => {
         .sort(),
     );
     expect(Object.keys(data.live.modules)).toContain('turns');
-    expect(data.live.config.layout).toEqual({ header: 'medium', footer: 'medium' });
+    expect(data.live.config.layout).toEqual({ header: 'medium', footer: 'medium', clock: 'off' });
   });
 });

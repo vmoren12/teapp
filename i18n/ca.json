@@ -517,6 +517,13 @@
     "hint": "Fes més petita la franja «Ara → Després» o la dels avisos perquè l'escenari (p. ex. el temporitzador) es vegi més gran. També pots arrossegar els tiradors de la vista prèvia o moure'ls amb les fletxes. Totes dues es poden amagar; si amagues la inferior, no es veuen els avisos de transició.",
     "header": "Franja superior (Ara → Després)",
     "footer": "Franja inferior (avisos)",
+    "clock": "Rellotge (hora digital)",
+    "clockHint": "Mostra l'hora a la cantonada dreta de la franja triada. Si aquesta franja està amagada, el rellotge no es veu.",
+    "clocks": {
+      "off": "No el mostris",
+      "header": "A la franja superior",
+      "footer": "A la franja inferior"
+    },
     "reset": "Restableix",
     "handle": {
       "header": "Alçada de la franja superior",

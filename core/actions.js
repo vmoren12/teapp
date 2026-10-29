@@ -82,7 +82,12 @@ export function reduceCore(state, action, { now, registry }) {
     case 'setLayout': {
       const current = liveLayout(state.live);
       const layout = sanitizeLayout({ ...current, ...(isObject(p.patch) ? p.patch : {}) }, current);
-      if (layout.header === current.header && layout.footer === current.footer) return state;
+      if (
+        layout.header === current.header &&
+        layout.footer === current.footer &&
+        layout.clock === current.clock
+      )
+        return state;
       return withLive(state, { config: { ...state.live.config, [LAYOUT_KEY]: layout } });
     }
     case 'setRotation':

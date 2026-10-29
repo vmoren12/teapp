@@ -39,12 +39,12 @@ export function registerServiceWorker({ onUpdateReady, isSafe, beforeReload } = 
       // però ja hi ha una versió activa: el proper canvi també és una versió nova.
       if (reg.active) hadController = true;
       // L'app pot quedar oberta tot el dia: comprovem si hi ha versió nova en
-      // tornar a la pestanya i cada 30 minuts.
+      // tornar a la pestanya i cada 10 minuts (només es demana sw.js, que és petit).
       const check = () => reg.update().catch(() => {});
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') check();
       });
-      setInterval(check, 30 * 60 * 1000);
+      setInterval(check, 10 * 60 * 1000);
     } catch (error) {
       console.warn("No s'ha pogut registrar el service worker", error);
     }

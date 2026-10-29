@@ -517,6 +517,13 @@
     "hint": "Haz más pequeña la franja «Ahora → Después» o la de los avisos para que el escenario (p. ej. el temporizador) se vea más grande. También puedes arrastrar los tiradores de la vista previa o moverlos con las flechas. Las dos se pueden ocultar; si ocultas la inferior, no se ven los avisos de transición.",
     "header": "Franja superior (Ahora → Después)",
     "footer": "Franja inferior (avisos)",
+    "clock": "Reloj (hora digital)",
+    "clockHint": "Muestra la hora en la esquina derecha de la franja elegida. Si esa franja está oculta, el reloj no se ve.",
+    "clocks": {
+      "off": "No mostrarlo",
+      "header": "En la franja superior",
+      "footer": "En la franja inferior"
+    },
     "reset": "Restablecer",
     "handle": {
       "header": "Altura de la franja superior",

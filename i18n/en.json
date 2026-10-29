@@ -517,6 +517,13 @@
     "hint": "Make the “Now → Next” band or the notices band smaller so the stage (e.g. the timer) looks bigger. You can also drag the handles on the preview or move them with the arrow keys. Both can be hidden; if you hide the bottom one, transition notices are not shown.",
     "header": "Top band (Now → Next)",
     "footer": "Bottom band (notices)",
+    "clock": "Clock (digital time)",
+    "clockHint": "Shows the time in the right corner of the chosen band. If that band is hidden, the clock is not shown.",
+    "clocks": {
+      "off": "Don't show it",
+      "header": "In the top band",
+      "footer": "In the bottom band"
+    },
     "reset": "Reset",
     "handle": {
       "header": "Height of the top band",

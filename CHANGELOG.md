@@ -2,6 +2,16 @@
 
 El format segueix [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/) i el projecte fa servir [versions semàntiques](https://semver.org/lang/ca/).
 
+## [0.9.0] - 2026-10-29
+
+### Afegit
+
+- **Rellotge digital:** l'hora (09:05) es pot mostrar a la cantonada dreta de la franja superior o de la inferior, també a pantalla completa. Es tria a «A la pantalla» → «Mida de les franges de la pantalla» → «Rellotge», i es desa amb la sessió i les plantilles; a la configuració es pot triar per a les sessions noves. Per defecte no surt. Creix amb l'alçada de la franja i no es veu si la franja està amagada o hi ha la pantalla de calma.
+
+### Canviat
+
+- **Actualitzacions més ràpides:** en arribar una versió nova, l'app només baixa els fitxers que han canviat (abans ho tornava a baixar tot, pictogrames i fonts inclosos) i comprova si n'hi ha cada 10 minuts en lloc de cada 30.
+
 ## [0.8.0] - 2026-10-27
 
 ### Afegit

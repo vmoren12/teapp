@@ -13,6 +13,8 @@
 //   ├──────────────────────────────────────┤
 //   │ Avisos de transició                  │
 //
+// Si es vol, el rellotge digital surt a la cantonada dreta d'una de les dues franges.
+//
 // L'atribució d'ARASAAC no surt a la projecció (seria un distractor per a
 // l'alumnat): es mostra al peu del panell del docent i a l'Ajuda.
 //   └──────────────────────────────────────┘
@@ -21,6 +23,7 @@ import { h } from '../core/dom.js';
 import { icon } from './icons.js';
 import { pictoElement } from './tea-picto.js';
 import { FOOTER_EM, HEADER_EM, liveLayout } from '../core/layout.js';
+import { formatTimeOfDay } from '../core/clock.js';
 import {
   currentActivity,
   getAgenda,
@@ -128,6 +131,15 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
 
   root.replaceChildren(header.el, stage, footer, calm);
 
+  // Rellotge: un sol element que es mou a la franja triada (a la dreta del contingut).
+  const clock = h('time', { class: 'pj-clock', hidden: true });
+  /** @param {number} now */
+  const showTime = (now) => {
+    if (clock.hidden) return;
+    const text = formatTimeOfDay(now);
+    if (clock.textContent !== text) clock.textContent = text;
+  };
+
   let lastLayout = '';
 
   return {
@@ -136,13 +148,17 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
     update(state) {
       const { live } = state;
       const layout = liveLayout(live);
-      const layoutKey = `${layout.header}:${layout.footer}`;
+      const layoutKey = `${layout.header}:${layout.footer}:${layout.clock}`;
       if (layoutKey !== lastLayout) {
         lastLayout = layoutKey;
         root.dataset.header = layout.header;
         root.dataset.footer = layout.footer;
         root.style.setProperty('--pj-header-h', `${HEADER_EM[layout.header]}em`);
         root.style.setProperty('--pj-footer-h', `${FOOTER_EM[layout.footer]}em`);
+        clock.hidden = layout.clock === 'off';
+        if (layout.clock === 'header') header.el.append(clock);
+        else if (layout.clock === 'footer') footer.append(clock);
+        showTime(Date.now());
       }
       root.dataset.calm = String(live.calm);
       calm.hidden = !live.calm;
@@ -154,6 +170,7 @@ export function mountProjection(host, { registry, t, ctxFor, mode }) {
     },
     /** @param {number} now */
     tick(now) {
+      showTime(now);
       for (const { view } of views) view.tick?.(now);
     },
     /** Valor efímer d'un mòdul (vegeu ControlUi.publish). @param {string} moduleId @param {unknown} value */

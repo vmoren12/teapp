@@ -7,7 +7,14 @@
 
 import { h } from '../core/dom.js';
 import { button } from './button.js';
-import { FOOTER_EM, FOOTER_SIZES, HEADER_EM, HEADER_SIZES, liveLayout } from '../core/layout.js';
+import {
+  CLOCK_POSITIONS,
+  FOOTER_EM,
+  FOOTER_SIZES,
+  HEADER_EM,
+  HEADER_SIZES,
+  liveLayout,
+} from '../core/layout.js';
 
 /** @typedef {import('../core/types.js').Layout} Layout */
 /** @typedef {'header' | 'footer'} Band */
@@ -27,7 +34,7 @@ export function createLayoutControls({ t, setLayout, resetLayout, previewEl, pro
   /** @type {Record<Band, Record<string, number>>} */
   const ems = { header: HEADER_EM, footer: FOOTER_EM };
   /** @type {Layout} */
-  let layout = { header: 'medium', footer: 'medium' };
+  let layout = { header: 'medium', footer: 'medium', clock: 'off' };
 
   /** @param {Band} band @param {number} index */
   const choose = (band, index) => {
@@ -75,6 +82,24 @@ export function createLayoutControls({ t, setLayout, resetLayout, previewEl, pro
 
   const header = slider('header');
   const footer = slider('footer');
+
+  // --- Rellotge digital ---------------------------------------------------------------
+  const clockSelect = h(
+    'select',
+    { id: 'layout-clock', class: 'input' },
+    CLOCK_POSITIONS.map((v) => h('option', { value: v }, t(`layout.clocks.${v}`))),
+  );
+  clockSelect.addEventListener('change', () =>
+    setLayout({ clock: /** @type {Layout['clock']} */ (clockSelect.value) }),
+  );
+  const clockField = h(
+    'div',
+    { class: 'field' },
+    h('label', { for: 'layout-clock', class: 'field__label' }, t('layout.clock')),
+    clockSelect,
+    h('p', { class: 'field__hint' }, t('layout.clockHint')),
+  );
+
   const panel = h(
     'details',
     { class: 'pane__config layout-controls' },
@@ -82,6 +107,7 @@ export function createLayoutControls({ t, setLayout, resetLayout, previewEl, pro
     h('p', { class: 'field__hint' }, t('layout.hint')),
     header.el,
     footer.el,
+    clockField,
     h(
       'div',
       { class: 'btn-row' },
@@ -179,6 +205,7 @@ export function createLayoutControls({ t, setLayout, resetLayout, previewEl, pro
       layout = liveLayout(state.live);
       header.update();
       footer.update();
+      clockSelect.value = layout.clock;
       headerHandle.update();
       footerHandle.update();
       place();

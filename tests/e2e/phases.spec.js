@@ -88,6 +88,34 @@ test('l’alçada de les franges es canvia amb els controls i amb els tiradors',
   await expect(root).toHaveAttribute('data-footer', 'medium');
 });
 
+test('el rellotge digital surt a la dreta de la franja triada', async ({ context }) => {
+  const { control, projection } = await openBoth(context);
+  await expect(projection.locator('.pj-clock')).toBeHidden();
+
+  await control.getByText('Mida de les franges de la pantalla').click();
+  const select = control.getByLabel('Rellotge (hora digital)');
+  await select.selectOption('header');
+  const clock = projection.locator('.pj-header .pj-clock');
+  await expect(clock).toBeVisible();
+  await expect(clock).toHaveText(/^\d{2}:\d{2}$/);
+  // A la cantonada dreta de la franja.
+  const band = await projection.locator('.pj-header').boundingBox();
+  const box = await clock.boundingBox();
+  expect(band && box && band.x + band.width - (box.x + box.width)).toBeLessThan(40);
+  await expectNoViolations(projection);
+  if (process.env.CLOCK_SHOTS)
+    await projection.screenshot({ path: `${process.env.CLOCK_SHOTS}/header.png` });
+
+  await select.selectOption('footer');
+  await expect(projection.locator('.pj-footer .pj-clock')).toBeVisible();
+  await expect(projection.locator('.pj-header .pj-clock')).toHaveCount(0);
+  if (process.env.CLOCK_SHOTS)
+    await projection.screenshot({ path: `${process.env.CLOCK_SHOTS}/footer.png` });
+
+  await select.selectOption('off');
+  await expect(projection.locator('.pj-clock')).toBeHidden();
+});
+
 test('el temporitzador lligat segueix els canvis de durada de la franja', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('.agenda-row')).toHaveCount(5);
@@ -162,6 +190,8 @@ test('la respiració guiada es llança des de la pantalla de calma', async ({ pa
 test('els mòduls nous no tenen errors d’accessibilitat (panell i projecció)', async ({
   context,
 }) => {
+  // Set mòduls amb dues anàlisis d'accessibilitat cadascun: sol ja triga uns 30 s.
+  test.setTimeout(90_000);
   const { control, projection } = await openBoth(context);
   const modules = [
     ['Instruccions', '4', 'Afegeix un pas'],

@@ -18,10 +18,11 @@
  */
 
 /**
- * Alçada de les franges superior i inferior de la projecció.
+ * Alçada de les franges superior i inferior de la projecció, i on surt el rellotge.
  * @typedef {Object} Layout
  * @property {'hidden' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} header
  * @property {'hidden' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'huge'} footer
+ * @property {'off' | 'header' | 'footer'} clock  Rellotge digital a la dreta d'una franja.
  */
 
 /**

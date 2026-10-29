@@ -102,6 +102,7 @@ describe('franges més grans', () => {
     expect(sanitizeLayout({ header: 'huge', footer: 'xxlarge' })).toEqual({
       header: 'huge',
       footer: 'xxlarge',
+      clock: 'off',
     });
   });
 });

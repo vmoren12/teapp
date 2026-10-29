@@ -1,6 +1,7 @@
 // Plugin de Vite: en acabar la build, escriu dins de dist/sw.js la llista de
-// fitxers que el service worker ha de desar per funcionar offline, i una
-// versió de memòria cau derivada del contingut (canvia a cada build diferent).
+// fitxers que el service worker ha de desar per funcionar offline (amb una
+// empremta del contingut de cadascun), i una versió de memòria cau derivada del
+// contingut (canvia a cada build diferent).
 
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -34,15 +35,23 @@ export function precacheManifest() {
       const files = (await listFiles(outDir))
         .filter((f) => f !== 'sw.js' && !/\.(map|txt|md)$/.test(f))
         .sort();
+      // Cada fitxer porta la seva empremta: en actualitzar, el service worker
+      // només baixa els que han canviat i copia la resta de la versió anterior.
       const hash = createHash('sha256');
-      for (const f of files) hash.update(f).update(await readFile(path.join(outDir, f)));
+      /** @type {Record<string, string>} */
+      const revs = {};
+      for (const f of files) {
+        const content = await readFile(path.join(outDir, f));
+        hash.update(f).update(content);
+        revs[f] = createHash('sha256').update(content).digest('hex').slice(0, 12);
+      }
       const version = hash.digest('hex').slice(0, 12);
-      const urls = ['./', ...files.map((f) => `./${f}`)];
+      const entries = [['./', revs['index.html']], ...files.map((f) => [`./${f}`, revs[f]])];
       const source = await readFile(swPath, 'utf8');
       await writeFile(
         swPath,
         source
-          .replace('self.__PRECACHE_MANIFEST__', JSON.stringify(urls))
+          .replace('self.__PRECACHE_MANIFEST__', JSON.stringify(entries))
           .replace('__CACHE_VERSION__', version),
       );
     },

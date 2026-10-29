@@ -45,10 +45,31 @@
    tallen. El max() garanteix una mida mínima llegible. */
 .pj-header,
 .pj-footer {
+  display: flex;
   container-type: size;
   min-height: 0;
   overflow: hidden;
   background: var(--c-surface);
+}
+
+.pj-header__inner,
+.pj-footer__inner {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Rellotge digital a la cantonada dreta de la franja triada (core/layout.js).
+   Com el contingut de la franja, creix amb la seva alçada. */
+.pj-clock {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-inline: 0.3em 0.6em;
+  font-size: max(min(55cqh, 5cqw), 12px);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .pj-header {
